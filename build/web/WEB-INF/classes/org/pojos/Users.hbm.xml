@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 30, 2017 1:16:01 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.pojos.Users" table="users" schema="public" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="employees" class="org.pojos.Employees" fetch="select">
+            <column name="emp_id" />
+        </many-to-one>
+        <property name="username" type="string">
+            <column name="username" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" not-null="true" />
+        </property>
+        <property name="status" type="java.lang.Short">
+            <column name="status" />
+        </property>
+        <property name="lastLogin" type="timestamp">
+            <column name="last_login" length="29" />
+        </property>
+    </class>
+</hibernate-mapping>

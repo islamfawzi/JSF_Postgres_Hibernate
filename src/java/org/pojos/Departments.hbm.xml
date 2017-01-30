@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 30, 2017 1:16:01 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.pojos.Departments" table="departments" schema="public" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="deptTitle" type="string">
+            <column name="dept_title" not-null="true" />
+        </property>
+        <property name="deptStatus" type="short">
+            <column name="dept_status" not-null="true" />
+        </property>
+        <set name="payrollTemplateses" table="payroll_templates" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="dept_id" />
+            </key>
+            <one-to-many class="org.pojos.PayrollTemplates" />
+        </set>
+        <set name="payrollProcesseses" table="payroll_processes" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="dept_id" />
+            </key>
+            <one-to-many class="org.pojos.PayrollProcesses" />
+        </set>
+        <set name="employeeses" table="employees" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="emp_department" />
+            </key>
+            <one-to-many class="org.pojos.Employees" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/payroll</property>
+    <property name="hibernate.connection.username">postgres</property>
+    <property name="hibernate.connection.password">postgres</property>
+    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+    <mapping resource="org/pojos/Cities.hbm.xml"/>
+    <mapping resource="org/pojos/PayrollProcesses.hbm.xml"/>
+    <mapping resource="org/pojos/PayrollItems.hbm.xml"/>
+    <mapping resource="org/pojos/Periods.hbm.xml"/>
+    <mapping resource="org/pojos/ActionTypes.hbm.xml"/>
+    <mapping resource="org/pojos/ProcessesAmounts.hbm.xml"/>
+    <mapping resource="org/pojos/MilitaryStatus.hbm.xml"/>
+    <mapping resource="org/pojos/Test.hbm.xml"/>
+    <mapping resource="org/pojos/Employees.hbm.xml"/>
+    <mapping resource="org/pojos/ActionsTrans.hbm.xml"/>
+    <mapping resource="org/pojos/Positions.hbm.xml"/>
+    <mapping resource="org/pojos/PayrollTemplatesItems.hbm.xml"/>
+    <mapping resource="org/pojos/PayrollTemplates.hbm.xml"/>
+    <mapping resource="org/pojos/PayrollEmployeeItems.hbm.xml"/>
+    <mapping resource="org/pojos/PayrollFormulas.hbm.xml"/>
+    <mapping resource="org/pojos/Degrees.hbm.xml"/>
+    <mapping resource="org/pojos/MaritalStatus.hbm.xml"/>
+    <mapping resource="org/pojos/Departments.hbm.xml"/>
+    <mapping resource="org/pojos/Calender.hbm.xml"/>
+    <mapping resource="org/pojos/PayrollItemsCats.hbm.xml"/>
+    <mapping resource="org/pojos/Actions.hbm.xml"/>
+    <mapping resource="org/pojos/Users.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>

@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="templates/template.xhtml">
+
+        <ui:param name="page_title" value="Login" />
+
+        <ui:define name="header" />
+
+
+        <ui:define name="css">
+
+            <h:outputStylesheet library="css" name="login.css" />
+
+        </ui:define>
+
+        <ui:define name="content" >
+
+            <div class="form-container" >
+                <h:form>
+                    <div class="imgcontainer">
+                        
+                        <p:graphicImage library="images" name="login-avatar.png" styleClass="avatar" />  
+                    </div>
+                    
+                    <p:panelGrid columns="1" style="margin: 0 auto; border:none; width: 85%"> 
+
+                        <h:outputLabel value="#{lang['login.username.label']}" />
+                        <p:inputText 
+                            value="#{loginView.user.username}" 
+                            id="username" 
+                            styleClass="form-control" 
+                            required="true" 
+                            requiredMessage="#{lang['login.username.validation']}" 
+                            placeholder="Enter your username" 
+                            />
+                        <h:message styleClass="red" for="username" />
+
+                        <h:outputLabel value="#{lang['login.password.label']}" />
+                        <p:password
+                            value="#{loginView.user.password}" 
+                            id="password" 
+                            styleClass="form-control" 
+                            required="true" 
+                            requiredMessage="#{lang['login.password.validation']}" 
+                            placeholder="Enter your password"
+                            feedback="true" inline="true"
+                            />
+                        <h:message styleClass="red" for="password" />
+
+
+                    </p:panelGrid>
+                    
+                    <h:commandButton 
+                        action="#{loginView.addUser()}"
+                        styleClass="login-btn" 
+                        value="#{lang['login.loginBtn.label']}"  
+                        />
+
+                </h:form>
+
+            </div>
+        </ui:define>
+
+
+    </ui:composition>
+
+</html>

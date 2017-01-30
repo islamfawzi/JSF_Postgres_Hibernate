@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 30, 2017 1:16:01 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.pojos.Periods" table="periods" schema="public" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="calender" class="org.pojos.Calender" fetch="select">
+            <column name="calender_id" />
+        </many-to-one>
+        <property name="startDate" type="timestamp">
+            <column name="start_date" length="29" />
+        </property>
+        <property name="endDate" type="timestamp">
+            <column name="end_date" length="29" />
+        </property>
+        <property name="status" type="java.lang.Character">
+            <column name="status" length="1" />
+        </property>
+        <property name="transDate" type="timestamp">
+            <column name="trans_date" length="29" />
+        </property>
+        <set name="payrollProcesseses" table="payroll_processes" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="period_id" />
+            </key>
+            <one-to-many class="org.pojos.PayrollProcesses" />
+        </set>
+        <set name="processesAmountses" table="processes_amounts" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="period_id" />
+            </key>
+            <one-to-many class="org.pojos.ProcessesAmounts" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 30, 2017 1:16:01 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.pojos.PayrollItemsCats" table="payroll_items_cats" schema="public" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="payrollCatTitle" type="string">
+            <column name="payroll_cat_title" not-null="true" />
+        </property>
+        <property name="payrollCatStatus" type="short">
+            <column name="payroll_cat_status" not-null="true" />
+        </property>
+        <set name="payrollItemses" table="payroll_items" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="catid" />
+            </key>
+            <one-to-many class="org.pojos.PayrollItems" />
+        </set>
+    </class>
+</hibernate-mapping>

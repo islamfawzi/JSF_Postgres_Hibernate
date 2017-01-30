@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 30, 2017 1:16:01 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.pojos.Employees" table="employees" schema="public" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="cities" class="org.pojos.Cities" fetch="select">
+            <column name="emp_city" />
+        </many-to-one>
+        <many-to-one name="degrees" class="org.pojos.Degrees" fetch="select">
+            <column name="emp_degree" />
+        </many-to-one>
+        <many-to-one name="departments" class="org.pojos.Departments" fetch="select">
+            <column name="emp_department" />
+        </many-to-one>
+        <many-to-one name="maritalStatus" class="org.pojos.MaritalStatus" fetch="select">
+            <column name="emp_maritalstatus" />
+        </many-to-one>
+        <many-to-one name="militaryStatus" class="org.pojos.MilitaryStatus" fetch="select">
+            <column name="emp_militarystatus" />
+        </many-to-one>
+        <many-to-one name="positions" class="org.pojos.Positions" fetch="select">
+            <column name="emp_position" />
+        </many-to-one>
+        <property name="empFullname" type="string">
+            <column name="emp_fullname" />
+        </property>
+        <property name="empHiringdate" type="timestamp">
+            <column name="emp_hiringdate" length="29" />
+        </property>
+        <property name="empBirthdate" type="timestamp">
+            <column name="emp_birthdate" length="29" />
+        </property>
+        <property name="empStatus" type="short">
+            <column name="emp_status" not-null="true" />
+        </property>
+        <property name="empId" type="string">
+            <column name="emp_id" unique="true" />
+        </property>
+        <property name="isuser" type="boolean">
+            <column name="isuser" not-null="true" />
+        </property>
+        <set name="userses" table="users" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="emp_id" />
+            </key>
+            <one-to-many class="org.pojos.Users" />
+        </set>
+        <set name="actionsTranses" table="actions_trans" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="emp_id" />
+            </key>
+            <one-to-many class="org.pojos.ActionsTrans" />
+        </set>
+        <set name="processesAmountses" table="processes_amounts" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="emp_id" />
+            </key>
+            <one-to-many class="org.pojos.ProcessesAmounts" />
+        </set>
+        <set name="payrollEmployeeItemses" table="payroll_employee_items" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="emp_id" />
+            </key>
+            <one-to-many class="org.pojos.PayrollEmployeeItems" />
+        </set>
+    </class>
+</hibernate-mapping>

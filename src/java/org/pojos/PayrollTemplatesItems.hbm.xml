@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 30, 2017 1:16:01 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.pojos.PayrollTemplatesItems" table="payroll_templates_items" schema="public" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="payrollItems" class="org.pojos.PayrollItems" fetch="select">
+            <column name="item_id" />
+        </many-to-one>
+        <many-to-one name="payrollTemplates" class="org.pojos.PayrollTemplates" fetch="select">
+            <column name="template_id" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

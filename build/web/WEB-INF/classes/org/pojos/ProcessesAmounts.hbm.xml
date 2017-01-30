@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 30, 2017 1:16:01 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.pojos.ProcessesAmounts" table="processes_amounts" schema="public" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="employees" class="org.pojos.Employees" fetch="select">
+            <column name="emp_id" />
+        </many-to-one>
+        <many-to-one name="payrollItems" class="org.pojos.PayrollItems" fetch="select">
+            <column name="item_id" />
+        </many-to-one>
+        <many-to-one name="payrollProcesses" class="org.pojos.PayrollProcesses" fetch="select">
+            <column name="process_id" />
+        </many-to-one>
+        <many-to-one name="periods" class="org.pojos.Periods" fetch="select">
+            <column name="period_id" />
+        </many-to-one>
+        <property name="amount" type="big_decimal">
+            <column name="amount" precision="131089" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 30, 2017 1:16:01 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.pojos.PayrollProcesses" table="payroll_processes" schema="public" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="departments" class="org.pojos.Departments" fetch="select">
+            <column name="dept_id" />
+        </many-to-one>
+        <many-to-one name="periods" class="org.pojos.Periods" fetch="select">
+            <column name="period_id" />
+        </many-to-one>
+        <property name="title" type="string">
+            <column name="title" />
+        </property>
+        <property name="locked" type="java.lang.Short">
+            <column name="locked" />
+        </property>
+        <set name="processesAmountses" table="processes_amounts" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="process_id" />
+            </key>
+            <one-to-many class="org.pojos.ProcessesAmounts" />
+        </set>
+    </class>
+</hibernate-mapping>
