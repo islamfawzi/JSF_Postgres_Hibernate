@@ -26,7 +26,7 @@ public class Users implements java.io.Serializable {
     private Employees employees;
     private String username;
     private String password;
-    private Short status;
+    private Short status = 1;
     private Date lastLogin = new Date();
 
     public Users() {
@@ -105,4 +105,9 @@ public class Users implements java.io.Serializable {
         this.lastLogin = lastLogin;
     }
 
+    @Override
+    public String toString() {
+        return "Users{" + "id=" + id + ", employees=" + employees + ", username=" + username + ", password=" + password + ", status=" + status + ", lastLogin=" + lastLogin + '}';
+    }
+    
 }

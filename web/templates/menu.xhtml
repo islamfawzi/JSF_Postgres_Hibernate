@@ -12,51 +12,116 @@
             <p:growl id="messages"/>
 
             <p:menubar>
-                <p:submenu label="File" icon="ui-icon-document">
-                    <p:submenu label="New" icon="ui-icon-contact">
-                        <p:menuitem value="Project" url="#" />
-                        <p:menuitem value="Other" url="#" />
+                <p:submenu label="#{lang['menu.master_data']}" icon="ui-icon-document">
+                    <p:submenu label="#{lang['menu.master_data.positions']}" > 
+                        <p:menuitem value="#{lang['menu.submenu.new']}" url="/positions/add.xml" />
+                        <p:menuitem value="#{lang['menu.submenu.all']}" url="/positions/edit.xml" />
                     </p:submenu>
-                    <p:menuitem value="Open" url="#" />
-                    <p:separator />
-                    <p:menuitem value="Quit" url="#" />
-                </p:submenu>
 
-                <p:submenu label="Edit" icon="ui-icon-pencil">
-                    <p:menuitem value="Undo" url="#" icon="ui-icon-arrowreturnthick-1-w" />
-                    <p:menuitem value="Redo" url="#" icon="ui-icon-arrowreturnthick-1-e" />
-                </p:submenu>
-
-                <p:submenu label="Help" icon="ui-icon-help">
-                    <p:menuitem value="Contents" url="#" />
-                    <p:submenu label="Search" icon="ui-icon-search">
-                        <p:submenu label="Text">
-                            <p:menuitem value="Workspace" url="#" />
-                        </p:submenu>
-                        <p:menuitem value="File" url="#" />
+                    <p:submenu label="#{lang['menu.master_data.departments']}" >
+                        <p:menuitem value="#{lang['menu.submenu.new']}" url="#" />
+                        <p:menuitem value="#{lang['menu.submenu.all']}" url="#" />
                     </p:submenu>
-                </p:submenu>
 
-                <p:submenu label="Actions" icon="ui-icon-gear">
-                    <p:submenu label="Ajax" icon="ui-icon-refresh">
-                        <p:menuitem value="Save" actionListener="#{menuView.save}" icon="ui-icon-disk" update="messages"/>
-                        <p:menuitem value="Update" actionListener="#{menuView.update}" icon="ui-icon-arrowrefresh-1-w" update="messages"/>
+                    <p:submenu label="#{lang['menu.master_data.cities']}"  >
+                        <p:menuitem value="#{lang['menu.submenu.new']}" url="#" />
+                        <p:menuitem value="#{lang['menu.submenu.all']}" url="#" />
                     </p:submenu>
-                    <p:submenu label="Non-Ajax" icon="ui-icon-newwin">
-                        <p:menuitem value="Delete" actionListener="#{menuView.delete}" icon="ui-icon-close" update="messages" ajax="false"/>
+
+                    <p:submenu label="#{lang['menu.master_data.marital']}" >
+                        <p:menuitem value="#{lang['menu.submenu.new']}" url="#" />
+                        <p:menuitem value="#{lang['menu.submenu.all']}" url="#" />
+                    </p:submenu>
+
+                    <p:submenu label="#{lang['menu.master_data.military']}" >
+                        <p:menuitem value="#{lang['menu.submenu.new']}" url="#" />
+                        <p:menuitem value="#{lang['menu.submenu.all']}" url="#" />
+                    </p:submenu>
+
+                    <p:submenu label="#{lang['menu.master_data.degrees']}" >
+                        <p:menuitem value="#{lang['menu.submenu.new']}" url="#" />
+                        <p:menuitem value="#{lang['menu.submenu.all']}" url="#" />
                     </p:submenu>
                 </p:submenu>
 
-                <p:menuitem value="Quit" url="http://www.primefaces.org" icon="ui-icon-close" />
+                <p:submenu label="#{lang['menu.employees']}" icon="ui-icon-document">
+                    <p:menuitem value="#{lang['menu.submenu.new']}" url="#" />
+                    <p:menuitem value="#{lang['menu.submenu.all']}" url="#" />
+                </p:submenu>
+
+                <p:submenu label="#{lang['menu.calendar']}" icon="ui-icon-document">
+                    <p:submenu label="#{lang['menu.calendar.calendars']}" >
+                        <p:menuitem value="#{lang['menu.submenu.new']}" url="#" />
+                        <p:menuitem value="#{lang['menu.submenu.all']}" url="#" />
+                    </p:submenu>
+
+                    <p:submenu label="#{lang['menu.calendar.periods']}" >
+                        <p:menuitem value="#{lang['menu.submenu.new']}" url="#" />
+                        <p:menuitem value="#{lang['menu.submenu.all']}" url="#" />
+                    </p:submenu>
+                </p:submenu>
+
+                <p:submenu label="#{lang['menu.actions']}" icon="ui-icon-document">
+                    <p:submenu label="#{lang['menu.actions.actions_types']}" >
+                        <p:menuitem value="#{lang['menu.submenu.new']}" url="#" />
+                        <p:menuitem value="#{lang['menu.submenu.all']}" url="#" />
+                    </p:submenu>
+
+                    <p:submenu label="#{lang['menu.actions.actions']}" >
+                        <p:menuitem value="#{lang['menu.submenu.new']}" url="#" />
+                        <p:menuitem value="#{lang['menu.submenu.all']}" url="#" />
+                    </p:submenu>
+                    
+                    <p:submenu label="#{lang['menu.actions.actions_transactions']}" >
+                        <p:menuitem value="#{lang['menu.submenu.new']}" url="#" />
+                        <p:menuitem value="#{lang['menu.submenu.all']}" url="#" />
+                    </p:submenu>
+                </p:submenu>
+                
+                <p:submenu label="#{lang['menu.payroll']}" icon="ui-icon-document">
+                    <p:submenu label="#{lang['menu.payroll.items']}" >
+                        <p:menuitem value="#{lang['menu.submenu.new']}" url="#" />
+                        <p:menuitem value="#{lang['menu.submenu.all']}" url="#" />
+                    </p:submenu>
+
+                    <p:submenu label="#{lang['menu.payroll.categories']}" >
+                        <p:menuitem value="#{lang['menu.submenu.new']}" url="#" />
+                        <p:menuitem value="#{lang['menu.submenu.all']}" url="#" />
+                    </p:submenu>
+                    
+                    <p:submenu label="#{lang['menu.payroll.entries']}" >
+                        <p:menuitem value="#{lang['menu.submenu.new']}" url="#" />
+                        <p:menuitem value="#{lang['menu.submenu.all']}" url="#" />
+                    </p:submenu>
+                    
+                    <p:submenu label="#{lang['menu.payroll.templates']}" >
+                        <p:menuitem value="#{lang['menu.submenu.new']}" url="#" />
+                        <p:menuitem value="#{lang['menu.submenu.all']}" url="#" />
+                    </p:submenu>
+                    
+                    <p:submenu label="#{lang['menu.payroll.processing']}" >
+                        <p:menuitem value="#{lang['menu.submenu.new']}" url="#" />
+                        <p:menuitem value="#{lang['menu.submenu.all']}" url="#" />
+                    </p:submenu>
+                </p:submenu>
+
+
+                <p:submenu label="#{lang['menu.payslip']}" icon="ui-icon-document">
+                    <p:menuitem value="#{lang['menu.submenu.new']}" url="#" />
+                    <p:menuitem value="#{lang['menu.submenu.all']}" url="#" />
+                </p:submenu>
+
+
 
                 <f:facet name="options">
-                    <p:inputText style="margin-right:10px" placeholder="Search"/>
-                    <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
+                    <p:commandButton action="#{loginView.logout()}" 
+                                     value="#{lang['login.logoutBtn.label']}" 
+                                     icon="ui-icon-extlink" />
                 </f:facet>
             </p:menubar>
         </h:form>
     </ui:composition>	
-    
+
 </html>
 
 
