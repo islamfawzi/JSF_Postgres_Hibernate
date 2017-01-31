@@ -1,14 +1,4 @@
 
-.menu-container{
-    height: 106px;
-}
-
-.page-content{
-    border: 1px solid #f79621;
-    height: auto;
-    padding: 20px;
-}
-
 thead tr{
     background: #f9c667; /* Old browsers */
     background: -moz-linear-gradient(top,  #f9c667 0%, #f79621 100%); /* FF3.6-15 */
@@ -56,9 +46,7 @@ form label{
     font-size: 24px;
     border: 1px solid #ccc;
 }
-.status-img{
-    width: 20px;
-}
+
 .radio-label input{
     zoom: 1.2;
 }
@@ -125,4 +113,30 @@ form label{
     border-style: none !important;
     background-color: #fff;
     padding: 0 !important;
+}
+
+/** pages template contanier **/
+.content{
+    margin: 20px;
+    padding: 0px !important;
+    border: 1px solid;
+    border-color: rgb(245, 173, 102);
+    border-radius: 5px;
+    min-height: 87vh;
+    height: auto;
+}
+
+.content > div{
+    min-height: 87vh;
+    height: auto;
+}
+
+.status-img{
+    width: 20px;
+}
+
+span.ui-button-icon-left{
+    zoom: 2;
+    left: 1px;
+    top: 6px !important;
 }

@@ -29,7 +29,7 @@ public class AuthListener implements PhaseListener{
         if(user == null && !location.endsWith("login.xhtml")){
         
             NavigationHandler navigationHandler  = context.getApplication().getNavigationHandler();
-            navigationHandler.handleNavigation(context, null, "login?faces-redirect=true");
+            navigationHandler.handleNavigation(context, null, "/login?faces-redirect=true");
         }
         
         

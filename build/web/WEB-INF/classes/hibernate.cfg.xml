@@ -9,6 +9,7 @@
     <property name="hibernate.connection.password">postgres</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.current_session_context_class">thread</property>
+    
     <mapping resource="org/pojos/Cities.hbm.xml"/>
     <mapping resource="org/pojos/PayrollProcesses.hbm.xml"/>
     <mapping resource="org/pojos/PayrollItems.hbm.xml"/>
@@ -16,7 +17,6 @@
     <mapping resource="org/pojos/ActionTypes.hbm.xml"/>
     <mapping resource="org/pojos/ProcessesAmounts.hbm.xml"/>
     <mapping resource="org/pojos/MilitaryStatus.hbm.xml"/>
-    <mapping resource="org/pojos/Test.hbm.xml"/>
     <mapping resource="org/pojos/Employees.hbm.xml"/>
     <mapping resource="org/pojos/ActionsTrans.hbm.xml"/>
     <mapping resource="org/pojos/Positions.hbm.xml"/>
@@ -31,5 +31,6 @@
     <mapping resource="org/pojos/PayrollItemsCats.hbm.xml"/>
     <mapping resource="org/pojos/Actions.hbm.xml"/>
     <mapping resource="org/pojos/Users.hbm.xml"/>
+    
   </session-factory>
 </hibernate-configuration>

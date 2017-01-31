@@ -7,6 +7,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -23,28 +25,29 @@ public class Positions  implements java.io.Serializable {
 
      private int id;
      private String posTitle;
-     private short posStatus;
+     private boolean posStatus;
      private Set employeeses = new HashSet(0);
 
+     private boolean canEdit =  false;
+     
     public Positions() {
     }
 
 	
-    public Positions(int id, String posTitle, short posStatus) {
+    public Positions(int id, String posTitle, boolean posStatus) {
         this.id = id;
         this.posTitle = posTitle;
         this.posStatus = posStatus;
     }
-    public Positions(int id, String posTitle, short posStatus, Set employeeses) {
+    public Positions(int id, String posTitle, boolean posStatus, Set employeeses) {
        this.id = id;
        this.posTitle = posTitle;
        this.posStatus = posStatus;
        this.employeeses = employeeses;
     }
    
-     @Id 
-
-    
+    @Id 
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name="id", unique=true, nullable=false)
     public int getId() {
         return this.id;
@@ -66,11 +69,11 @@ public class Positions  implements java.io.Serializable {
 
     
     @Column(name="pos_status", nullable=false)
-    public short getPosStatus() {
+    public boolean getPosStatus() {
         return this.posStatus;
     }
     
-    public void setPosStatus(short posStatus) {
+    public void setPosStatus(boolean posStatus) {
         this.posStatus = posStatus;
     }
 
@@ -83,7 +86,13 @@ public class Positions  implements java.io.Serializable {
         this.employeeses = employeeses;
     }
 
+    public boolean isCanEdit() {
+        return canEdit;
+    }
 
+    public void setCanEdit(boolean canEdit) {
+        this.canEdit = canEdit;
+    }
 
 
 }

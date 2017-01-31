@@ -60,7 +60,6 @@ public class UsersUtils {
 
             List users = query.list();
 
-            
             for (Iterator iterator
                     = users.iterator(); iterator.hasNext();) {
                 Users user = (Users) iterator.next();
@@ -77,9 +76,7 @@ public class UsersUtils {
                 tx.rollback();
             }
             e.printStackTrace();
-        } finally {
-            session.close();
-        }
+        } 
     }
 
     public static Integer save(Users user) {

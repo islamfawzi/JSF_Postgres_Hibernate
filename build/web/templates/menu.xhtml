@@ -13,35 +13,12 @@
 
             <p:menubar>
                 <p:submenu label="#{lang['menu.master_data']}" icon="ui-icon-document">
-                    <p:submenu label="#{lang['menu.master_data.positions']}" > 
-                        <p:menuitem value="#{lang['menu.submenu.new']}"  url="/positions/add.xhtml" />
-                        <p:menuitem value="#{lang['menu.submenu.all']}" url="/positions/all.xhtml" />
-                    </p:submenu>
-
-                    <p:submenu label="#{lang['menu.master_data.departments']}" >
-                        <p:menuitem value="#{lang['menu.submenu.new']}" url="/departments/add.xhtml" />
-                        <p:menuitem value="#{lang['menu.submenu.all']}" url="/departments/all.xhtml" />
-                    </p:submenu>
-
-                    <p:submenu label="#{lang['menu.master_data.cities']}"  >
-                        <p:menuitem value="#{lang['menu.submenu.new']}" url="/cities/add.xhtml" />
-                        <p:menuitem value="#{lang['menu.submenu.all']}" url="/cities/all.xhtml" />
-                    </p:submenu>
-
-                    <p:submenu label="#{lang['menu.master_data.marital']}" >
-                        <p:menuitem value="#{lang['menu.submenu.new']}" url="/marital-status/add.xhtml" />
-                        <p:menuitem value="#{lang['menu.submenu.all']}" url="/marital-status/all.xhtml" />
-                    </p:submenu>
-
-                    <p:submenu label="#{lang['menu.master_data.military']}" >
-                        <p:menuitem value="#{lang['menu.submenu.new']}" url="/military-status/add.xhtml" />
-                        <p:menuitem value="#{lang['menu.submenu.all']}" url="/military-status/all.xhtml" />
-                    </p:submenu>
-
-                    <p:submenu label="#{lang['menu.master_data.degrees']}" >
-                        <p:menuitem value="#{lang['menu.submenu.new']}" url="/degrees/add.xhtml" />
-                        <p:menuitem value="#{lang['menu.submenu.all']}" url="/degrees/all.xhtml" />
-                    </p:submenu>
+                    <p:menuitem value="#{lang['menu.master_data.positions']}"  url="/positions.xhtml" />
+                    <p:menuitem value="#{lang['menu.master_data.departments']}" url="/departments.xhtml" />
+                    <p:menuitem value="#{lang['menu.master_data.cities']}" url="/cities.xhtml" />
+                    <p:menuitem value="#{lang['menu.master_data.marital']}" url="/marital-status.xhtml" />
+                    <p:menuitem value="#{lang['menu.master_data.military']}" url="/military-status.xhtml" />
+                    <p:menuitem value="#{lang['menu.master_data.degrees']}" url="/degrees.xhtml" />
                 </p:submenu>
 
                 <p:submenu label="#{lang['menu.employees']}" icon="ui-icon-document">
@@ -114,7 +91,7 @@
 
                 <f:facet name="options">
                     <p:commandButton action="#{loginView.logout()}" 
-                                     value="#{lang['login.logoutBtn.label']}" 
+                                     value="#{lang['btn.logout']}" 
                                      icon="ui-icon-extlink" />
                 </f:facet>
             </p:menubar>

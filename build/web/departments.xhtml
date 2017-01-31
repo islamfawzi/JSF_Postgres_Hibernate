@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:composition template="/templates/template.xhtml">
+
+        <ui:param name="page_title" value="#{lang['page.header.departments']}" />
+
+        <ui:define name="content">
+
+            <p:panel header="#{lang['page.header.departments']}">
+
+                <h:form>
+                    <!-- add New -->
+                    <p:commandButton id="newBtn" value="#{lang['btn.new']}" icon="ui-icon-plus" type="button" style="margin-bottom: 15px;" />
+                    <p:overlayPanel id="newPanel" for="newBtn" hideEffect="fade" style="width:600px">
+                        <h:form>
+                            <h:panelGrid columns="5" width="100%">
+                                <h:outputLabel for="title" value="#{lang['data.title']} *" />
+                                <p:inputText 
+                                    id="title"
+                                    value="#{departmentsView.department.deptTitle}"
+                                    styleClass="form-control"
+                                    required="true" 
+                                    label="#{lang['data.title']}"/>
+
+                                <p:selectBooleanCheckbox 
+                                    id="status"
+                                    value="#{departmentsView.department.deptStatus}" 
+                                    label="#{lang['data.status']}"
+                                    style="margin-left: 15px;"/>
+                                <h:outputLabel for="status" value="#{lang['data.active']}" />
+
+                                <h:commandButton 
+                                    action="#{departmentsView.save}"
+                                    value="#{lang['btn.save']}" 
+                                    styleClass="btn btn-success" />
+                            </h:panelGrid>
+                        </h:form>
+                    </p:overlayPanel>
+                    </h:form>
+
+                    <!-- end add New -->
+
+                    
+                    <!-- List -->
+                    <h:form>
+                        
+                        <p:dataTable id="tbl" var="department" value="#{departmentsView.departments}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     paginator="true" 
+                                     paginatorPosition="bottom" 
+                                     rowsPerPageTemplate="5,10,15"
+                                     rows="10" 
+                                     style="text-align: center">
+
+
+                            <p:column headerText="#{lang['data.id']}">
+                                <h:outputText value="#{department.id}" />
+                            </p:column>
+
+                            <p:column headerText="#{lang['data.title']}">
+                                <h:outputText 
+                                    value="#{department.deptTitle}" 
+                                    rendered="#{not department.canEdit}" />
+                                <h:inputText 
+                                    value="#{department.deptTitle}"
+                                    styleClass="form-control"
+                                    rendered="#{department.canEdit}" />
+                            </p:column>
+
+                            <p:column headerText="#{lang['data.status']}">
+                                <p:graphicImage 
+                                    value="/resources/images/active.png"
+                                    rendered="#{department.deptStatus and not department.canEdit}"
+                                    styleClass="status-img" />
+                                <p:graphicImage 
+                                    value="/resources/images/inactive.png" 
+                                    rendered="#{not department.deptStatus and not department.canEdit}"
+                                    styleClass="status-img" />
+
+                                <p:selectBooleanCheckbox 
+                                    value="#{department.deptStatus}" 
+                                    rendered="#{department.canEdit}" />
+                            </p:column>
+
+                            <p:column>
+                                <h:commandButton 
+                                    styleClass="btn btn-success" 
+                                    value="#{lang['btn.edit']}"
+                                    action="#{departmentsView.edit(department)}"
+                                    rendered="#{not department.canEdit}" />
+
+                                &nbsp;
+                                <h:commandButton
+                                    styleClass="btn btn-danger" 
+                                    value="#{lang['btn.delete']}"
+                                    action="#{departmentsView.delete(department)}"
+                                    rendered="#{not department.canEdit}" />
+
+                                <h:commandButton 
+                                    styleClass="btn btn-success" 
+                                    value="#{lang['btn.save']}"
+                                    action="#{departmentsView.update(department)}"
+                                    rendered="#{department.canEdit}" />
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </h:form>
+
+                    <!-- End List -->
+
+
+            </p:panel>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

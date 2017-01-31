@@ -6,12 +6,12 @@
     <class name="org.pojos.Departments" table="departments" schema="public" optimistic-lock="version">
         <id name="id" type="int">
             <column name="id" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <property name="deptTitle" type="string">
             <column name="dept_title" not-null="true" />
         </property>
-        <property name="deptStatus" type="short">
+        <property name="deptStatus" type="boolean">
             <column name="dept_status" not-null="true" />
         </property>
         <set name="payrollTemplateses" table="payroll_templates" inverse="true" lazy="true" fetch="select">
