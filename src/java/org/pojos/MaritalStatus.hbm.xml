@@ -6,12 +6,12 @@
     <class name="org.pojos.MaritalStatus" table="marital_status" schema="public" optimistic-lock="version">
         <id name="id" type="int">
             <column name="id" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <property name="maritalTitle" type="string">
             <column name="marital_title" not-null="true" />
         </property>
-        <property name="maritalStatus" type="short">
+        <property name="maritalStatus" type="boolean">
             <column name="marital_status" not-null="true" />
         </property>
         <set name="employeeses" table="employees" inverse="true" lazy="true" fetch="select">
