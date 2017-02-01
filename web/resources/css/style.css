@@ -144,3 +144,12 @@ span.ui-button-icon-left{
 .ui-state-disabled{
     opacity: 1 !important;
 }
+
+.content{
+    border: none !important;
+    min-height: 0px !important;
+}
+
+.content > div{
+    min-height: 0px !important;
+}
