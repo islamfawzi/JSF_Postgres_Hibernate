@@ -21,22 +21,22 @@ public class MaritalView {
     private List<MaritalStatus> marital_statuses;
 
     // set canEdit to true
-    public void edit(MaritalStatus marital_status) {
-        marital_status.setCanEdit(true);
+    public void edit(MaritalStatus marital) {
+        marital.setCanEdit(true);
     }
     
-    // update Position
-    public void update(MaritalStatus marital_status) {
+    // update Marital Status
+    public void update(MaritalStatus marital) {
 
-        boolean updated = MaritalUtils.update(marital_status);
+        boolean updated = MaritalUtils.update(marital);
 
         if (updated) {
-            Message.addMessage(marital_status.getMaritalTitle() + " status Updated Successfully", "INFO");
+            Message.addMessage(marital.getMaritalTitle() + " status Updated Successfully", "INFO");
         } else {
             Message.addMessage("Oops! something wrong happened, please try again!.", "ERROR");
         }
 
-        marital_status.setCanEdit(false);
+        marital.setCanEdit(false);
     }
     
     public void save() {
@@ -55,12 +55,12 @@ public class MaritalView {
         }
     }
     
-    public void delete(MaritalStatus marital_status) {
+    public void delete(MaritalStatus marital) {
 
-        boolean deleted = MaritalUtils.delete(marital_status);
+        boolean deleted = MaritalUtils.delete(marital);
 
         if (deleted) {
-            Message.addMessage(marital_status.getMaritalTitle() + " status Deleted Successfully", "INFO");
+            Message.addMessage(marital.getMaritalTitle() + " status Deleted Successfully", "INFO");
         } else {
             Message.addMessage("Oops! something wrong happened, please try again!.", "ERROR");
         }

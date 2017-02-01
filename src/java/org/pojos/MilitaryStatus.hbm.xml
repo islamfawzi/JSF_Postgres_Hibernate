@@ -6,12 +6,12 @@
     <class name="org.pojos.MilitaryStatus" table="military_status" schema="public" optimistic-lock="version">
         <id name="id" type="int">
             <column name="id" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <property name="militaryTitle" type="string">
             <column name="military_title" not-null="true" />
         </property>
-        <property name="militaryStatus" type="short">
+        <property name="militaryStatus" type="boolean">
             <column name="military_status" not-null="true" />
         </property>
         <set name="employeeses" table="employees" inverse="true" lazy="true" fetch="select">
