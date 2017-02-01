@@ -1,12 +1,127 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        Hello from Facelets
-    </h:body>
-</html>
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
+    <ui:composition template="/templates/template.xhtml">
+
+        <ui:param name="page_title" value="#{lang['page.header.cities']}" />
+
+        <ui:define name="content">
+
+            <p:panel header="#{lang['page.header.cities']}">
+
+                <h:form>
+                    <!-- add New -->
+                    <p:commandButton id="newBtn" value="#{lang['btn.new']}" icon="ui-icon-plus" type="button" style="margin-bottom: 15px;" />
+                    <p:overlayPanel id="newPanel" for="newBtn" hideEffect="fade" style="width:600px">
+                        <h:form>
+                            <h:panelGrid columns="5" width="100%">
+                                <h:outputLabel for="title" value="#{lang['data.title']} *" />
+                                <p:inputText 
+                                    id="title"
+                                    value="#{citiesView.city.cityTitle}"
+                                    styleClass="form-control"
+                                    required="true" 
+                                    label="#{lang['data.title']}"/>
+
+
+                                <p:selectBooleanButton 
+                                    id="status" 
+                                    value="#{citiesView.city.cityStatus}" 
+                                    onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
+                                    onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                    style="width:auto; margin-left: 15px;">
+                                </p:selectBooleanButton>
+
+
+                                <h:commandButton 
+                                    action="#{citiesView.save}"
+                                    value="#{lang['btn.save']}" 
+                                    styleClass="btn btn-success" />
+                            </h:panelGrid>
+                        </h:form>
+                    </p:overlayPanel>
+                </h:form>
+
+                <!-- end add New -->
+
+
+                <!-- List -->
+                <h:form>
+
+                    <p:dataTable id="tbl" var="city" value="#{citiesView.cities}"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 paginator="true" 
+                                 paginatorPosition="bottom" 
+                                 rowsPerPageTemplate="5,10,15"
+                                 rows="10" 
+                                 style="text-align: center">
+
+
+                        <p:column headerText="#{lang['data.id']}">
+                            <h:outputText value="#{city.id}" />
+                        </p:column>
+
+                        <p:column headerText="#{lang['data.title']}">
+                            <h:outputText 
+                                value="#{city.cityTitle}" 
+                                rendered="#{not city.canEdit}" />
+                            <h:inputText 
+                                value="#{city.cityTitle}"
+                                styleClass="form-control"
+                                rendered="#{city.canEdit}" />
+                        </p:column>
+
+                        <p:column headerText="#{lang['data.status']}">
+
+                            <p:selectBooleanButton  disabled="#{not city.canEdit}" 
+                                id="status" 
+                                value="#{city.cityStatus}" 
+                                onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
+                                onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                style="width:auto; margin-left: 15px;">
+                                
+                            </p:selectBooleanButton>
+
+                        </p:column>
+
+                        <p:column>
+                            <h:commandButton 
+                                styleClass="btn btn-success" 
+                                value="#{lang['btn.edit']}"
+                                action="#{citiesView.edit(city)}"
+                                rendered="#{not city.canEdit}" />
+
+                            &nbsp;
+                            <h:commandButton
+                                styleClass="btn btn-danger" 
+                                value="#{lang['btn.delete']}"
+                                action="#{citiesView.delete(city)}"
+                                rendered="#{not city.canEdit}" />
+
+                            <h:commandButton 
+                                styleClass="btn btn-success" 
+                                value="#{lang['btn.save']}"
+                                action="#{citiesView.update(city)}"
+                                rendered="#{city.canEdit}" />
+                        </p:column>
+
+                    </p:dataTable>
+
+                </h:form>
+
+                <!-- End List -->
+
+
+            </p:panel>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

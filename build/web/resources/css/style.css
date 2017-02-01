@@ -140,3 +140,7 @@ span.ui-button-icon-left{
     left: 1px;
     top: 6px !important;
 }
+
+.ui-state-disabled{
+    opacity: 1 !important;
+}

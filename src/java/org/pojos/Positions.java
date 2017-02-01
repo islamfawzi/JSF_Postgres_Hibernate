@@ -25,7 +25,7 @@ public class Positions  implements java.io.Serializable {
 
      private int id;
      private String posTitle;
-     private boolean posStatus;
+     private boolean posStatus = true;
      private Set employeeses = new HashSet(0);
 
      private boolean canEdit =  false;

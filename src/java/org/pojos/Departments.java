@@ -22,7 +22,7 @@ public class Departments implements java.io.Serializable {
 
     private int id;
     private String deptTitle;
-    private boolean deptStatus;
+    private boolean deptStatus = true;
     private Set payrollTemplateses = new HashSet(0);
     private Set payrollProcesseses = new HashSet(0);
     private Set employeeses = new HashSet(0);

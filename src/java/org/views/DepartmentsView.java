@@ -32,7 +32,7 @@ public class DepartmentsView {
         boolean updated = DepartmentsUtils.update(dept);
 
         if (updated) {
-            Message.addMessage("Department Updated Successfully", "INFO");
+            Message.addMessage(dept.getDeptTitle() + " Department Updated Successfully", "INFO");
         } else {
             Message.addMessage("Oops! something wrong happened, please try again!.", "ERROR");
         }
@@ -47,7 +47,7 @@ public class DepartmentsView {
             boolean added = DepartmentsUtils.save(this.department);
 
             if (added) {
-                Message.addMessage("Department Added Successfully", "INFO");
+                Message.addMessage(this.department.getDeptTitle() + " Department Added Successfully", "INFO");
             } else {
                 Message.addMessage("Oops! something wrong happened, please try again!.", "ERROR");
             }
@@ -61,7 +61,7 @@ public class DepartmentsView {
         boolean deleted = DepartmentsUtils.delete(dept);
 
         if (deleted) {
-            Message.addMessage("Department Deleted Successfully", "INFO");
+            Message.addMessage(dept.getDeptTitle() + " Department Deleted Successfully", "INFO");
         } else {
             Message.addMessage("Oops! something wrong happened, please try again!.", "ERROR");
         }

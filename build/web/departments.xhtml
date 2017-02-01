@@ -29,12 +29,13 @@
                                     required="true" 
                                     label="#{lang['data.title']}"/>
 
-                                <p:selectBooleanCheckbox 
-                                    id="status"
+                                <p:selectBooleanButton 
+                                    id="status" 
                                     value="#{departmentsView.department.deptStatus}" 
-                                    label="#{lang['data.status']}"
-                                    style="margin-left: 15px;"/>
-                                <h:outputLabel for="status" value="#{lang['data.active']}" />
+                                    onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
+                                    onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                    style="width:auto; margin-left: 15px;">
+                                </p:selectBooleanButton>
 
                                 <h:commandButton 
                                     action="#{departmentsView.save}"
@@ -75,18 +76,15 @@
                             </p:column>
 
                             <p:column headerText="#{lang['data.status']}">
-                                <p:graphicImage 
-                                    value="/resources/images/active.png"
-                                    rendered="#{department.deptStatus and not department.canEdit}"
-                                    styleClass="status-img" />
-                                <p:graphicImage 
-                                    value="/resources/images/inactive.png" 
-                                    rendered="#{not department.deptStatus and not department.canEdit}"
-                                    styleClass="status-img" />
-
-                                <p:selectBooleanCheckbox 
-                                    value="#{department.deptStatus}" 
-                                    rendered="#{department.canEdit}" />
+                                
+                                <p:selectBooleanButton  disabled="#{not department.canEdit}" 
+                                id="status" 
+                                value="#{department.deptStatus}" 
+                                onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
+                                onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                style="width:auto; margin-left: 15px;">
+                                </p:selectBooleanButton>
+                                
                             </p:column>
 
                             <p:column>

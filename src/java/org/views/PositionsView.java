@@ -31,7 +31,7 @@ public class PositionsView {
         boolean updated = PositionsUtils.update(pos);
 
         if (updated) {
-            Message.addMessage("Position Updated Successfully", "INFO");
+            Message.addMessage(pos.getPosTitle() + " Position Updated Successfully", "INFO");
         } else {
             Message.addMessage("Oops! something wrong happened, please try again!.", "ERROR");
         }
@@ -46,7 +46,7 @@ public class PositionsView {
             boolean added = PositionsUtils.save(this.position);
 
             if (added) {
-                Message.addMessage("Position Added Successfully", "INFO");
+                Message.addMessage(this.position.getPosTitle() + " Position Added Successfully", "INFO");
             } else {
                 Message.addMessage("Oops! something wrong happened, please try again!.", "ERROR");
             }
@@ -60,7 +60,7 @@ public class PositionsView {
         boolean deleted = PositionsUtils.delete(pos);
 
         if (deleted) {
-            Message.addMessage("Position Deleted Successfully", "INFO");
+            Message.addMessage(pos.getPosTitle() + " Position Deleted Successfully", "INFO");
         } else {
             Message.addMessage("Oops! something wrong happened, please try again!.", "ERROR");
         }

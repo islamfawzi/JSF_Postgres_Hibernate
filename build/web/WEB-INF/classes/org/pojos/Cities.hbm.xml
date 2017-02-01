@@ -6,12 +6,12 @@
     <class name="org.pojos.Cities" table="cities" schema="public" optimistic-lock="version">
         <id name="id" type="int">
             <column name="id" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <property name="cityTitle" type="string">
             <column name="city_title" not-null="true" />
         </property>
-        <property name="cityStatus" type="short">
+        <property name="cityStatus" type="boolean">
             <column name="city_status" not-null="true" />
         </property>
         <set name="employeeses" table="employees" inverse="true" lazy="true" fetch="select">
