@@ -32,5 +32,8 @@
     <mapping resource="org/pojos/Actions.hbm.xml"/>
     <mapping resource="org/pojos/Users.hbm.xml"/>
     
+    <mapping resource="org/pojos/Clients.hbm.xml"/>
+    <mapping resource="org/pojos/Orgs.hbm.xml"/>
+    
   </session-factory>
 </hibernate-configuration>

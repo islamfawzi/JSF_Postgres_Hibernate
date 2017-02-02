@@ -23,4 +23,7 @@
   <table-filter match-name="processes_amounts"/>
   <table-filter match-name="actions_trans"/>
   <table-filter match-name="payroll_employee_items"/>
+  
+  <table-filter match-name="clients"/>
+  <table-filter match-name="orgs"/>
 </hibernate-reverse-engineering>

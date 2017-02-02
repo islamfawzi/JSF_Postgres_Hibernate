@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 30, 2017 1:16:01 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.pojos.Clients" table="clients" schema="public" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="client_name" type="string">
+            <column name="client_name" not-null="true" />
+        </property>
+        <property name="client_desc" type="string">
+            <column name="client_desc" />
+        </property>
+        <property name="client_status" type="boolean">
+            <column name="client_status" not-null="true" />
+        </property>
+        
+       <set name="orgs" table="orgs" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="client_id" />
+            </key>
+            <one-to-many class="org.pojos.Orgs" />
+        </set>
+    </class>
+</hibernate-mapping>

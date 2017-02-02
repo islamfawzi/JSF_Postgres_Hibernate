@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:composition template="/templates/template.xhtml">
+
+        <ui:param name="page_title" value="#{lang['page.header.clients']}" />
+
+
+        <ui:define name="content">
+
+            <p:panel header="#{lang['page.header.clients']}">
+
+                <p:tabView activeIndex="#{clientsView.activeIndex}">
+
+                    <!-- List Tab -->
+                    <p:tab title="#{lang['tab.list']}">
+
+                        <h:form>
+                            <p:dataTable id="tbl" var="client" value="#{clientsView.clients}"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginator="true" 
+                                         paginatorPosition="bottom" 
+                                         rowsPerPageTemplate="5,10,15"
+                                         rows="10" 
+                                         style="text-align: center">
+
+                                
+
+                                <p:column headerText="#{lang['data.id']}">
+                                    <h:outputText value="#{client.id}" />
+                                </p:column>
+
+                                <p:column headerText="#{lang['data.title']}">
+                                    
+                                    <p:remoteCommand name="rc" update="tbl" actionListener="#{clientsView.inlineEdit(client)}" />
+                                    
+                                    <p:outputLabel 
+                                        onclick="rc()"
+                                        value="#{client.client_name}" 
+                                        rendered="#{not client.canEdit}" />
+                                    
+                                    <h:inputText 
+                                        value="#{client.client_name}"
+                                        styleClass="form-control"
+                                        rendered="#{client.canEdit}" />
+                                    
+                                </p:column>
+
+
+                                <p:column headerText="#{lang['data.status']}">
+
+                                    <p:selectBooleanButton  disabled="#{not client.canEdit}" 
+                                                            id="status" 
+                                                            value="#{client.client_status}" 
+                                                            onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
+                                                            onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                                            style="width:auto; margin-left: 15px;">
+
+                                    </p:selectBooleanButton>
+
+                                </p:column>
+
+                                <p:column>
+                                    <h:commandButton 
+                                        styleClass="btn btn-success" 
+                                        value="#{lang['btn.edit']}"
+                                        action="#{clientsView.edit(client)}"
+                                        rendered="#{not client.canEdit}" />
+
+                                    &nbsp;
+                                    <h:commandButton
+                                        styleClass="btn btn-danger" 
+                                        value="#{lang['btn.delete']}"
+                                        action="#{clientsView.delete(client)}"
+                                        rendered="#{not client.canEdit}" />
+
+                                    <h:commandButton 
+                                        styleClass="btn btn-success" 
+                                        value="#{lang['btn.save']}"
+                                        action="#{clientsView.update(client)}"
+                                        rendered="#{client.canEdit}" />
+                                </p:column>
+
+                            </p:dataTable>
+
+                        </h:form>
+
+                    </p:tab>
+                    <!-- End List Tab -->
+
+                    <!-- Add New Tab -->
+                    <p:tab title="#{lang['tab.new']}">
+
+                        <h:form>
+                            <h:panelGrid id="grid" columns="1" width="40%">
+                                <h:outputLabel for="title" value="#{lang['data.title']} *" />
+                                <p:inputText 
+                                    id="title"
+                                    value="#{clientsView.client.client_name}"
+                                    styleClass="form-control"
+                                    required="true" 
+                                    label="#{lang['data.title']}"/>
+
+                                <h:outputLabel for="desc" value="#{lang['data.desc']}" />
+                                <p:inputTextarea value="#{clientsView.client.client_desc}" id="desc" rows="6" cols="46" autoResize="true" />
+
+
+                                <p:selectBooleanButton 
+                                    id="status" 
+                                    value="#{clientsView.client.client_status}" 
+                                    onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
+                                    onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                    style="width:auto;">
+                                </p:selectBooleanButton>
+
+                            </h:panelGrid>
+                            <br />
+                            
+                            <h:inputHidden value="#{clientsView.client.id}" />
+                            
+                            <!-- insert button -->
+                            <p:commandButton 
+                                action="#{clientsView.save}"
+                                ajax="false"
+                                value="#{lang['btn.save']}" 
+                                styleClass="btn btn-success" />
+                            
+                            &nbsp;
+                            <p:commandButton 
+                                process="@none"
+                                update="grid"
+                                value="#{lang['btn.reset']}" 
+                                styleClass="btn btn-default" />
+                        </h:form>
+
+                    </p:tab>
+                    <!-- End Add New Tab -->
+
+                </p:tabView>
+
+            </p:panel>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

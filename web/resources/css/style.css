@@ -153,3 +153,8 @@ span.ui-button-icon-left{
 .content > div{
     min-height: 0px !important;
 }
+
+button.btn-success{
+    background-image: -webkit-linear-gradient(top,#5cb85c 0,#419641 100%) !important; 
+    color: #fff !important;
+}
