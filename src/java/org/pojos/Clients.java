@@ -28,7 +28,7 @@ public class Clients implements java.io.Serializable {
     private String client_name;
     private String client_desc;
     private boolean client_status = true;
-     private Set orgs = new HashSet(0);
+    private Set orgs = new HashSet(0);
 
     private boolean canEdit;
 

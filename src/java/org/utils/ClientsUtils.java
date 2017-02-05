@@ -4,9 +4,11 @@ import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.pojos.Clients;
 
 
@@ -22,9 +24,11 @@ public class ClientsUtils {
     private static Transaction tx = null;
 
     
-    public static List<Clients> list(){
+    public static List<Clients> list(boolean active){
     
-        String sql = "SELECT * FROM clients ORDER BY id ASC";
+        String sql = "SELECT * FROM clients "
+                   + (active ? "WHERE client_status = TRUE " : " ")
+                   + "ORDER BY id ASC";
         List<Clients> clients = null;
         
         try {
@@ -44,9 +48,27 @@ public class ClientsUtils {
         return clients;
     }
     
+    // by Criteria
+    public static Clients get(int id){
+    
+        Clients client = null;
+        
+        try {
+            Criteria cr = session.createCriteria(Clients.class);
+            cr.add(Restrictions.eq("id", id));
+            client = (Clients) cr.uniqueResult();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return client;
+    }
+    
     public static boolean update(Clients client){
         
         try {
+            session.clear();
             
             tx = session.beginTransaction();
             session.saveOrUpdate(client);
@@ -64,9 +86,9 @@ public class ClientsUtils {
     
     public static boolean save(Clients client){
         
-        session.clear();
-        
         try {
+            session.clear();
+            
             tx = session.beginTransaction();
             session.saveOrUpdate(client);
             tx.commit();

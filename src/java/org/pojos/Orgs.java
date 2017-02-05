@@ -1,4 +1,3 @@
-
 package org.pojos;
 
 import javax.persistence.Column;
@@ -18,13 +17,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "orgs", schema = "public")
 public class Orgs implements java.io.Serializable {
-    
-    
+
     private int id;
     private String org_name;
     private String org_desc;
-    private boolean org_status;
+    private boolean org_status = true;
     private Clients clients;
+
+    private int client_id;
+    private boolean canEdit = false;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -56,7 +57,7 @@ public class Orgs implements java.io.Serializable {
     }
 
     @Column(name = "org_status")
-    public boolean isOrg_status() {
+    public boolean getOrg_status() {
         return org_status;
     }
 
@@ -73,6 +74,25 @@ public class Orgs implements java.io.Serializable {
     public void setClients(Clients clients) {
         this.clients = clients;
     }
-    
-    
+
+    public boolean isCanEdit() {
+        return canEdit;
+    }
+
+    public void setCanEdit(boolean canEdit) {
+        this.canEdit = canEdit;
+    }
+
+    public int getClient_id() {
+        return client_id;
+    }
+
+    public void setClient_id(int client_id) {
+        this.client_id = client_id;
+    }
+
+    @Override
+    public String toString() {
+        return "Orgs{" + "id=" + id + ", org_name=" + org_name + ", client_id=" + client_id + '}';
+    }
 }

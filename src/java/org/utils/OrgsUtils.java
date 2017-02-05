@@ -5,9 +5,11 @@ import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.pojos.Orgs;
 
 /**
@@ -43,9 +45,23 @@ private static Session session = HibernateUtil.getSessionFactory().openSession()
         return orgs;
     }
     
+    public static Orgs get(int id){
+        Orgs org = null;
+        try {
+            Criteria cr = session.createCriteria(Orgs.class);
+            cr.add(Restrictions.eq("id", id));
+            
+            org = (Orgs) cr.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return org;
+    }
+    
     public static boolean update(Orgs org){
         
         try {
+            session.clear();
             
             tx = session.beginTransaction();
             session.saveOrUpdate(org);
@@ -64,9 +80,10 @@ private static Session session = HibernateUtil.getSessionFactory().openSession()
     public static boolean save(Orgs org){
         
         try {
-        
+            session.clear();
+            
             tx = session.beginTransaction();
-            session.save(org);
+            session.saveOrUpdate(org);
             tx.commit();
             
             return true;

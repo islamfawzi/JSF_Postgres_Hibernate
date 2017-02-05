@@ -16,12 +16,13 @@
 
             <p:panel header="#{lang['page.header.clients']}">
 
+
                 <p:tabView activeIndex="#{clientsView.activeIndex}">
 
                     <!-- List Tab -->
                     <p:tab title="#{lang['tab.list']}">
-
                         <h:form>
+
                             <p:dataTable id="tbl" var="client" value="#{clientsView.clients}"
                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                          paginator="true" 
@@ -30,26 +31,23 @@
                                          rows="10" 
                                          style="text-align: center">
 
-                                
+
 
                                 <p:column headerText="#{lang['data.id']}">
                                     <h:outputText value="#{client.id}" />
                                 </p:column>
 
                                 <p:column headerText="#{lang['data.title']}">
-                                    
-                                    <p:remoteCommand name="rc" update="tbl" actionListener="#{clientsView.inlineEdit(client)}" />
-                                    
+
                                     <p:outputLabel 
-                                        onclick="rc()"
                                         value="#{client.client_name}" 
                                         rendered="#{not client.canEdit}" />
-                                    
+
                                     <h:inputText 
                                         value="#{client.client_name}"
                                         styleClass="form-control"
                                         rendered="#{client.canEdit}" />
-                                    
+
                                 </p:column>
 
 
@@ -121,16 +119,16 @@
 
                             </h:panelGrid>
                             <br />
-                            
+
                             <h:inputHidden value="#{clientsView.client.id}" />
-                            
+
                             <!-- insert button -->
                             <p:commandButton 
-                                action="#{clientsView.save}"
+                                action="#{clientsView.save(clientsView.client)}"
                                 ajax="false"
                                 value="#{lang['btn.save']}" 
                                 styleClass="btn btn-success" />
-                            
+
                             &nbsp;
                             <p:commandButton 
                                 process="@none"
@@ -142,7 +140,62 @@
                     </p:tab>
                     <!-- End Add New Tab -->
 
+                    <!-- Edit Tab --> 
+
+                    <c:set var="editTabClass" value="#{clientsView.activeIndex != 2 ? 'hide' : ''}" />
+                    
+                    <p:tab title="#{lang['tab.edit']} #{clientsView.update_client.client_name}" titleStyleClass="#{editTabClass}">
+                        <h:form>
+                            <h:panelGrid id="update-grid" columns="1" width="40%">
+
+                                <h:messages />
+
+                                <h:outputLabel for="update-title" value="#{lang['data.title']} *" />
+                                <p:inputText 
+                                    id="update-title"
+                                    value="#{clientsView.update_client.client_name}"
+                                    styleClass="form-control"
+                                    required="true" 
+                                    label="#{lang['data.title']}"/>
+
+                                <h:outputLabel for="update-desc" value="#{lang['data.desc']}" />
+                                <p:inputTextarea value="#{clientsView.update_client.client_desc}" id="update-desc" rows="6" cols="46" autoResize="true" />
+
+
+                                <p:selectBooleanButton 
+                                    id="update-status" 
+                                    value="#{clientsView.update_client.client_status}" 
+                                    onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
+                                    onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                    style="width:auto;">
+                                </p:selectBooleanButton>
+
+                            </h:panelGrid>
+                            <br />
+
+                            <h:inputHidden value="#{clientsView.update_client.id}" />
+
+                            <!-- insert button -->
+                            <p:commandButton 
+                                    action="#{clientsView.save(clientsView.update_client)}"
+                                    ajax="false"
+                                    value="#{lang['btn.save']}" 
+                                    styleClass="btn btn-success" />
+
+                            &nbsp;
+                            <p:commandButton 
+                                process="@none"
+                                update="update-grid"
+                                value="#{lang['btn.reset']}" 
+                                styleClass="btn btn-default" />
+
+                        </h:form>
+                    </p:tab>
+                    <!-- End Edit Tab -->
+
                 </p:tabView>
+
+
 
             </p:panel>
 
