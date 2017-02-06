@@ -12,6 +12,7 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.pojos.Employees;
 import org.pojos.Users;
 
@@ -28,7 +29,7 @@ public class UsersUtils {
     
     public static boolean login(String username, String password){
     
-        String sql = "SELECT * FROM users WHERE username = :username AND status = 1";
+        String sql = "SELECT * FROM users WHERE username = :username AND status = TRUE";
         try {
             tx = session.beginTransaction();
             SQLQuery query = session.createSQLQuery(sql);
@@ -48,55 +49,68 @@ public class UsersUtils {
         return false;
     }
     
+    public static List<Users> list(boolean active){
     
-    public static void listUsers() {
-        
-        String sql = "SELECT * FROM users";
-         
         try {
-            tx = session.beginTransaction();
-            SQLQuery query = session.createSQLQuery(sql);
-            query.addEntity(Users.class);
-
-            List users = query.list();
-
-            for (Iterator iterator
-                    = users.iterator(); iterator.hasNext();) {
-                Users user = (Users) iterator.next();
-                System.out.println("Username: " + user.getUsername());
-                System.out.println("Password: " + user.getPassword());
-                System.out.println("Status: " + user.getStatus());
-                System.out.println("Last login: " + user.getLastLogin());
-                System.out.println("Employee: " + user.getEmployees().getEmpFullname());
+            Criteria cr = session.createCriteria(Users.class);
+            cr.add(Restrictions.gt("id", 0));
+            if(active){
+                cr.add(Restrictions.eq("status", true));
             }
-
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            e.printStackTrace();
-        } 
-    }
-
-    public static Integer save(Users user) {
-        
-        Integer user_id = null;
-
-        try {
-
-            tx = session.beginTransaction();
-            user_id = (Integer) session.save(user);
-            tx.commit();
-
+            return cr.list();
         } catch (Exception e) {
-            if (tx != null) {
-                tx.rollback();
-            }
             e.printStackTrace();
         }
-
-        return user_id;
+        
+        return null;
+    }
+    
+    public static boolean save(Users user) {
+        try {
+            session.clear();
+            tx = session.beginTransaction();
+            session.saveOrUpdate(user);
+            tx.commit();
+            
+            return true;
+        } catch (Exception e) {
+            if (tx != null) 
+                tx.rollback();
+            e.printStackTrace();
+            
+            return false;
+        }
+    }
+    
+    public static Users get(int id){
+    
+        Users user = null;
+        try {
+            Criteria cr = session.createCriteria(Users.class);
+            cr.add(Restrictions.eq("id", id));
+            
+            user = (Users) cr.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+    
+    public static boolean delete(Users user){
+    
+        try {
+            tx = session.beginTransaction();
+            session.delete(user);
+            tx.commit();
+            
+            return true;
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+            e.printStackTrace();
+            
+            return false;
+        }
     }
 
     @PreDestroy

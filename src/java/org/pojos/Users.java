@@ -23,12 +23,14 @@ import javax.persistence.TemporalType;
 public class Users implements java.io.Serializable {
 
     private int id;
-    private Employees employees;
+    private Clients client;
     private String username;
     private String password;
-    private Short status = 1;
+    private boolean status = true;
     private Date lastLogin = new Date();
 
+    private int client_id;
+    
     public Users() {
     }
 
@@ -38,9 +40,9 @@ public class Users implements java.io.Serializable {
         this.password = password;
     }
 
-    public Users(int id, Employees employees, String username, String password, Short status, Date lastLogin) {
+    public Users(int id, Clients client, String username, String password, boolean status, Date lastLogin) {
         this.id = id;
-        this.employees = employees;
+        this.client = client;
         this.username = username;
         this.password = password;
         this.status = status;
@@ -60,12 +62,12 @@ public class Users implements java.io.Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "emp_id")
-    public Employees getEmployees() {
-        return this.employees;
+    public Clients getClient() {
+        return this.client;
     }
 
-    public void setEmployees(Employees employees) {
-        this.employees = employees;
+    public void setClient(Clients client) {
+        this.client = client;
     }
 
     @Column(name = "username", nullable = false)
@@ -87,11 +89,11 @@ public class Users implements java.io.Serializable {
     }
 
     @Column(name = "status")
-    public Short getStatus() {
+    public boolean getStatus() {
         return this.status;
     }
 
-    public void setStatus(Short status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 
@@ -105,9 +107,17 @@ public class Users implements java.io.Serializable {
         this.lastLogin = lastLogin;
     }
 
+    public int getClient_id() {
+        return client_id;
+    }
+
+    public void setClient_id(int client_id) {
+        this.client_id = client_id;
+    }
+    
     @Override
     public String toString() {
-        return "Users{" + "id=" + id + ", employees=" + employees + ", username=" + username + ", password=" + password + ", status=" + status + ", lastLogin=" + lastLogin + '}';
+        return "Users{" + "id=" + id + ", username=" + username + ", password=" + password + ", status=" + status + '}';
     }
     
 }

@@ -36,40 +36,8 @@ public class OrgsView {
         activeIndex = 2;
     }
 
-    // update Organization
-    public String update(Orgs org) {
-
-        
-        if (org.getOrg_name().trim().length() > 0) {
-            
-            /* get Client by id  
-             * set it to Client Object of Org */
-            org.setClients(ClientsUtils.get(org.getClient_id()));
-            
-            // Save Org Object into DB
-            boolean updated = OrgsUtils.update(org);
-
-            if (updated) {
-
-                Message.addMessage(org.getOrg_name() + " organization Updated Successfully", "INFO");
-
-                org.setCanEdit(false);
-
-            } else {
-                Message.addMessage("Oops! something wrong happened, please try again!.", "ERROR");
-            }
-
-        } else {
-            Message.addMessage("Organization Title is Required", "WARN");
-        }
-
-        return null;
-    }
-
     public String save(Orgs org) {
 
-        System.out.println(">>>>>>>>>> " + org);
-        
         if (org.getOrg_name().trim().length() > 0) {
 
             /* get Client by id  

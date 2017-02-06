@@ -29,6 +29,7 @@ public class Clients implements java.io.Serializable {
     private String client_desc;
     private boolean client_status = true;
     private Set orgs = new HashSet(0);
+    private Set userses = new HashSet(0);
 
     private boolean canEdit;
 
@@ -77,6 +78,15 @@ public class Clients implements java.io.Serializable {
 
     public void setOrgs(Set orgs) {
         this.orgs = orgs;
+    }
+    
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="clients")
+    public Set getUserses() {
+        return this.userses;
+    }
+    
+    public void setUserses(Set userses) {
+        this.userses = userses;
     }
 
     public boolean isCanEdit() {

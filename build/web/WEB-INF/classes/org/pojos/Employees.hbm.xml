@@ -44,12 +44,7 @@
         <property name="isuser" type="boolean">
             <column name="isuser" not-null="true" />
         </property>
-        <set name="userses" table="users" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="emp_id" />
-            </key>
-            <one-to-many class="org.pojos.Users" />
-        </set>
+        
         <set name="actionsTranses" table="actions_trans" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="emp_id" />
