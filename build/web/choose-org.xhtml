@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="templates/template.xhtml">
+
+        <ui:param name="page_title" value="Login" />
+
+        <ui:define name="header" />
+
+
+        <ui:define name="css">
+
+            <h:outputStylesheet library="css" name="login.css" />
+
+        </ui:define>
+
+        <ui:define name="content" >
+            
+            <div class="form-container" >
+                <h:form>
+                    <div class="imgcontainer">
+
+                        <p:graphicImage library="images" name="login-avatar.png" styleClass="avatar" />  
+                    </div>
+
+                    <p:panelGrid columns="1" style="margin: 0 auto; border:none; width: 85%"> 
+
+                        <h:outputLabel value="#{lang['data.org']}" />
+                        <h:selectOneMenu 
+                            value="#{loginView.org_id}"
+                            styleClass="form-control" >
+                            <f:selectItems value="#{loginView.orgs}" var="org" itemLabel="#{org.org_name}" itemValue="#{org.id}" />
+                        </h:selectOneMenu>
+
+                    </p:panelGrid>
+                    <br />
+                    <div style="margin: 0 auto; border:none; width: 85%">
+                    <h:commandButton 
+                        action="#{loginView.submitOrg()}"
+                        value="#{lang['btn.ok']}"  
+                        styleClass="btn btn-default"
+                        style="width: 48%;"
+                        />
+                    &nbsp;
+                    <h:link 
+                        outcome="login" 
+                        value="#{lang['btn.cancel']}" 
+                        styleClass="btn btn-default"
+                        style="width: 48%;"/>
+                    </div>
+
+                </h:form>
+
+            </div>
+        </ui:define>
+
+
+    </ui:composition>
+
+</html>

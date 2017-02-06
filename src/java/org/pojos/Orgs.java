@@ -93,6 +93,6 @@ public class Orgs implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Orgs{" + "id=" + id + ", org_name=" + org_name + ", client_id=" + client_id + '}';
+        return "Orgs{" + "id=" + id + ", org_name=" + org_name + ", client_id=" + clients.getId() + '}';
     }
 }

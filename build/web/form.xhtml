@@ -10,15 +10,15 @@
         <h:form>
             <h:panelGrid columns="3" >
                 <h:outputLabel value="Username" />
-                <h:inputText id="username" value="#{userBean.test.username}" rendered="true" />
+                <h:inputText id="username" value="#{userSession.test.username}" rendered="true" />
                 <h:message for="username" />
                 
                 <h:outputLabel value="Password" />
-                <h:inputSecret id="password" value="#{userBean.test.password}" required="true" />
+                <h:inputSecret id="password" value="#{userSession.test.password}" required="true" />
                 <h:message for="password" />
                 
             </h:panelGrid>
-            <h:commandButton value="Adddd" action="#{userBean.add()}" />
+            <h:commandButton value="Adddd" action="#{userSession.add()}" />
         </h:form>
     </h:body>
 </html>

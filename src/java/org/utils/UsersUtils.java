@@ -27,7 +27,7 @@ public class UsersUtils {
     private static Session session = HibernateUtil.getSessionFactory().openSession();
     private static Transaction tx = null;
     
-    public static boolean login(String username, String password){
+    public static Users login(String username, String password){
     
         String sql = "SELECT * FROM users WHERE username = :username AND status = TRUE";
         try {
@@ -37,8 +37,8 @@ public class UsersUtils {
             query.setParameter("username", username);
             Users user = (Users) query.uniqueResult();
             
-            if(user.getPassword().equals(password))
-                return true;
+            if(user != null && user.getPassword().equals(password))
+                return user;
             
         } catch (Exception e) {
             if (tx != null) 
@@ -46,7 +46,7 @@ public class UsersUtils {
             e.printStackTrace();
         }
     
-        return false;
+        return null;
     }
     
     public static List<Users> list(boolean active){

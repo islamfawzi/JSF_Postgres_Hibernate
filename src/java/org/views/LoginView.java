@@ -5,12 +5,19 @@
  */
 package org.views;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import org.pojos.Orgs;
 import org.pojos.Users;
+import org.utils.OrgsUtils;
+import org.utils.UserSession;
 import org.utils.UsersUtils;
 
 /**
@@ -22,28 +29,51 @@ import org.utils.UsersUtils;
 public class LoginView {
 
     private Users user;
+    private int org_id;
+
+    Set<Orgs> orgs;
+
+    @ManagedProperty(value = "#{userSession}")
+    private UserSession userSession;
 
     public String login() {
 
-        boolean success = UsersUtils.login(user.getUsername(), user.getPassword());
-        
-        // if logging success set the User in the session
-        if (success) {
-            setLoginSession(user);
-            return "/index?faces-redirect=true";
+        user = UsersUtils.login(user.getUsername(), user.getPassword());
+
+        // if login success
+        if (user != null) {
+            
+            userSession.setUser(user);
+            
+            // if System User
+            if (user.getId() == 0) {
+                return "/index?faces-redirect=true";
+            } // if not System User
+            else {
+                return "choose-org";
+            }
+        } // if login did not success
+        else {
+            return "login?faces-redirect=true";
         }
 
-        return "login";
     }
-    
-    public String logout(){
-    
+
+    public String submitOrg() {
+        
+        Orgs org = OrgsUtils.get(org_id);
+        userSession.setOrg(org);
+        return "/index?faces-redirect=true";
+    }
+
+    public String logout() {
+
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/login?faces-redirect=true";
     }
 
     private static void setLoginSession(Users user) {
-        
+
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         session.setAttribute("loggedUser", user);
     }
@@ -61,4 +91,41 @@ public class LoginView {
         this.user = user;
     }
 
+    
+
+    public int getOrg_id() {
+        return org_id;
+    }
+
+    public void setOrg_id(int org_id) {
+        this.org_id = org_id;
+    }
+
+    public Set<Orgs> getOrgs() {
+        Users user = userSession.getUser();
+        if (user != null) {
+            orgs = user.getClient().getOrgs();
+            for(Orgs org : orgs){
+                if(!org.getOrg_status()){
+                    orgs.remove(org);
+                }
+            }
+        }
+        return orgs;
+    }
+
+    public void setOrgs(Set<Orgs> orgs) {
+        this.orgs = orgs;
+    }
+
+    public UserSession getUserSession() {
+        return userSession;
+    }
+
+    public void setUserSession(UserSession userSession) {
+        this.userSession = userSession;
+    }
+
+    
+    
 }
