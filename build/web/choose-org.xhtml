@@ -34,6 +34,8 @@
                         <h:selectOneMenu 
                             value="#{loginView.org_id}"
                             styleClass="form-control" >
+                            
+                            <f:selectItem itemLabel="*" itemValue="0" /> 
                             <f:selectItems value="#{loginView.orgs}" var="org" itemLabel="#{org.org_name}" itemValue="#{org.id}" />
                         </h:selectOneMenu>
 

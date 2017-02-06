@@ -31,5 +31,13 @@
             </key>
             <one-to-many class="org.pojos.Users" />
         </set>
+        
+        <set name="positions" table="positions" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="client_id" />
+            </key>
+            <one-to-many class="org.pojos.Positions" />
+        </set>
+        
     </class>
 </hibernate-mapping>

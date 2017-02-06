@@ -20,5 +20,11 @@
             </key>
             <one-to-many class="org.pojos.Employees" />
         </set>
+        <many-to-one name="client" class="org.pojos.Clients" fetch="select">
+            <column name="client_id" />
+        </many-to-one>
+        <many-to-one name="org" class="org.pojos.Orgs" fetch="select">
+            <column name="org_id" />
+        </many-to-one>
     </class>
 </hibernate-mapping>

@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import org.pojos.Positions;
 import org.utils.Message;
 import org.utils.PositionsUtils;
+import org.utils.UserSession;
 
 /**
  *
@@ -19,6 +21,9 @@ public class PositionsView {
 
     private Positions position;
     private List<Positions> positions;
+
+    @ManagedProperty(value = "#{userSession}")
+    private UserSession userSession;
 
     // set canEdit to true
     public void edit(Positions pos) {
@@ -40,7 +45,7 @@ public class PositionsView {
     }
 
     public void save() {
-        
+
         if (this.position.getPosTitle().trim().length() > 0) {
 
             boolean added = PositionsUtils.save(this.position);
@@ -67,14 +72,14 @@ public class PositionsView {
     }
 
     @PostConstruct
-    private void init(){
+    private void init() {
         this.position = new Positions();
     }
-    
+
     public List<Positions> getPositions() {
 
         positions = new ArrayList<Positions>();
-        positions = PositionsUtils.list();
+        positions = PositionsUtils.list(userSession.getUser(), userSession.getOrg());
         return positions;
     }
 
@@ -88,6 +93,14 @@ public class PositionsView {
 
     public void setPosition(Positions position) {
         this.position = position;
+    }
+
+    public UserSession getUserSession() {
+        return userSession;
+    }
+
+    public void setUserSession(UserSession userSession) {
+        this.userSession = userSession;
     }
 
 }

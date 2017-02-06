@@ -42,9 +42,9 @@ public class LoginView {
 
         // if login success
         if (user != null) {
-            
+
             userSession.setUser(user);
-            
+
             // if System User
             if (user.getId() == 0) {
                 return "/index?faces-redirect=true";
@@ -60,9 +60,12 @@ public class LoginView {
     }
 
     public String submitOrg() {
-        
-        Orgs org = OrgsUtils.get(org_id);
-        userSession.setOrg(org);
+
+        if (org_id > 0) {
+            Orgs org = OrgsUtils.get(org_id);
+            userSession.setOrg(org);
+        }
+
         return "/index?faces-redirect=true";
     }
 
@@ -91,8 +94,6 @@ public class LoginView {
         this.user = user;
     }
 
-    
-
     public int getOrg_id() {
         return org_id;
     }
@@ -105,8 +106,8 @@ public class LoginView {
         Users user = userSession.getUser();
         if (user != null) {
             orgs = user.getClient().getOrgs();
-            for(Orgs org : orgs){
-                if(!org.getOrg_status()){
+            for (Orgs org : orgs) {
+                if (!org.getOrg_status()) {
                     orgs.remove(org);
                 }
             }
@@ -126,6 +127,4 @@ public class LoginView {
         this.userSession = userSession;
     }
 
-    
-    
 }

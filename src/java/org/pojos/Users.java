@@ -61,7 +61,7 @@ public class Users implements java.io.Serializable {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "emp_id")
+    @JoinColumn(name = "client_id")
     public Clients getClient() {
         return this.client;
     }

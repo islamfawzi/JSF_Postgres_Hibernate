@@ -1,5 +1,7 @@
 package org.pojos;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +10,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -23,6 +26,8 @@ public class Orgs implements java.io.Serializable {
     private String org_desc;
     private boolean org_status = true;
     private Clients clients;
+
+    private Set positions = new HashSet(0);
 
     private int client_id;
     private boolean canEdit = false;
@@ -73,6 +78,15 @@ public class Orgs implements java.io.Serializable {
 
     public void setClients(Clients clients) {
         this.clients = clients;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "orgs")
+    public Set getPositions() {
+        return positions;
+    }
+
+    public void setPositions(Set positions) {
+        this.positions = positions;
     }
 
     public boolean isCanEdit() {
