@@ -1,6 +1,7 @@
 
 package org.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
@@ -10,6 +11,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.pojos.Clients;
 import org.pojos.Orgs;
 
 /**
@@ -23,7 +25,25 @@ public class OrgsUtils {
 private static Session session = HibernateUtil.getSessionFactory().openSession();
     private static Transaction tx = null;
     
-    public static List<Orgs> list(){
+    public static List<Orgs> list(boolean active){
+         
+         List<Orgs> orgs = new ArrayList<>();
+         try {
+             Criteria cr = session.createCriteria(Orgs.class);
+             
+             if(active)
+                 cr.add(Restrictions.eq("orgStatus", true));
+             
+             orgs = cr.list();
+             
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+         
+         return orgs;
+    }
+    
+    public static List<Orgs> list2(){
     
         String sql = "SELECT * FROM orgs ORDER BY id ASC";
         List<Orgs> orgs = null;
@@ -43,6 +63,21 @@ private static Session session = HibernateUtil.getSessionFactory().openSession()
             e.printStackTrace();
         }
         return orgs;
+    }
+    
+    public static List<Orgs> getOrgsPerClient(Clients client){
+    
+        try {
+            Criteria cr = session.createCriteria(Orgs.class);
+            
+            cr.add(Restrictions.eq("clients", client));
+            cr.add(Restrictions.eq("orgStatus", true));
+            
+            return cr.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
     
     public static Orgs get(int id){

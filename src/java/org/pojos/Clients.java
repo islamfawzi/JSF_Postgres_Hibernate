@@ -319,4 +319,9 @@ public class Clients implements java.io.Serializable {
         this.canEdit = canEdit;
     }
 
+    @Override
+    public String toString() {
+        return "Clients{" + "id=" + id + ", clientName=" + clientName + '}';
+    }
+
 }

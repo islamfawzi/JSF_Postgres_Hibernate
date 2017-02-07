@@ -298,4 +298,9 @@ public class Orgs implements java.io.Serializable {
         this.canEdit = canEdit;
     }
 
+    @Override
+    public String toString() {
+        return "Orgs{" + "id=" + id + ", orgName=" + orgName + '}';
+    }
+
 }

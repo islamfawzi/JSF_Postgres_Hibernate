@@ -29,6 +29,9 @@ public class Positions implements java.io.Serializable {
     private boolean posStatus = true;
     private Set employeeses = new HashSet(0);
 
+    private int client_id;
+    private int org_id;
+    
     private boolean canEdit = false;
 
     public Positions() {
@@ -107,6 +110,22 @@ public class Positions implements java.io.Serializable {
         this.employeeses = employeeses;
     }
 
+    public int getClient_id() {
+        return client_id;
+    }
+
+    public void setClient_id(int client_id) {
+        this.client_id = client_id;
+    }
+
+    public int getOrg_id() {
+        return org_id;
+    }
+
+    public void setOrg_id(int org_id) {
+        this.org_id = org_id;
+    }
+    
     public boolean isCanEdit() {
         return canEdit;
     }

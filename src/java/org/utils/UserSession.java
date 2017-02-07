@@ -1,6 +1,7 @@
 
 package org.utils;
 
+import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import org.pojos.Orgs;
@@ -12,7 +13,7 @@ import org.pojos.Users;
  */
 @ManagedBean
 @SessionScoped
-public class UserSession {
+public class UserSession implements Serializable{
 
     private Users user;
     private Orgs org;

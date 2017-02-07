@@ -48,6 +48,19 @@ public class PositionsUtils {
         }
         return positions;
     }
+    
+    public static Positions get(int pos_id){
+        
+        try {
+            Criteria cr = session.createCriteria(Positions.class);
+            cr.add(Restrictions.eq("id", pos_id));
+            
+            return (Positions) cr.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public static List<Positions> list(Users user, Orgs org) {
 
@@ -99,9 +112,10 @@ public class PositionsUtils {
     public static boolean save(Positions position) {
 
         try {
-
+            session.clear();
+            
             tx = session.beginTransaction();
-            session.save(position);
+            session.saveOrUpdate(position);
             tx.commit();
 
             return true;

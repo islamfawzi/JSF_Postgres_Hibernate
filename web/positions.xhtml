@@ -15,12 +15,79 @@
 
             <p:panel header="#{lang['page.header.positions']}">
 
-                <h:form>
-                    <!-- add New -->
-                    <p:commandButton id="newBtn" value="#{lang['btn.new']}" icon="ui-icon-plus" type="button" style="margin-bottom: 15px;" />
-                    <p:overlayPanel id="newPanel" for="newBtn" hideEffect="fade" style="width:600px">
+                <p:tabView activeIndex="#{positionsView.activeIndex}">
+
+                    <!-- List Tab -->
+                    <p:tab title="#{lang['tab.list']}">
+
                         <h:form>
-                            <h:panelGrid columns="5" width="100%">
+
+                            <p:dataTable id="tbl" var="position" value="#{positionsView.positions}"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginator="true" 
+                                         paginatorPosition="bottom" 
+                                         rowsPerPageTemplate="5,10,15"
+                                         rows="10" 
+                                         style="text-align: center">
+
+
+                                <p:column headerText="#{lang['data.id']}">
+                                    <h:outputText value="#{position.id}" />
+                                </p:column>
+
+                                <p:column headerText="#{lang['data.title']}">
+                                    <h:outputText 
+                                        value="#{position.posTitle}" 
+                                        rendered="#{not position.canEdit}" />
+                                    <h:inputText 
+                                        value="#{position.posTitle}"
+                                        styleClass="form-control"
+                                        rendered="#{position.canEdit}" />
+                                </p:column>
+
+                                <p:column headerText="#{lang['data.status']}">
+                                    <p:selectBooleanButton  
+                                        disabled="#{not position.canEdit}" 
+                                        id="status" 
+                                        value="#{position.posStatus}" 
+                                        onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
+                                        onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                        style="width:auto; margin-left: 15px;">
+                                    </p:selectBooleanButton>
+                                </p:column>
+
+                                <p:column>
+                                    <h:commandButton 
+                                        styleClass="btn btn-success" 
+                                        value="#{lang['btn.edit']}"
+                                        action="#{positionsView.edit(position)}"
+                                        rendered="#{not position.canEdit}" />
+
+                                    &nbsp;
+                                    <h:commandButton
+                                        styleClass="btn btn-danger" 
+                                        value="#{lang['btn.delete']}"
+                                        action="#{positionsView.delete(position)}"
+                                        rendered="#{not position.canEdit}" />
+
+                                    <h:commandButton 
+                                        styleClass="btn btn-success" 
+                                        value="#{lang['btn.save']}"
+                                        action="#{positionsView.update(position)}"
+                                        rendered="#{position.canEdit}" />
+                                </p:column>
+
+                            </p:dataTable>
+
+                        </h:form>
+                    </p:tab>
+                    <!-- End List -->
+
+                    <!-- Add New Tab -->
+                    <p:tab title="#{lang['tab.new']}">
+
+                        <h:form>
+                            <h:panelGrid columns="1" width="40%">
                                 <h:outputLabel for="title" value="#{lang['data.title']} *" />
                                 <p:inputText 
                                     id="title"
@@ -28,91 +95,104 @@
                                     styleClass="form-control"
                                     required="true" 
                                     label="#{lang['data.title']}"/>
-
+                                <br />
+                                
+                                <h:outputLabel 
+                                    for="client" 
+                                    value="#{lang['data.client']}"
+                                    rendered="#{positionsView.clients.size() > 0}" 
+                                    />
+                                <h:selectOneMenu 
+                                    id="client"
+                                    readonly="#{userSession.user.id != 0}"
+                                    value="#{positionsView.client_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.client']}"
+                                    rendered="#{positionsView.clients.size() > 0}"
+                                    >
+                                    <f:selectItems value="#{positionsView.clients}" var="client" itemLabel="#{client.clientName}" itemValue="#{client.id}" />
+                                    <p:ajax listener="#{positionsView.ajax()}" update="org" />
+                                </h:selectOneMenu>
+                                
+                                
+                                <br />
+                                
+                                <h:outputLabel 
+                                    for="org" 
+                                    value="#{lang['data.org']}"
+                                    />
+                                <h:selectOneMenu 
+                                    id="org"
+                                    readonly="#{userSession.user.id != 0 and userSession.org != null}"
+                                    value="#{positionsView.org_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.org']}"
+                                    rendered="#{positionsView.orgs.size() > 0}"
+                                    >
+                                    <f:selectItems value="#{positionsView.orgs}" var="org" itemLabel="#{org.orgName}" itemValue="#{org.id}" />
+                                </h:selectOneMenu>
+                                <h:outputLabel value="#{lang['data.no-orgs']}" rendered="#{positionsView.orgs.size() == 0}" />
+                                
+                                    
+                                
+                                <br />
                                 <p:selectBooleanButton 
                                     id="status" 
                                     value="#{positionsView.position.posStatus}" 
                                     onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
                                     onIcon="ui-icon-check" offIcon="ui-icon-close" 
-                                    style="width:auto; margin-left: 15px;">
+                                    style="width:auto;">
                                 </p:selectBooleanButton>
 
-                                <h:commandButton 
-                                    action="#{positionsView.save}"
-                                    value="#{lang['btn.save']}" 
-                                    styleClass="btn btn-success" />
                             </h:panelGrid>
+                            <br />
+                            <p:commandButton 
+                                action="#{positionsView.save(positionsView.position)}"
+                                value="#{lang['btn.save']}" 
+                                ajax="false"
+                                styleClass="btn btn-success" />
                         </h:form>
-                    </p:overlayPanel>
-                </h:form>
 
-                <!-- end add New -->
+                    </p:tab>
+                    <!-- End Add New Tab -->
+                    
+                     <!-- Edit Tab -->
+                     <c:set var="editTabClass" value="#{positionsView.activeIndex != 2 ? 'hide' : ''}" />
+                     
+                    <p:tab title="#{lang['tab.edit']} #{positionsView.update_position.posTitle}" titleStyleClass="#{editTabClass}">
 
+                        <h:form>
+                            <h:panelGrid id="update-grid" columns="1" width="40%">
+                                <h:outputLabel for="update-title" value="#{lang['data.title']} *" />
+                                <p:inputText 
+                                    id="update-title"
+                                    value="#{positionsView.update_position.posTitle}"
+                                    styleClass="form-control"
+                                    required="true" 
+                                    label="#{lang['data.title']}"/>
+                                <br />
+                                <p:selectBooleanButton 
+                                    id="update-status" 
+                                    value="#{positionsView.update_position.posStatus}" 
+                                    onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
+                                    onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                    style="width:auto;">
+                                </p:selectBooleanButton>
 
-                <!-- List -->
-                <h:form>
+                            </h:panelGrid>
+                            <br />
+                            <h:inputHidden value="#{positionsView.update_position.id}" />
+                            <p:commandButton 
+                                action="#{positionsView.save(positionsView.update_position)}"
+                                value="#{lang['btn.save']}" 
+                                ajax="false"
+                                styleClass="btn btn-success" />
+                        </h:form>
 
-                    <p:dataTable id="tbl" var="position" value="#{positionsView.positions}"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 paginator="true" 
-                                 paginatorPosition="bottom" 
-                                 rowsPerPageTemplate="5,10,15"
-                                 rows="10" 
-                                 style="text-align: center">
+                    </p:tab>
+                    <!-- End Edit Tab -->
 
-
-                        <p:column headerText="#{lang['data.id']}">
-                            <h:outputText value="#{position.id}" />
-                        </p:column>
-
-                        <p:column headerText="#{lang['data.title']}">
-                            <h:outputText 
-                                value="#{position.posTitle}" 
-                                rendered="#{not position.canEdit}" />
-                            <h:inputText 
-                                value="#{position.posTitle}"
-                                styleClass="form-control"
-                                rendered="#{position.canEdit}" />
-                        </p:column>
-
-                        <p:column headerText="#{lang['data.status']}">
-                            <p:selectBooleanButton  
-                                disabled="#{not position.canEdit}" 
-                                id="status" 
-                                value="#{position.posStatus}" 
-                                onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
-                                onIcon="ui-icon-check" offIcon="ui-icon-close" 
-                                style="width:auto; margin-left: 15px;">
-                            </p:selectBooleanButton>
-                        </p:column>
-
-                        <p:column>
-                            <h:commandButton 
-                                styleClass="btn btn-success" 
-                                value="#{lang['btn.edit']}"
-                                action="#{positionsView.edit(position)}"
-                                rendered="#{not position.canEdit}" />
-
-                            &nbsp;
-                            <h:commandButton
-                                styleClass="btn btn-danger" 
-                                value="#{lang['btn.delete']}"
-                                action="#{positionsView.delete(position)}"
-                                rendered="#{not position.canEdit}" />
-
-                            <h:commandButton 
-                                styleClass="btn btn-success" 
-                                value="#{lang['btn.save']}"
-                                action="#{positionsView.update(position)}"
-                                rendered="#{position.canEdit}" />
-                        </p:column>
-
-                    </p:dataTable>
-
-                </h:form>
-
-                <!-- End List -->
-
+                </p:tabView>
 
             </p:panel>
 

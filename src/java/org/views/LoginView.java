@@ -31,7 +31,7 @@ public class LoginView {
     private Users user;
     private int org_id;
 
-    Set<Orgs> orgs;
+    List<Orgs> orgs;
 
     @ManagedProperty(value = "#{userSession}")
     private UserSession userSession;
@@ -102,20 +102,22 @@ public class LoginView {
         this.org_id = org_id;
     }
 
-    public Set<Orgs> getOrgs() {
+    public List<Orgs> getOrgs() {
         Users user = userSession.getUser();
         if (user != null) {
-            orgs = user.getClients().getOrgses();
-            for (Orgs org : orgs) {
-                if (!org.isOrgStatus()) {
-                    orgs.remove(org);
-                }
+            
+            if(user.getId() == 0){
+                // System
+                orgs = OrgsUtils.list(true);
+            }else{
+                // Others
+                orgs = OrgsUtils.getOrgsPerClient(user.getClients());
             }
         }
         return orgs;
     }
 
-    public void setOrgs(Set<Orgs> orgs) {
+    public void setOrgs(List<Orgs> orgs) {
         this.orgs = orgs;
     }
 

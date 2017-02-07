@@ -96,7 +96,7 @@ public class OrgsView {
     
     public List<Orgs> getOrgs() {
         orgs = new ArrayList<>();
-        orgs = OrgsUtils.list();
+        orgs = OrgsUtils.list(false);
         return orgs;
     }
 
