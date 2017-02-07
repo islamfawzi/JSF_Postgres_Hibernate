@@ -51,9 +51,8 @@ public class Orgs implements java.io.Serializable {
     public Orgs() {
     }
 
-    public Orgs(int id, boolean orgStatus) {
+    public Orgs(int id) {
         this.id = id;
-        this.orgStatus = orgStatus;
     }
 
     public Orgs(int id, Clients clients, String orgName, boolean orgStatus, String orgDesc, Set periodses, Set calenders, Set degreeses, Set positionses, Set payrollEmployeeItemses, Set employeeses, Set departmentses, Set payrollItemsCatses, Set actionsTranses, Set citieses, Set payrollProcesseses, Set maritalStatuses, Set payrollItemses, Set actionTypeses, Set militaryStatuses, Set payrollTemplateses, Set payrollFormulases) {

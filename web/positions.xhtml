@@ -37,17 +37,22 @@
 
                                 <p:column headerText="#{lang['data.title']}">
                                     <h:outputText 
-                                        value="#{position.posTitle}" 
-                                        rendered="#{not position.canEdit}" />
-                                    <h:inputText 
-                                        value="#{position.posTitle}"
-                                        styleClass="form-control"
-                                        rendered="#{position.canEdit}" />
+                                        value="#{position.posTitle}"  />
+                                </p:column>
+                                
+                                <p:column headerText="#{lang['data.client']}" >
+                                    <h:outputText
+                                        value="#{position.clients.clientName}" />
+                                </p:column>
+                                
+                                <p:column headerText="#{lang['data.org']}" >
+                                    <h:outputText
+                                        value="#{position.orgs.orgName}" />
                                 </p:column>
 
                                 <p:column headerText="#{lang['data.status']}">
                                     <p:selectBooleanButton  
-                                        disabled="#{not position.canEdit}" 
+                                        disabled="true" 
                                         id="status" 
                                         value="#{position.posStatus}" 
                                         onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
@@ -61,20 +66,15 @@
                                         styleClass="btn btn-success" 
                                         value="#{lang['btn.edit']}"
                                         action="#{positionsView.edit(position)}"
-                                        rendered="#{not position.canEdit}" />
+                                        />
 
                                     &nbsp;
                                     <h:commandButton
                                         styleClass="btn btn-danger" 
                                         value="#{lang['btn.delete']}"
                                         action="#{positionsView.delete(position)}"
-                                        rendered="#{not position.canEdit}" />
+                                        />
 
-                                    <h:commandButton 
-                                        styleClass="btn btn-success" 
-                                        value="#{lang['btn.save']}"
-                                        action="#{positionsView.update(position)}"
-                                        rendered="#{position.canEdit}" />
                                 </p:column>
 
                             </p:dataTable>
@@ -96,45 +96,42 @@
                                     required="true" 
                                     label="#{lang['data.title']}"/>
                                 <br />
-                                
+
                                 <h:outputLabel 
                                     for="client" 
                                     value="#{lang['data.client']}"
-                                    rendered="#{positionsView.clients.size() > 0}" 
+                                    rendered="#{clientOrgBean.clients.size() > 0}" 
                                     />
                                 <h:selectOneMenu 
                                     id="client"
-                                    readonly="#{userSession.user.id != 0}"
-                                    value="#{positionsView.client_id}"
+                                    disabled="#{userSession.user.id != 0}"
+                                    value="#{clientOrgBean.client_id}"
                                     styleClass="form-control"
                                     required="true" label="#{lang['data.client']}"
-                                    rendered="#{positionsView.clients.size() > 0}"
+                                    rendered="#{clientOrgBean.clients.size() > 0}"
                                     >
-                                    <f:selectItems value="#{positionsView.clients}" var="client" itemLabel="#{client.clientName}" itemValue="#{client.id}" />
-                                    <p:ajax listener="#{positionsView.ajax()}" update="org" />
+                                    <f:selectItems value="#{clientOrgBean.clients}" var="client" itemLabel="#{client.clientName}" itemValue="#{client.id}" />
+                                    <p:ajax listener="#{clientOrgBean.ajax()}" update="org" />
                                 </h:selectOneMenu>
-                                
-                                
+
                                 <br />
-                                
+
                                 <h:outputLabel 
                                     for="org" 
                                     value="#{lang['data.org']}"
                                     />
                                 <h:selectOneMenu 
                                     id="org"
-                                    readonly="#{userSession.user.id != 0 and userSession.org != null}"
-                                    value="#{positionsView.org_id}"
+                                    disabled="#{userSession.user.id != 0 and userSession.org != null}"
+                                    value="#{clientOrgBean.org_id}"
                                     styleClass="form-control"
                                     required="true" label="#{lang['data.org']}"
-                                    rendered="#{positionsView.orgs.size() > 0}"
+                                    rendered="#{clientOrgBean.orgs.size() > 0}"
                                     >
-                                    <f:selectItems value="#{positionsView.orgs}" var="org" itemLabel="#{org.orgName}" itemValue="#{org.id}" />
+                                    <f:selectItems value="#{clientOrgBean.orgs}" var="org" itemLabel="#{org.orgName}" itemValue="#{org.id}" />
                                 </h:selectOneMenu>
-                                <h:outputLabel value="#{lang['data.no-orgs']}" rendered="#{positionsView.orgs.size() == 0}" />
-                                
-                                    
-                                
+                                <h:outputLabel value="#{lang['data.no-orgs']}" rendered="#{clientOrgBean.orgs.size() == 0}" />
+
                                 <br />
                                 <p:selectBooleanButton 
                                     id="status" 
@@ -155,10 +152,10 @@
 
                     </p:tab>
                     <!-- End Add New Tab -->
-                    
-                     <!-- Edit Tab -->
-                     <c:set var="editTabClass" value="#{positionsView.activeIndex != 2 ? 'hide' : ''}" />
-                     
+
+                    <!-- Edit Tab -->
+                    <c:set var="editTabClass" value="#{positionsView.activeIndex != 2 ? 'hide' : ''}" />
+
                     <p:tab title="#{lang['tab.edit']} #{positionsView.update_position.posTitle}" titleStyleClass="#{editTabClass}">
 
                         <h:form>
@@ -171,6 +168,43 @@
                                     required="true" 
                                     label="#{lang['data.title']}"/>
                                 <br />
+
+                                <h:outputLabel 
+                                    for="client" 
+                                    value="#{lang['data.client']}"
+                                    />
+                                <h:selectOneMenu 
+                                    id="client"
+                                    disabled="#{userSession.user.id != 0}"
+                                    value="#{clientOrgBean.client_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.client']}"
+                                    rendered="#{clientOrgBean.clients.size() > 0}"
+                                    >
+                                    <f:selectItems value="#{clientOrgBean.clients}" var="client" itemLabel="#{client.clientName}" itemValue="#{client.id}" />
+                                    <p:ajax listener="#{clientOrgBean.ajax()}" update="org" />
+                                </h:selectOneMenu>
+
+                                <br />
+
+                                <h:outputLabel 
+                                    for="org" 
+                                    value="#{lang['data.org']}"
+                                    />
+                                <h:selectOneMenu 
+                                    id="org"
+                                    disabled="#{userSession.user.id != 0 and userSession.org != null}"
+                                    value="#{clientOrgBean.org_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.org']}"
+                                    rendered="#{clientOrgBean.orgs.size() > 0}"
+                                    >
+                                    <f:selectItems value="#{clientOrgBean.orgs}" var="org" itemLabel="#{org.orgName}" itemValue="#{org.id}" />
+                                </h:selectOneMenu>
+                                <h:outputLabel value="#{lang['data.no-orgs']}" rendered="#{clientOrgBean.orgs.size() == 0}" />
+                                
+                                <br/>
+                                
                                 <p:selectBooleanButton 
                                     id="update-status" 
                                     value="#{positionsView.update_position.posStatus}" 

@@ -68,17 +68,17 @@ public class PositionsUtils {
         try {
             Criteria cr = session.createCriteria(Positions.class);
             
-//            if(user.getId() != 0){
-//                // System User
-//                if(org != null){
-//                    // Orgs Positions
-//                    cr.add(Restrictions.eq("org_id", org.getId()));
-//                }
-//                else{
-//                    // Client Positions
-//                    cr.add(Restrictions.eq("client_id", user.getClients().getId()));
-//                }
-//            }
+            if(user.getId() != 0){
+                // System User
+                if(org != null){
+                    // Orgs Positions
+                    cr.add(Restrictions.eq("orgs", org));
+                }
+                else{
+                    // Client Positions
+                   cr.add(Restrictions.eq("clients", user.getClients()));
+                }
+            }
             
             cr.addOrder(Order.asc("id"));
             positions = cr.list();

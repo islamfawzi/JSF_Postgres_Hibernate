@@ -51,9 +51,8 @@ public class Clients implements java.io.Serializable {
     public Clients() {
     }
 
-    public Clients(int id, boolean clientStatus) {
+    public Clients(int id) {
         this.id = id;
-        this.clientStatus = clientStatus;
     }
 
     public Clients(int id, String clientName, boolean clientStatus, String clientDesc, Set citieses, Set employeeses, Set payrollTemplateses, Set actionsTranses, Set payrollProcesseses, Set payrollFormulases, Set payrollEmployeeItemses, Set orgses, Set userses, Set payrollItemses, Set periodses, Set actionsesForClientId, Set calenders, Set degreeses, Set payrollItemsCatses, Set actionTypeses, Set departmentses, Set militaryStatuses, Set actionsesForOrgId, Set maritalStatuses, Set positionses) {

@@ -114,4 +114,10 @@ public class Users implements java.io.Serializable {
         this.client_id = client_id;
     }
 
+    @Override
+    public String toString() {
+        return "Users{" + "id=" + id + ", username=" + username + '}';
+    }
+    
+
 }
