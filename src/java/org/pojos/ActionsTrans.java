@@ -1,5 +1,5 @@
 package org.pojos;
-// Generated Jan 30, 2017 1:15:59 PM by Hibernate Tools 4.3.1
+// Generated Feb 6, 2017 5:18:07 PM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -31,7 +31,9 @@ public class ActionsTrans  implements java.io.Serializable {
 
      private int id;
      private Actions actions;
+     private Clients clients;
      private Employees employees;
+     private Orgs orgs;
      private Integer actionId;
      private Date createdAt;
      private BigDecimal value;
@@ -47,9 +49,11 @@ public class ActionsTrans  implements java.io.Serializable {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-    public ActionsTrans(Actions actions, Employees employees, Integer actionId, Date createdAt, BigDecimal value, Short status, Date updatedAt) {
+    public ActionsTrans(Actions actions, Clients clients, Employees employees, Orgs orgs, Integer actionId, Date createdAt, BigDecimal value, Short status, Date updatedAt) {
        this.actions = actions;
+       this.clients = clients;
        this.employees = employees;
+       this.orgs = orgs;
        this.actionId = actionId;
        this.createdAt = createdAt;
        this.value = value;
@@ -79,6 +83,16 @@ public class ActionsTrans  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="client_id")
+    public Clients getClients() {
+        return this.clients;
+    }
+    
+    public void setClients(Clients clients) {
+        this.clients = clients;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="emp_id")
     public Employees getEmployees() {
         return this.employees;
@@ -86,6 +100,16 @@ public class ActionsTrans  implements java.io.Serializable {
     
     public void setEmployees(Employees employees) {
         this.employees = employees;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="org_id")
+    public Orgs getOrgs() {
+        return this.orgs;
+    }
+    
+    public void setOrgs(Orgs orgs) {
+        this.orgs = orgs;
     }
 
     

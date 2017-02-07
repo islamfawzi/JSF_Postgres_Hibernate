@@ -1,5 +1,5 @@
 package org.pojos;
-// Generated Jan 30, 2017 1:15:59 PM by Hibernate Tools 4.3.1
+// Generated Feb 6, 2017 5:18:07 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -27,6 +27,8 @@ public class PayrollItems  implements java.io.Serializable {
 
 
      private int id;
+     private Clients clients;
+     private Orgs orgs;
      private PayrollItemsCats payrollItemsCats;
      private String title;
      private String type;
@@ -45,8 +47,10 @@ public class PayrollItems  implements java.io.Serializable {
     public PayrollItems(int id) {
         this.id = id;
     }
-    public PayrollItems(int id, PayrollItemsCats payrollItemsCats, String title, String type, Short status, Character process, Date activeFrom, Set processesAmountses, Set payrollTemplatesItemses, Set payrollFormulases, Set payrollEmployeeItemses) {
+    public PayrollItems(int id, Clients clients, Orgs orgs, PayrollItemsCats payrollItemsCats, String title, String type, Short status, Character process, Date activeFrom, Set processesAmountses, Set payrollTemplatesItemses, Set payrollFormulases, Set payrollEmployeeItemses) {
        this.id = id;
+       this.clients = clients;
+       this.orgs = orgs;
        this.payrollItemsCats = payrollItemsCats;
        this.title = title;
        this.type = type;
@@ -69,6 +73,26 @@ public class PayrollItems  implements java.io.Serializable {
     
     public void setId(int id) {
         this.id = id;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="client_id")
+    public Clients getClients() {
+        return this.clients;
+    }
+    
+    public void setClients(Clients clients) {
+        this.clients = clients;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="org_id")
+    public Orgs getOrgs() {
+        return this.orgs;
+    }
+    
+    public void setOrgs(Orgs orgs) {
+        this.orgs = orgs;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)

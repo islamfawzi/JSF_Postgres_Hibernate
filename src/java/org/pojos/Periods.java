@@ -1,5 +1,5 @@
 package org.pojos;
-// Generated Jan 30, 2017 1:15:59 PM by Hibernate Tools 4.3.1
+// Generated Feb 6, 2017 5:18:07 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -28,6 +28,8 @@ public class Periods  implements java.io.Serializable {
 
      private int id;
      private Calender calender;
+     private Clients clients;
+     private Orgs orgs;
      private Date startDate;
      private Date endDate;
      private Character status;
@@ -42,9 +44,11 @@ public class Periods  implements java.io.Serializable {
     public Periods(int id) {
         this.id = id;
     }
-    public Periods(int id, Calender calender, Date startDate, Date endDate, Character status, Date transDate, Set payrollProcesseses, Set processesAmountses) {
+    public Periods(int id, Calender calender, Clients clients, Orgs orgs, Date startDate, Date endDate, Character status, Date transDate, Set payrollProcesseses, Set processesAmountses) {
        this.id = id;
        this.calender = calender;
+       this.clients = clients;
+       this.orgs = orgs;
        this.startDate = startDate;
        this.endDate = endDate;
        this.status = status;
@@ -73,6 +77,26 @@ public class Periods  implements java.io.Serializable {
     
     public void setCalender(Calender calender) {
         this.calender = calender;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="client_id")
+    public Clients getClients() {
+        return this.clients;
+    }
+    
+    public void setClients(Clients clients) {
+        this.clients = clients;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="org_id")
+    public Orgs getOrgs() {
+        return this.orgs;
+    }
+    
+    public void setOrgs(Orgs orgs) {
+        this.orgs = orgs;
     }
 
     @Temporal(TemporalType.TIMESTAMP)

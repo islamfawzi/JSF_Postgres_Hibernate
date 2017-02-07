@@ -105,9 +105,9 @@ public class LoginView {
     public Set<Orgs> getOrgs() {
         Users user = userSession.getUser();
         if (user != null) {
-            orgs = user.getClient().getOrgs();
+            orgs = user.getClients().getOrgses();
             for (Orgs org : orgs) {
-                if (!org.getOrg_status()) {
+                if (!org.isOrgStatus()) {
                     orgs.remove(org);
                 }
             }

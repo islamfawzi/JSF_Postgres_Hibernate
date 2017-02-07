@@ -32,15 +32,35 @@ public class ClientsView {
         
         activeIndex = 2;
     }
+    
+    public String update(Clients client) {
+
+        if (client.getClientName().trim().length() > 0) {
+
+            boolean added = ClientsUtils.update(client);
+
+            if (added) {
+                Message.addMessage(client.getClientName() + " client Added Successfully", "INFO");
+
+                return "clients.xhtml?faces-redirect=true";
+            } else {
+                Message.addMessage("Oops! something wrong happened, please try again!.", "ERROR");
+            }
+        } else {
+            Message.addMessage("Client Title is Required", "WARN");
+        }
+
+        return null;
+    }
 
     public String save(Clients client) {
 
-        if (client.getClient_name().trim().length() > 0) {
+        if (client.getClientName().trim().length() > 0) {
 
             boolean added = ClientsUtils.save(client);
 
             if (added) {
-                Message.addMessage(client.getClient_name() + " client Added Successfully", "INFO");
+                Message.addMessage(client.getClientName() + " client Added Successfully", "INFO");
 
                 return "clients.xhtml?faces-redirect=true";
             } else {
@@ -58,7 +78,7 @@ public class ClientsView {
         boolean deleted = ClientsUtils.delete(client);
 
         if (deleted) {
-            Message.addMessage(client.getClient_name() + " client Deleted Successfully", "INFO");
+            Message.addMessage(client.getClientName() + " client Deleted Successfully", "INFO");
         } else {
             Message.addMessage("Oops! something wrong happened, please try again!.", "ERROR");
         }

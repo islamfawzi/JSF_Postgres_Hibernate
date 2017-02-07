@@ -1,5 +1,5 @@
 package org.pojos;
-// Generated Jan 30, 2017 1:15:59 PM by Hibernate Tools 4.3.1
+// Generated Feb 6, 2017 5:18:07 PM by Hibernate Tools 4.3.1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,7 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,12 +23,11 @@ import javax.persistence.Table;
 public class Positions implements java.io.Serializable {
 
     private int id;
+    private Clients clients;
+    private Orgs orgs;
     private String posTitle;
     private boolean posStatus = true;
     private Set employeeses = new HashSet(0);
-
-    private Clients client;
-    private Orgs org;
 
     private boolean canEdit = false;
 
@@ -41,15 +40,17 @@ public class Positions implements java.io.Serializable {
         this.posStatus = posStatus;
     }
 
-    public Positions(int id, String posTitle, boolean posStatus, Set employeeses) {
+    public Positions(int id, Clients clients, Orgs orgs, String posTitle, boolean posStatus, Set employeeses) {
         this.id = id;
+        this.clients = clients;
+        this.orgs = orgs;
         this.posTitle = posTitle;
         this.posStatus = posStatus;
         this.employeeses = employeeses;
     }
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     public int getId() {
         return this.id;
@@ -57,6 +58,26 @@ public class Positions implements java.io.Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id")
+    public Clients getClients() {
+        return this.clients;
+    }
+
+    public void setClients(Clients clients) {
+        this.clients = clients;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "org_id")
+    public Orgs getOrgs() {
+        return this.orgs;
+    }
+
+    public void setOrgs(Orgs orgs) {
+        this.orgs = orgs;
     }
 
     @Column(name = "pos_title", nullable = false)
@@ -69,7 +90,7 @@ public class Positions implements java.io.Serializable {
     }
 
     @Column(name = "pos_status", nullable = false)
-    public boolean getPosStatus() {
+    public boolean isPosStatus() {
         return this.posStatus;
     }
 
@@ -84,26 +105,6 @@ public class Positions implements java.io.Serializable {
 
     public void setEmployeeses(Set employeeses) {
         this.employeeses = employeeses;
-    }
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id")
-    public Clients getClient() {
-        return client;
-    }
-
-    public void setClient(Clients client) {
-        this.client = client;
-    }
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "org_id")
-    public Orgs getOrg() {
-        return org;
-    }
-
-    public void setOrg(Orgs org) {
-        this.org = org;
     }
 
     public boolean isCanEdit() {

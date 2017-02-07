@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="payroll" match-schema="public"/>
+  <table-filter match-name="payroll_formulas"/>
+  <table-filter match-name="payroll_items_cats"/>
+  <table-filter match-name="calender"/>
+  <table-filter match-name="orgs"/>
+  <table-filter match-name="payroll_employee_items"/>
+  <table-filter match-name="employees"/>
+  <table-filter match-name="positions"/>
+  <table-filter match-name="processes_amounts"/>
+  <table-filter match-name="users"/>
+  <table-filter match-name="marital_status"/>
+  <table-filter match-name="payroll_templates_items"/>
+  <table-filter match-name="clients"/>
+  <table-filter match-name="payroll_items"/>
+  <table-filter match-name="actions_trans"/>
+  <table-filter match-name="departments"/>
+  <table-filter match-name="action_types"/>
+  <table-filter match-name="actions"/>
+  <table-filter match-name="military_status"/>
+  <table-filter match-name="periods"/>
+  <table-filter match-name="payroll_processes"/>
+  <table-filter match-name="payroll_templates"/>
+  <table-filter match-name="degrees"/>
+  <table-filter match-name="cities"/>
+</hibernate-reverse-engineering>

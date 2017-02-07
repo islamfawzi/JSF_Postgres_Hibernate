@@ -1,5 +1,5 @@
 package org.pojos;
-// Generated Jan 30, 2017 1:15:59 PM by Hibernate Tools 4.3.1
+// Generated Feb 6, 2017 5:18:07 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -24,7 +24,9 @@ public class PayrollProcesses  implements java.io.Serializable {
 
 
      private int id;
+     private Clients clients;
      private Departments departments;
+     private Orgs orgs;
      private Periods periods;
      private String title;
      private Short locked;
@@ -37,9 +39,11 @@ public class PayrollProcesses  implements java.io.Serializable {
     public PayrollProcesses(int id) {
         this.id = id;
     }
-    public PayrollProcesses(int id, Departments departments, Periods periods, String title, Short locked, Set processesAmountses) {
+    public PayrollProcesses(int id, Clients clients, Departments departments, Orgs orgs, Periods periods, String title, Short locked, Set processesAmountses) {
        this.id = id;
+       this.clients = clients;
        this.departments = departments;
+       this.orgs = orgs;
        this.periods = periods;
        this.title = title;
        this.locked = locked;
@@ -59,6 +63,16 @@ public class PayrollProcesses  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="client_id")
+    public Clients getClients() {
+        return this.clients;
+    }
+    
+    public void setClients(Clients clients) {
+        this.clients = clients;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="dept_id")
     public Departments getDepartments() {
         return this.departments;
@@ -66,6 +80,16 @@ public class PayrollProcesses  implements java.io.Serializable {
     
     public void setDepartments(Departments departments) {
         this.departments = departments;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="org_id")
+    public Orgs getOrgs() {
+        return this.orgs;
+    }
+    
+    public void setOrgs(Orgs orgs) {
+        this.orgs = orgs;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)

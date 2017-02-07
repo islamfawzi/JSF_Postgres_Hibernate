@@ -1,27 +1,32 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jan 30, 2017 1:16:01 PM by Hibernate Tools 4.3.1 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 6, 2017 5:18:09 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="org.pojos.PayrollTemplates" table="payroll_templates" schema="public" optimistic-lock="version">
-        <id name="id" type="int">
-            <column name="id" />
-            <generator class="assigned" />
-        </id>
-        <many-to-one name="departments" class="org.pojos.Departments" fetch="select">
-            <column name="dept_id" />
-        </many-to-one>
-        <property name="title" type="string">
-            <column name="title" />
-        </property>
-        <property name="status" type="java.lang.Short">
-            <column name="status" />
-        </property>
-        <set name="payrollTemplatesItemses" table="payroll_templates_items" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="template_id" />
-            </key>
-            <one-to-many class="org.pojos.PayrollTemplatesItems" />
-        </set>
-    </class>
+  <class name="org.pojos.PayrollTemplates" optimistic-lock="version" schema="public" table="payroll_templates">
+    <id name="id" type="int">
+      <column name="id"/>
+      <generator class="assigned"/>
+    </id>
+    <many-to-one class="org.pojos.Clients" fetch="select" name="clients">
+      <column name="client_id"/>
+    </many-to-one>
+    <many-to-one class="org.pojos.Departments" fetch="select" name="departments">
+      <column name="dept_id"/>
+    </many-to-one>
+    <many-to-one class="org.pojos.Orgs" fetch="select" name="orgs">
+      <column name="org_id"/>
+    </many-to-one>
+    <property name="title" type="string">
+      <column name="title"/>
+    </property>
+    <property name="status" type="java.lang.Short">
+      <column name="status"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="payrollTemplatesItemses" table="payroll_templates_items">
+      <key>
+        <column name="template_id"/>
+      </key>
+      <one-to-many class="org.pojos.PayrollTemplatesItems"/>
+    </set>
+  </class>
 </hibernate-mapping>

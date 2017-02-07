@@ -1,32 +1,125 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jan 30, 2017 1:16:01 PM by Hibernate Tools 4.3.1 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 6, 2017 5:18:09 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="org.pojos.Orgs" table="orgs" schema="public" optimistic-lock="version">
-        <id name="id" type="int">
-            <column name="id" />
-            <generator class="identity" />
-        </id>
-        <many-to-one name="clients" class="org.pojos.Clients" fetch="select">
-            <column name="client_id" />
-        </many-to-one>
-        <property name="org_name" type="string">
-            <column name="org_name" not-null="true" />
-        </property>
-        <property name="org_desc" type="string">
-            <column name="org_desc" not-null="true" />
-        </property>
-        <property name="org_status" type="boolean">
-            <column name="org_status" />
-        </property>
-        
-        <set name="positions" table="positions" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="org_id" />
-            </key>
-            <one-to-many class="org.pojos.Positions" />
-        </set>
-        
-    </class>
+  <class name="org.pojos.Orgs" optimistic-lock="version" schema="public" table="orgs">
+    <id name="id" type="int">
+      <column name="id"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="org.pojos.Clients" fetch="select" name="clients">
+      <column name="client_id"/>
+    </many-to-one>
+    <property name="orgName" type="string">
+      <column name="org_name"/>
+    </property>
+    <property name="orgStatus" type="boolean">
+      <column name="org_status" not-null="true"/>
+    </property>
+    <property name="orgDesc" type="string">
+      <column name="org_desc"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="periodses" table="periods">
+      <key>
+        <column name="org_id"/>
+      </key>
+      <one-to-many class="org.pojos.Periods"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="calenders" table="calender">
+      <key>
+        <column name="org_id"/>
+      </key>
+      <one-to-many class="org.pojos.Calender"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="degreeses" table="degrees">
+      <key>
+        <column name="org_id"/>
+      </key>
+      <one-to-many class="org.pojos.Degrees"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="positionses" table="positions">
+      <key>
+        <column name="org_id"/>
+      </key>
+      <one-to-many class="org.pojos.Positions"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="payrollEmployeeItemses" table="payroll_employee_items">
+      <key>
+        <column name="org_id"/>
+      </key>
+      <one-to-many class="org.pojos.PayrollEmployeeItems"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="employeeses" table="employees">
+      <key>
+        <column name="org_id"/>
+      </key>
+      <one-to-many class="org.pojos.Employees"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="departmentses" table="departments">
+      <key>
+        <column name="org_id"/>
+      </key>
+      <one-to-many class="org.pojos.Departments"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="payrollItemsCatses" table="payroll_items_cats">
+      <key>
+        <column name="org_id"/>
+      </key>
+      <one-to-many class="org.pojos.PayrollItemsCats"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="actionsTranses" table="actions_trans">
+      <key>
+        <column name="org_id"/>
+      </key>
+      <one-to-many class="org.pojos.ActionsTrans"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="citieses" table="cities">
+      <key>
+        <column name="org_id"/>
+      </key>
+      <one-to-many class="org.pojos.Cities"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="payrollProcesseses" table="payroll_processes">
+      <key>
+        <column name="org_id"/>
+      </key>
+      <one-to-many class="org.pojos.PayrollProcesses"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="maritalStatuses" table="marital_status">
+      <key>
+        <column name="org_id"/>
+      </key>
+      <one-to-many class="org.pojos.MaritalStatus"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="payrollItemses" table="payroll_items">
+      <key>
+        <column name="org_id"/>
+      </key>
+      <one-to-many class="org.pojos.PayrollItems"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="actionTypeses" table="action_types">
+      <key>
+        <column name="org_id"/>
+      </key>
+      <one-to-many class="org.pojos.ActionTypes"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="militaryStatuses" table="military_status">
+      <key>
+        <column name="org_id"/>
+      </key>
+      <one-to-many class="org.pojos.MilitaryStatus"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="payrollTemplateses" table="payroll_templates">
+      <key>
+        <column name="org_id"/>
+      </key>
+      <one-to-many class="org.pojos.PayrollTemplates"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="payrollFormulases" table="payroll_formulas">
+      <key>
+        <column name="org_id"/>
+      </key>
+      <one-to-many class="org.pojos.PayrollFormulas"/>
+    </set>
+  </class>
 </hibernate-mapping>

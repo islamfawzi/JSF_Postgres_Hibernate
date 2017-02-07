@@ -40,11 +40,11 @@
                                 <p:column headerText="#{lang['data.title']}">
 
                                     <p:outputLabel 
-                                        value="#{client.client_name}" 
+                                        value="#{client.clientName}" 
                                         rendered="#{not client.canEdit}" />
 
                                     <h:inputText 
-                                        value="#{client.client_name}"
+                                        value="#{client.clientName}"
                                         styleClass="form-control"
                                         rendered="#{client.canEdit}" />
 
@@ -55,7 +55,7 @@
 
                                     <p:selectBooleanButton  disabled="#{not client.canEdit}" 
                                                             id="status" 
-                                                            value="#{client.client_status}" 
+                                                            value="#{client.clientStatus}" 
                                                             onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
                                                             onIcon="ui-icon-check" offIcon="ui-icon-close" 
                                                             style="width:auto; margin-left: 15px;">
@@ -100,18 +100,18 @@
                                 <h:outputLabel for="title" value="#{lang['data.title']} *" />
                                 <p:inputText 
                                     id="title"
-                                    value="#{clientsView.client.client_name}"
+                                    value="#{clientsView.client.clientName}"
                                     styleClass="form-control"
                                     required="true" 
                                     label="#{lang['data.title']}"/>
 
                                 <h:outputLabel for="desc" value="#{lang['data.desc']}" />
-                                <p:inputTextarea value="#{clientsView.client.client_desc}" id="desc" rows="6" cols="46" autoResize="true" />
+                                <p:inputTextarea value="#{clientsView.client.clientDesc}" id="desc" rows="6" cols="46" autoResize="true" />
 
 
                                 <p:selectBooleanButton 
                                     id="status" 
-                                    value="#{clientsView.client.client_status}" 
+                                    value="#{clientsView.client.clientStatus}" 
                                     onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
                                     onIcon="ui-icon-check" offIcon="ui-icon-close" 
                                     style="width:auto;">
@@ -142,7 +142,7 @@
 
                     <c:set var="editTabClass" value="#{clientsView.activeIndex != 2 ? 'hide' : ''}" />
                     
-                    <p:tab title="#{lang['tab.edit']} #{clientsView.update_client.client_name}" titleStyleClass="#{editTabClass}">
+                    <p:tab title="#{lang['tab.edit']} #{clientsView.update_client.clientName}" titleStyleClass="#{editTabClass}">
                         <h:form>
                             <h:panelGrid id="update-grid" columns="1" width="40%">
 
@@ -151,18 +151,18 @@
                                 <h:outputLabel for="update-title" value="#{lang['data.title']} *" />
                                 <p:inputText 
                                     id="update-title"
-                                    value="#{clientsView.update_client.client_name}"
+                                    value="#{clientsView.update_client.clientName}"
                                     styleClass="form-control"
                                     required="true" 
                                     label="#{lang['data.title']}"/>
 
                                 <h:outputLabel for="update-desc" value="#{lang['data.desc']}" />
-                                <p:inputTextarea value="#{clientsView.update_client.client_desc}" id="update-desc" rows="6" cols="46" autoResize="true" />
+                                <p:inputTextarea value="#{clientsView.update_client.clientDesc}" id="update-desc" rows="6" cols="46" autoResize="true" />
 
 
                                 <p:selectBooleanButton 
                                     id="update-status" 
-                                    value="#{clientsView.update_client.client_status}" 
+                                    value="#{clientsView.update_client.clientStatus}" 
                                     onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
                                     onIcon="ui-icon-check" offIcon="ui-icon-close" 
                                     style="width:auto;">
@@ -175,7 +175,7 @@
 
                             <!-- insert button -->
                             <p:commandButton 
-                                    action="#{clientsView.save(clientsView.update_client)}"
+                                    action="#{clientsView.update(clientsView.update_client)}"
                                     ajax="false"
                                     value="#{lang['btn.save']}" 
                                     styleClass="btn btn-success" />

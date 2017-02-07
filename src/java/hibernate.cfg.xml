@@ -10,30 +10,30 @@
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.current_session_context_class">thread</property>
     
+    
+    
+    <mapping resource="org/pojos/MilitaryStatus.hbm.xml"/>
     <mapping resource="org/pojos/Cities.hbm.xml"/>
-    <mapping resource="org/pojos/PayrollProcesses.hbm.xml"/>
+    <mapping resource="org/pojos/Degrees.hbm.xml"/>
+    <mapping resource="org/pojos/Clients.hbm.xml"/>
+    <mapping resource="org/pojos/PayrollEmployeeItems.hbm.xml"/>
+    <mapping resource="org/pojos/Actions.hbm.xml"/>
+    <mapping resource="org/pojos/PayrollItemsCats.hbm.xml"/>
+    <mapping resource="org/pojos/PayrollTemplatesItems.hbm.xml"/>
     <mapping resource="org/pojos/PayrollItems.hbm.xml"/>
     <mapping resource="org/pojos/Periods.hbm.xml"/>
-    <mapping resource="org/pojos/ActionTypes.hbm.xml"/>
-    <mapping resource="org/pojos/ProcessesAmounts.hbm.xml"/>
-    <mapping resource="org/pojos/MilitaryStatus.hbm.xml"/>
-    <mapping resource="org/pojos/Employees.hbm.xml"/>
-    <mapping resource="org/pojos/ActionsTrans.hbm.xml"/>
-    <mapping resource="org/pojos/Positions.hbm.xml"/>
-    <mapping resource="org/pojos/PayrollTemplatesItems.hbm.xml"/>
-    <mapping resource="org/pojos/PayrollTemplates.hbm.xml"/>
-    <mapping resource="org/pojos/PayrollEmployeeItems.hbm.xml"/>
-    <mapping resource="org/pojos/PayrollFormulas.hbm.xml"/>
-    <mapping resource="org/pojos/Degrees.hbm.xml"/>
-    <mapping resource="org/pojos/MaritalStatus.hbm.xml"/>
+    <mapping resource="org/pojos/PayrollProcesses.hbm.xml"/>
     <mapping resource="org/pojos/Departments.hbm.xml"/>
-    <mapping resource="org/pojos/Calender.hbm.xml"/>
-    <mapping resource="org/pojos/PayrollItemsCats.hbm.xml"/>
-    <mapping resource="org/pojos/Actions.hbm.xml"/>
-    <mapping resource="org/pojos/Users.hbm.xml"/>
-    
-    <mapping resource="org/pojos/Clients.hbm.xml"/>
+    <mapping resource="org/pojos/Employees.hbm.xml"/>
     <mapping resource="org/pojos/Orgs.hbm.xml"/>
-    
+    <mapping resource="org/pojos/ActionsTrans.hbm.xml"/>
+    <mapping resource="org/pojos/ActionTypes.hbm.xml"/>
+    <mapping resource="org/pojos/Positions.hbm.xml"/>
+    <mapping resource="org/pojos/ProcessesAmounts.hbm.xml"/>
+    <mapping resource="org/pojos/MaritalStatus.hbm.xml"/>
+    <mapping resource="org/pojos/PayrollFormulas.hbm.xml"/>
+    <mapping resource="org/pojos/PayrollTemplates.hbm.xml"/>
+    <mapping resource="org/pojos/Calender.hbm.xml"/>
+    <mapping resource="org/pojos/Users.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

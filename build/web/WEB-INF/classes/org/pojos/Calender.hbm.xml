@@ -1,39 +1,44 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jan 30, 2017 1:16:01 PM by Hibernate Tools 4.3.1 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 6, 2017 5:18:09 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="org.pojos.Calender" table="calender" schema="public" optimistic-lock="version">
-        <id name="id" type="int">
-            <column name="id" />
-            <generator class="assigned" />
-        </id>
-        <property name="calenderTitle" type="string">
-            <column name="calender_title" not-null="true" />
-        </property>
-        <property name="startDay" type="big_decimal">
-            <column name="start_day" precision="131089" scale="0" not-null="true" />
-        </property>
-        <property name="transDay" type="big_decimal">
-            <column name="trans_day" precision="131089" scale="0" not-null="true" />
-        </property>
-        <property name="startFrom" type="timestamp">
-            <column name="start_from" length="29" />
-        </property>
-        <property name="type" type="java.lang.Character">
-            <column name="type" length="1" />
-        </property>
-        <property name="weekTransDate" type="big_decimal">
-            <column name="week_trans_date" precision="131089" scale="0" />
-        </property>
-        <property name="weekStartDay" type="big_decimal">
-            <column name="week_start_day" precision="131089" scale="0" />
-        </property>
-        <set name="periodses" table="periods" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="calender_id" />
-            </key>
-            <one-to-many class="org.pojos.Periods" />
-        </set>
-    </class>
+  <class name="org.pojos.Calender" optimistic-lock="version" schema="public" table="calender">
+    <id name="id" type="int">
+      <column name="id"/>
+      <generator class="assigned"/>
+    </id>
+    <many-to-one class="org.pojos.Clients" fetch="select" name="clients">
+      <column name="client_id"/>
+    </many-to-one>
+    <many-to-one class="org.pojos.Orgs" fetch="select" name="orgs">
+      <column name="org_id"/>
+    </many-to-one>
+    <property name="calenderTitle" type="string">
+      <column name="calender_title" not-null="true"/>
+    </property>
+    <property name="startDay" type="big_decimal">
+      <column name="start_day" not-null="true" precision="131089" scale="0"/>
+    </property>
+    <property name="transDay" type="big_decimal">
+      <column name="trans_day" not-null="true" precision="131089" scale="0"/>
+    </property>
+    <property name="startFrom" type="timestamp">
+      <column length="29" name="start_from"/>
+    </property>
+    <property name="type" type="java.lang.Character">
+      <column length="1" name="type"/>
+    </property>
+    <property name="weekTransDate" type="big_decimal">
+      <column name="week_trans_date" precision="131089" scale="0"/>
+    </property>
+    <property name="weekStartDay" type="big_decimal">
+      <column name="week_start_day" precision="131089" scale="0"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="periodses" table="periods">
+      <key>
+        <column name="calender_id"/>
+      </key>
+      <one-to-many class="org.pojos.Periods"/>
+    </set>
+  </class>
 </hibernate-mapping>

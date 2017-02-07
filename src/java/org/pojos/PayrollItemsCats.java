@@ -1,5 +1,5 @@
 package org.pojos;
-// Generated Jan 30, 2017 1:15:59 PM by Hibernate Tools 4.3.1
+// Generated Feb 6, 2017 5:18:07 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -22,6 +24,8 @@ public class PayrollItemsCats  implements java.io.Serializable {
 
 
      private int id;
+     private Clients clients;
+     private Orgs orgs;
      private String payrollCatTitle;
      private short payrollCatStatus;
      private Set payrollItemses = new HashSet(0);
@@ -35,8 +39,10 @@ public class PayrollItemsCats  implements java.io.Serializable {
         this.payrollCatTitle = payrollCatTitle;
         this.payrollCatStatus = payrollCatStatus;
     }
-    public PayrollItemsCats(int id, String payrollCatTitle, short payrollCatStatus, Set payrollItemses) {
+    public PayrollItemsCats(int id, Clients clients, Orgs orgs, String payrollCatTitle, short payrollCatStatus, Set payrollItemses) {
        this.id = id;
+       this.clients = clients;
+       this.orgs = orgs;
        this.payrollCatTitle = payrollCatTitle;
        this.payrollCatStatus = payrollCatStatus;
        this.payrollItemses = payrollItemses;
@@ -52,6 +58,26 @@ public class PayrollItemsCats  implements java.io.Serializable {
     
     public void setId(int id) {
         this.id = id;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="client_id")
+    public Clients getClients() {
+        return this.clients;
+    }
+    
+    public void setClients(Clients clients) {
+        this.clients = clients;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="org_id")
+    public Orgs getOrgs() {
+        return this.orgs;
+    }
+    
+    public void setOrgs(Orgs orgs) {
+        this.orgs = orgs;
     }
 
     

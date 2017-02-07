@@ -1,39 +1,44 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jan 30, 2017 1:16:01 PM by Hibernate Tools 4.3.1 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 6, 2017 5:18:09 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="org.pojos.Periods" table="periods" schema="public" optimistic-lock="version">
-        <id name="id" type="int">
-            <column name="id" />
-            <generator class="assigned" />
-        </id>
-        <many-to-one name="calender" class="org.pojos.Calender" fetch="select">
-            <column name="calender_id" />
-        </many-to-one>
-        <property name="startDate" type="timestamp">
-            <column name="start_date" length="29" />
-        </property>
-        <property name="endDate" type="timestamp">
-            <column name="end_date" length="29" />
-        </property>
-        <property name="status" type="java.lang.Character">
-            <column name="status" length="1" />
-        </property>
-        <property name="transDate" type="timestamp">
-            <column name="trans_date" length="29" />
-        </property>
-        <set name="payrollProcesseses" table="payroll_processes" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="period_id" />
-            </key>
-            <one-to-many class="org.pojos.PayrollProcesses" />
-        </set>
-        <set name="processesAmountses" table="processes_amounts" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="period_id" />
-            </key>
-            <one-to-many class="org.pojos.ProcessesAmounts" />
-        </set>
-    </class>
+  <class name="org.pojos.Periods" optimistic-lock="version" schema="public" table="periods">
+    <id name="id" type="int">
+      <column name="id"/>
+      <generator class="assigned"/>
+    </id>
+    <many-to-one class="org.pojos.Calender" fetch="select" name="calender">
+      <column name="calender_id"/>
+    </many-to-one>
+    <many-to-one class="org.pojos.Clients" fetch="select" name="clients">
+      <column name="client_id"/>
+    </many-to-one>
+    <many-to-one class="org.pojos.Orgs" fetch="select" name="orgs">
+      <column name="org_id"/>
+    </many-to-one>
+    <property name="startDate" type="timestamp">
+      <column length="29" name="start_date"/>
+    </property>
+    <property name="endDate" type="timestamp">
+      <column length="29" name="end_date"/>
+    </property>
+    <property name="status" type="java.lang.Character">
+      <column length="1" name="status"/>
+    </property>
+    <property name="transDate" type="timestamp">
+      <column length="29" name="trans_date"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="payrollProcesseses" table="payroll_processes">
+      <key>
+        <column name="period_id"/>
+      </key>
+      <one-to-many class="org.pojos.PayrollProcesses"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="processesAmountses" table="processes_amounts">
+      <key>
+        <column name="period_id"/>
+      </key>
+      <one-to-many class="org.pojos.ProcessesAmounts"/>
+    </set>
+  </class>
 </hibernate-mapping>

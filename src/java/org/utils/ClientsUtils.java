@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.pojos.Clients;
+import org.pojos.Users;
 
 
 /**
@@ -86,11 +87,20 @@ public class ClientsUtils {
     
     public static boolean save(Clients client){
         
+        Integer client_id = 0;
+        
         try {
             session.clear();
             
             tx = session.beginTransaction();
-            session.saveOrUpdate(client);
+            client_id = (Integer) session.save(client);
+            
+            // create a default user for the new client
+            if(client_id > 0){
+                client.setId(client_id);
+                Users user = new Users(client, client.getClientName(), client.getClientName(), true);
+                session.save(user);
+            }
             tx.commit();
             
             return true;

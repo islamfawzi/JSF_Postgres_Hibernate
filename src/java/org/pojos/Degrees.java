@@ -1,5 +1,5 @@
 package org.pojos;
-// Generated Jan 30, 2017 1:15:59 PM by Hibernate Tools 4.3.1
+// Generated Feb 6, 2017 5:18:07 PM by Hibernate Tools 4.3.1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -21,10 +23,13 @@ import javax.persistence.Table;
 public class Degrees implements java.io.Serializable {
 
     private int id;
+    private Clients clients;
+    private Orgs orgs;
     private String degreeTitle;
     private boolean degreeStatus = true;
     private Set employeeses = new HashSet(0);
-    private boolean canEdit;
+
+    private boolean canEdit = false;
 
     public Degrees() {
     }
@@ -35,15 +40,17 @@ public class Degrees implements java.io.Serializable {
         this.degreeStatus = degreeStatus;
     }
 
-    public Degrees(int id, String degreeTitle, boolean degreeStatus, Set employeeses) {
+    public Degrees(int id, Clients clients, Orgs orgs, String degreeTitle, boolean degreeStatus, Set employeeses) {
         this.id = id;
+        this.clients = clients;
+        this.orgs = orgs;
         this.degreeTitle = degreeTitle;
         this.degreeStatus = degreeStatus;
         this.employeeses = employeeses;
     }
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     public int getId() {
         return this.id;
@@ -51,6 +58,26 @@ public class Degrees implements java.io.Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id")
+    public Clients getClients() {
+        return this.clients;
+    }
+
+    public void setClients(Clients clients) {
+        this.clients = clients;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "org_id")
+    public Orgs getOrgs() {
+        return this.orgs;
+    }
+
+    public void setOrgs(Orgs orgs) {
+        this.orgs = orgs;
     }
 
     @Column(name = "degree_title", nullable = false)
@@ -63,7 +90,7 @@ public class Degrees implements java.io.Serializable {
     }
 
     @Column(name = "degree_status", nullable = false)
-    public boolean getDegreeStatus() {
+    public boolean isDegreeStatus() {
         return this.degreeStatus;
     }
 

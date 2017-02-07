@@ -38,7 +38,7 @@ public class OrgsView {
 
     public String save(Orgs org) {
 
-        if (org.getOrg_name().trim().length() > 0) {
+        if (org.getOrgName().trim().length() > 0) {
 
             /* get Client by id  
              * set it to Client Object of Org */
@@ -48,7 +48,7 @@ public class OrgsView {
             boolean added = OrgsUtils.save(org);
 
             if (added) {
-                Message.addMessage(org.getOrg_name() + " organization Added Successfully", "INFO");
+                Message.addMessage(org.getOrgName()+ " organization Added Successfully", "INFO");
 
                 return "orgs.xhtml?faces-redirect=true";
             } else {
@@ -66,7 +66,7 @@ public class OrgsView {
         boolean deleted = OrgsUtils.delete(org);
 
         if (deleted) {
-            Message.addMessage(org.getOrg_name() + " organization Deleted Successfully", "INFO");
+            Message.addMessage(org.getOrgName()+ " organization Deleted Successfully", "INFO");
         } else {
             Message.addMessage("Oops! something wrong happened, please try again!.", "ERROR");
         }

@@ -39,11 +39,11 @@
                                 <p:column headerText="#{lang['data.title']}">
 
                                     <p:outputLabel 
-                                        value="#{org.org_name}" 
+                                        value="#{org.orgName}" 
                                         rendered="#{not org.canEdit}" />
 
                                     <h:inputText 
-                                        value="#{org.org_name}"
+                                        value="#{org.orgName}"
                                         styleClass="form-control"
                                         rendered="#{org.canEdit}" />
 
@@ -54,7 +54,7 @@
 
                                     <p:selectBooleanButton  disabled="#{not org.canEdit}" 
                                                             id="status" 
-                                                            value="#{org.org_status}" 
+                                                            value="#{org.orgStatus}" 
                                                             onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
                                                             onIcon="ui-icon-check" offIcon="ui-icon-close" 
                                                             style="width:auto; margin-left: 15px;">
@@ -99,13 +99,13 @@
                                 <h:outputLabel for="title" value="#{lang['data.title']} *" />
                                 <p:inputText 
                                     id="title"
-                                    value="#{orgsView.org.org_name}"
+                                    value="#{orgsView.org.orgName}"
                                     styleClass="form-control"
                                     required="true" 
                                     label="#{lang['data.title']}"/>
 
                                 <h:outputLabel for="desc" value="#{lang['data.desc']}" />
-                                <p:inputTextarea value="#{orgsView.org.org_desc}" id="desc" rows="6" cols="46" autoResize="true" />
+                                <p:inputTextarea value="#{orgsView.org.orgDesc}" id="desc" rows="6" cols="46" autoResize="true" />
 
                                 <h:outputLabel for="client" value="#{lang['data.client']} *" />
 
@@ -113,14 +113,14 @@
                                     value="#{orgsView.org.client_id}" 
                                     styleClass="form-control"
                                     required="true" label="#{lang['data.client']}">
-                                    <f:selectItems value="#{orgsView.clients}" var="client" itemLabel="#{client.client_name}" itemValue="#{client.id}" />
+                                    <f:selectItems value="#{orgsView.clients}" var="client" itemLabel="#{client.clientName}" itemValue="#{client.id}" />
                                 </h:selectOneMenu>
 
                                 <br />
                                 
                                 <p:selectBooleanButton 
                                     id="status" 
-                                    value="#{orgsView.org.org_status}" 
+                                    value="#{orgsView.org.orgStatus}" 
                                     onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
                                     onIcon="ui-icon-check" offIcon="ui-icon-close" 
                                     style="width:auto;">
@@ -151,20 +151,20 @@
                     <!-- Edit Tab -->
                     <c:set var="editTabClass" value="#{orgsView.activeIndex != 2 ? 'hide' : ''}" />
                     
-                    <p:tab title="#{lang['tab.edit']} #{orgsView.update_org.org_name}" titleStyleClass="#{editTabClass}">
+                    <p:tab title="#{lang['tab.edit']} #{orgsView.update_org.orgName}" titleStyleClass="#{editTabClass}">
 
                         <h:form>
                             <h:panelGrid id="update-grid" columns="1" width="40%">
                                 <h:outputLabel for="update-title" value="#{lang['data.title']} *" />
                                 <p:inputText 
                                     id="update-title"
-                                    value="#{orgsView.update_org.org_name}"
+                                    value="#{orgsView.update_org.orgName}"
                                     styleClass="form-control"
                                     required="true" 
                                     label="#{lang['data.title']}"/>
 
                                 <h:outputLabel for="update-desc" value="#{lang['data.desc']}" />
-                                <p:inputTextarea value="#{orgsView.update_org.org_desc}" id="update-desc" rows="6" cols="46" autoResize="true" />
+                                <p:inputTextarea value="#{orgsView.update_org.orgDesc}" id="update-desc" rows="6" cols="46" autoResize="true" />
 
                                 <h:outputLabel for="update-client" value="#{lang['data.client']} *" />
 
@@ -173,14 +173,14 @@
                                     value="#{orgsView.update_org.client_id}" 
                                     styleClass="form-control"
                                     required="true" label="#{lang['data.client']}">
-                                    <f:selectItems value="#{orgsView.clients}" var="client" itemLabel="#{client.client_name}" itemValue="#{client.id}" />
+                                    <f:selectItems value="#{orgsView.clients}" var="client" itemLabel="#{client.clientName}" itemValue="#{client.id}" />
                                 </h:selectOneMenu>
 
                                 <br />
                                 
                                 <p:selectBooleanButton 
                                     id="update-status" 
-                                    value="#{orgsView.update_org.org_status}" 
+                                    value="#{orgsView.update_org.orgStatus}" 
                                     onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
                                     onIcon="ui-icon-check" offIcon="ui-icon-close" 
                                     style="width:auto;">

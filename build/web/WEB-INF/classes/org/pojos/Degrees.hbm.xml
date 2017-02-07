@@ -1,24 +1,29 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jan 30, 2017 1:16:01 PM by Hibernate Tools 4.3.1 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 6, 2017 5:18:09 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="org.pojos.Degrees" table="degrees" schema="public" optimistic-lock="version">
-        <id name="id" type="int">
-            <column name="id" />
-            <generator class="identity" />
-        </id>
-        <property name="degreeTitle" type="string">
-            <column name="degree_title" not-null="true" />
-        </property>
-        <property name="degreeStatus" type="boolean">
-            <column name="degree_status" not-null="true" />
-        </property>
-        <set name="employeeses" table="employees" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="emp_degree" />
-            </key>
-            <one-to-many class="org.pojos.Employees" />
-        </set>
-    </class>
+  <class name="org.pojos.Degrees" optimistic-lock="version" schema="public" table="degrees">
+    <id name="id" type="int">
+      <column name="id"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="org.pojos.Clients" fetch="select" name="clients">
+      <column name="client_id"/>
+    </many-to-one>
+    <many-to-one class="org.pojos.Orgs" fetch="select" name="orgs">
+      <column name="org_id"/>
+    </many-to-one>
+    <property name="degreeTitle" type="string">
+      <column name="degree_title" not-null="true"/>
+    </property>
+    <property name="degreeStatus" type="boolean">
+      <column name="degree_status" not-null="true"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="employeeses" table="employees">
+      <key>
+        <column name="emp_degree"/>
+      </key>
+      <one-to-many class="org.pojos.Employees"/>
+    </set>
+  </class>
 </hibernate-mapping>

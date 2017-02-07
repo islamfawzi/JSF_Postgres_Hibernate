@@ -1,5 +1,5 @@
 package org.pojos;
-// Generated Jan 30, 2017 1:15:59 PM by Hibernate Tools 4.3.1
+// Generated Feb 6, 2017 5:18:07 PM by Hibernate Tools 4.3.1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,8 +7,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -21,9 +23,12 @@ import javax.persistence.Table;
 public class MaritalStatus implements java.io.Serializable {
 
     private int id;
+    private Clients clients;
+    private Orgs orgs;
     private String maritalTitle;
     private boolean maritalStatus = true;
     private Set employeeses = new HashSet(0);
+
     private boolean canEdit = false;
 
     public MaritalStatus() {
@@ -35,15 +40,17 @@ public class MaritalStatus implements java.io.Serializable {
         this.maritalStatus = maritalStatus;
     }
 
-    public MaritalStatus(int id, String maritalTitle, boolean maritalStatus, Set employeeses) {
+    public MaritalStatus(int id, Clients clients, Orgs orgs, String maritalTitle, boolean maritalStatus, Set employeeses) {
         this.id = id;
+        this.clients = clients;
+        this.orgs = orgs;
         this.maritalTitle = maritalTitle;
         this.maritalStatus = maritalStatus;
         this.employeeses = employeeses;
     }
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     public int getId() {
         return this.id;
@@ -51,6 +58,26 @@ public class MaritalStatus implements java.io.Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id")
+    public Clients getClients() {
+        return this.clients;
+    }
+
+    public void setClients(Clients clients) {
+        this.clients = clients;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "org_id")
+    public Orgs getOrgs() {
+        return this.orgs;
+    }
+
+    public void setOrgs(Orgs orgs) {
+        this.orgs = orgs;
     }
 
     @Column(name = "marital_title", nullable = false)
@@ -63,7 +90,7 @@ public class MaritalStatus implements java.io.Serializable {
     }
 
     @Column(name = "marital_status", nullable = false)
-    public boolean getMaritalStatus() {
+    public boolean isMaritalStatus() {
         return this.maritalStatus;
     }
 

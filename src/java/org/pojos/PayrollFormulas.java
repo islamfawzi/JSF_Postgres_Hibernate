@@ -1,5 +1,5 @@
 package org.pojos;
-// Generated Jan 30, 2017 1:15:59 PM by Hibernate Tools 4.3.1
+// Generated Feb 6, 2017 5:18:07 PM by Hibernate Tools 4.3.1
 
 
 import javax.persistence.Column;
@@ -21,6 +21,8 @@ public class PayrollFormulas  implements java.io.Serializable {
 
 
      private int id;
+     private Clients clients;
+     private Orgs orgs;
      private PayrollItems payrollItems;
      private String formula;
 
@@ -31,8 +33,10 @@ public class PayrollFormulas  implements java.io.Serializable {
     public PayrollFormulas(int id) {
         this.id = id;
     }
-    public PayrollFormulas(int id, PayrollItems payrollItems, String formula) {
+    public PayrollFormulas(int id, Clients clients, Orgs orgs, PayrollItems payrollItems, String formula) {
        this.id = id;
+       this.clients = clients;
+       this.orgs = orgs;
        this.payrollItems = payrollItems;
        this.formula = formula;
     }
@@ -47,6 +51,26 @@ public class PayrollFormulas  implements java.io.Serializable {
     
     public void setId(int id) {
         this.id = id;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="client_id")
+    public Clients getClients() {
+        return this.clients;
+    }
+    
+    public void setClients(Clients clients) {
+        this.clients = clients;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="org_id")
+    public Orgs getOrgs() {
+        return this.orgs;
+    }
+    
+    public void setOrgs(Orgs orgs) {
+        this.orgs = orgs;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)

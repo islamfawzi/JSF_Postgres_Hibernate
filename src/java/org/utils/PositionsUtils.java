@@ -9,6 +9,7 @@ import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.pojos.Orgs;
 import org.pojos.Positions;
@@ -54,18 +55,19 @@ public class PositionsUtils {
         try {
             Criteria cr = session.createCriteria(Positions.class);
             
-            if(user.getId() != 0){
-                // System User
-                if(org != null){
-                    // Orgs Positions
-                    cr.add(Restrictions.eq("org_id", org.getId()));
-                }
-                else{
-                    // Client Positions
-                    cr.add(Restrictions.eq("client_id", user.getClient().getId()));
-                }
-            }
+//            if(user.getId() != 0){
+//                // System User
+//                if(org != null){
+//                    // Orgs Positions
+//                    cr.add(Restrictions.eq("org_id", org.getId()));
+//                }
+//                else{
+//                    // Client Positions
+//                    cr.add(Restrictions.eq("client_id", user.getClients().getId()));
+//                }
+//            }
             
+            cr.addOrder(Order.asc("id"));
             positions = cr.list();
 
             

@@ -1,24 +1,29 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jan 30, 2017 1:16:01 PM by Hibernate Tools 4.3.1 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 6, 2017 5:18:09 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="org.pojos.PayrollItemsCats" table="payroll_items_cats" schema="public" optimistic-lock="version">
-        <id name="id" type="int">
-            <column name="id" />
-            <generator class="assigned" />
-        </id>
-        <property name="payrollCatTitle" type="string">
-            <column name="payroll_cat_title" not-null="true" />
-        </property>
-        <property name="payrollCatStatus" type="short">
-            <column name="payroll_cat_status" not-null="true" />
-        </property>
-        <set name="payrollItemses" table="payroll_items" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="catid" />
-            </key>
-            <one-to-many class="org.pojos.PayrollItems" />
-        </set>
-    </class>
+  <class name="org.pojos.PayrollItemsCats" optimistic-lock="version" schema="public" table="payroll_items_cats">
+    <id name="id" type="int">
+      <column name="id"/>
+      <generator class="assigned"/>
+    </id>
+    <many-to-one class="org.pojos.Clients" fetch="select" name="clients">
+      <column name="client_id"/>
+    </many-to-one>
+    <many-to-one class="org.pojos.Orgs" fetch="select" name="orgs">
+      <column name="org_id"/>
+    </many-to-one>
+    <property name="payrollCatTitle" type="string">
+      <column name="payroll_cat_title" not-null="true"/>
+    </property>
+    <property name="payrollCatStatus" type="short">
+      <column name="payroll_cat_status" not-null="true"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="payrollItemses" table="payroll_items">
+      <key>
+        <column name="catid"/>
+      </key>
+      <one-to-many class="org.pojos.PayrollItems"/>
+    </set>
+  </class>
 </hibernate-mapping>

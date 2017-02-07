@@ -31,7 +31,7 @@ public class UsersView {
     public void edit(Users user) {
 
         this.update_user = UsersUtils.get(user.getId());
-        this.update_user.setClient_id(user.getClient().getId());
+        this.update_user.setClient_id(user.getClients().getId());
 
         activeIndex = 2;
     }
@@ -42,7 +42,7 @@ public class UsersView {
 
             /* get Client by id  
              * set it to Client Object of User */
-            user.setClient(ClientsUtils.get(user.getClient_id()));
+            user.setClients(ClientsUtils.get(user.getClient_id()));
 
             // save Org object into DB
             boolean added = UsersUtils.save(user);

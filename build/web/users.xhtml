@@ -102,7 +102,7 @@
                                     value="#{usersView.user.client_id}" 
                                     styleClass="form-control"
                                     required="true" label="#{lang['data.client']}">
-                                    <f:selectItems value="#{usersView.clients}" var="client" itemLabel="#{client.client_name}" itemValue="#{client.id}" />
+                                    <f:selectItems value="#{usersView.clients}" var="client" itemLabel="#{client.clientName}" itemValue="#{client.id}" />
                                 </h:selectOneMenu>
 
                                 <br />
@@ -167,7 +167,7 @@
                                     value="#{usersView.update_user.client_id}" 
                                     styleClass="form-control"
                                     required="true" label="#{lang['data.client']}">
-                                    <f:selectItems value="#{orgsView.clients}" var="client" itemLabel="#{client.client_name}" itemValue="#{client.id}" />
+                                    <f:selectItems value="#{orgsView.clients}" var="client" itemLabel="#{client.clientName}" itemValue="#{client.id}" />
                                 </h:selectOneMenu>
 
                                 <br />

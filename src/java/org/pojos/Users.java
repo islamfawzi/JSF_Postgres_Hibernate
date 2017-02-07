@@ -1,12 +1,12 @@
 package org.pojos;
-// Generated Jan 30, 2017 1:15:59 PM by Hibernate Tools 4.3.1
+// Generated Feb 6, 2017 5:18:07 PM by Hibernate Tools 4.3.1
 
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,34 +23,33 @@ import javax.persistence.TemporalType;
 public class Users implements java.io.Serializable {
 
     private int id;
-    private Clients client;
+    private Clients clients;
     private String username;
     private String password;
-    private boolean status = true;
     private Date lastLogin = new Date();
+    private Boolean status = true;
 
     private int client_id;
-    
+
     public Users() {
     }
 
-    public Users(int id, String username, String password) {
+    public Users(int id, String username, String password, Date lastLogin) {
         this.id = id;
         this.username = username;
         this.password = password;
-    }
-
-    public Users(int id, Clients client, String username, String password, boolean status, Date lastLogin) {
-        this.id = id;
-        this.client = client;
-        this.username = username;
-        this.password = password;
-        this.status = status;
         this.lastLogin = lastLogin;
     }
 
+    public Users(Clients clients, String username, String password, Boolean status) {
+        this.clients = clients;
+        this.username = username;
+        this.password = password;
+        this.status = status;
+    }
+
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     public int getId() {
         return this.id;
@@ -62,12 +61,12 @@ public class Users implements java.io.Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
-    public Clients getClient() {
-        return this.client;
+    public Clients getClients() {
+        return this.clients;
     }
 
-    public void setClient(Clients client) {
-        this.client = client;
+    public void setClients(Clients clients) {
+        this.clients = clients;
     }
 
     @Column(name = "username", nullable = false)
@@ -88,23 +87,23 @@ public class Users implements java.io.Serializable {
         this.password = password;
     }
 
-    @Column(name = "status")
-    public boolean getStatus() {
-        return this.status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "last_login", length = 29)
+    @Column(name = "last_login", nullable = false, length = 29)
     public Date getLastLogin() {
         return this.lastLogin;
     }
 
     public void setLastLogin(Date lastLogin) {
         this.lastLogin = lastLogin;
+    }
+
+    @Column(name = "status")
+    public Boolean getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
     public int getClient_id() {
@@ -114,10 +113,5 @@ public class Users implements java.io.Serializable {
     public void setClient_id(int client_id) {
         this.client_id = client_id;
     }
-    
-    @Override
-    public String toString() {
-        return "Users{" + "id=" + id + ", username=" + username + ", password=" + password + ", status=" + status + '}';
-    }
-    
+
 }

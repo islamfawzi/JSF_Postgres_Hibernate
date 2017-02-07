@@ -1,5 +1,5 @@
 package org.pojos;
-// Generated Jan 30, 2017 1:15:59 PM by Hibernate Tools 4.3.1
+// Generated Feb 6, 2017 5:18:07 PM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -22,7 +22,9 @@ public class PayrollEmployeeItems  implements java.io.Serializable {
 
 
      private int id;
+     private Clients clients;
      private Employees employees;
+     private Orgs orgs;
      private PayrollItems payrollItems;
      private BigDecimal amount;
      private Short status;
@@ -34,9 +36,11 @@ public class PayrollEmployeeItems  implements java.io.Serializable {
     public PayrollEmployeeItems(int id) {
         this.id = id;
     }
-    public PayrollEmployeeItems(int id, Employees employees, PayrollItems payrollItems, BigDecimal amount, Short status) {
+    public PayrollEmployeeItems(int id, Clients clients, Employees employees, Orgs orgs, PayrollItems payrollItems, BigDecimal amount, Short status) {
        this.id = id;
+       this.clients = clients;
        this.employees = employees;
+       this.orgs = orgs;
        this.payrollItems = payrollItems;
        this.amount = amount;
        this.status = status;
@@ -55,6 +59,16 @@ public class PayrollEmployeeItems  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="client_id")
+    public Clients getClients() {
+        return this.clients;
+    }
+    
+    public void setClients(Clients clients) {
+        this.clients = clients;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="emp_id")
     public Employees getEmployees() {
         return this.employees;
@@ -62,6 +76,16 @@ public class PayrollEmployeeItems  implements java.io.Serializable {
     
     public void setEmployees(Employees employees) {
         this.employees = employees;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="org_id")
+    public Orgs getOrgs() {
+        return this.orgs;
+    }
+    
+    public void setOrgs(Orgs orgs) {
+        this.orgs = orgs;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)

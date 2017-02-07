@@ -1,67 +1,71 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jan 30, 2017 1:16:01 PM by Hibernate Tools 4.3.1 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 6, 2017 5:18:09 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="org.pojos.Employees" table="employees" schema="public" optimistic-lock="version">
-        <id name="id" type="int">
-            <column name="id" />
-            <generator class="assigned" />
-        </id>
-        <many-to-one name="cities" class="org.pojos.Cities" fetch="select">
-            <column name="emp_city" />
-        </many-to-one>
-        <many-to-one name="degrees" class="org.pojos.Degrees" fetch="select">
-            <column name="emp_degree" />
-        </many-to-one>
-        <many-to-one name="departments" class="org.pojos.Departments" fetch="select">
-            <column name="emp_department" />
-        </many-to-one>
-        <many-to-one name="maritalStatus" class="org.pojos.MaritalStatus" fetch="select">
-            <column name="emp_maritalstatus" />
-        </many-to-one>
-        <many-to-one name="militaryStatus" class="org.pojos.MilitaryStatus" fetch="select">
-            <column name="emp_militarystatus" />
-        </many-to-one>
-        <many-to-one name="positions" class="org.pojos.Positions" fetch="select">
-            <column name="emp_position" />
-        </many-to-one>
-        <property name="empFullname" type="string">
-            <column name="emp_fullname" />
-        </property>
-        <property name="empHiringdate" type="timestamp">
-            <column name="emp_hiringdate" length="29" />
-        </property>
-        <property name="empBirthdate" type="timestamp">
-            <column name="emp_birthdate" length="29" />
-        </property>
-        <property name="empStatus" type="short">
-            <column name="emp_status" not-null="true" />
-        </property>
-        <property name="empId" type="string">
-            <column name="emp_id" unique="true" />
-        </property>
-        <property name="isuser" type="boolean">
-            <column name="isuser" not-null="true" />
-        </property>
-        
-        <set name="actionsTranses" table="actions_trans" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="emp_id" />
-            </key>
-            <one-to-many class="org.pojos.ActionsTrans" />
-        </set>
-        <set name="processesAmountses" table="processes_amounts" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="emp_id" />
-            </key>
-            <one-to-many class="org.pojos.ProcessesAmounts" />
-        </set>
-        <set name="payrollEmployeeItemses" table="payroll_employee_items" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="emp_id" />
-            </key>
-            <one-to-many class="org.pojos.PayrollEmployeeItems" />
-        </set>
-    </class>
+  <class name="org.pojos.Employees" optimistic-lock="version" schema="public" table="employees">
+    <id name="id" type="int">
+      <column name="id"/>
+      <generator class="assigned"/>
+    </id>
+    <many-to-one class="org.pojos.Cities" fetch="select" name="cities">
+      <column name="emp_city"/>
+    </many-to-one>
+    <many-to-one class="org.pojos.Clients" fetch="select" name="clients">
+      <column name="client_id"/>
+    </many-to-one>
+    <many-to-one class="org.pojos.Degrees" fetch="select" name="degrees">
+      <column name="emp_degree"/>
+    </many-to-one>
+    <many-to-one class="org.pojos.Departments" fetch="select" name="departments">
+      <column name="emp_department"/>
+    </many-to-one>
+    <many-to-one class="org.pojos.MaritalStatus" fetch="select" name="maritalStatus">
+      <column name="emp_maritalstatus"/>
+    </many-to-one>
+    <many-to-one class="org.pojos.MilitaryStatus" fetch="select" name="militaryStatus">
+      <column name="emp_militarystatus"/>
+    </many-to-one>
+    <many-to-one class="org.pojos.Orgs" fetch="select" name="orgs">
+      <column name="org_id"/>
+    </many-to-one>
+    <many-to-one class="org.pojos.Positions" fetch="select" name="positions">
+      <column name="emp_position"/>
+    </many-to-one>
+    <property name="empFullname" type="string">
+      <column name="emp_fullname"/>
+    </property>
+    <property name="empHiringdate" type="timestamp">
+      <column length="29" name="emp_hiringdate"/>
+    </property>
+    <property name="empBirthdate" type="timestamp">
+      <column length="29" name="emp_birthdate"/>
+    </property>
+    <property name="empStatus" type="short">
+      <column name="emp_status" not-null="true"/>
+    </property>
+    <property name="empId" type="string">
+      <column name="emp_id" unique="true"/>
+    </property>
+    <property name="isuser" type="boolean">
+      <column name="isuser" not-null="true"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="actionsTranses" table="actions_trans">
+      <key>
+        <column name="emp_id"/>
+      </key>
+      <one-to-many class="org.pojos.ActionsTrans"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="processesAmountses" table="processes_amounts">
+      <key>
+        <column name="emp_id"/>
+      </key>
+      <one-to-many class="org.pojos.ProcessesAmounts"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="payrollEmployeeItemses" table="payroll_employee_items">
+      <key>
+        <column name="emp_id"/>
+      </key>
+      <one-to-many class="org.pojos.PayrollEmployeeItems"/>
+    </set>
+  </class>
 </hibernate-mapping>
