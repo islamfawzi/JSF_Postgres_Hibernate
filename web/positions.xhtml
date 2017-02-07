@@ -42,12 +42,12 @@
                                 
                                 <p:column headerText="#{lang['data.client']}" >
                                     <h:outputText
-                                        value="#{position.clients.clientName}" />
+                                        value="#{position.clients != null? position.clients.clientName : '*'}" />
                                 </p:column>
                                 
                                 <p:column headerText="#{lang['data.org']}" >
                                     <h:outputText
-                                        value="#{position.orgs.orgName}" />
+                                        value="#{position.orgs != null? position.orgs.orgName : '*'}" />
                                 </p:column>
 
                                 <p:column headerText="#{lang['data.status']}">
@@ -110,6 +110,7 @@
                                     required="true" label="#{lang['data.client']}"
                                     rendered="#{clientOrgBean.clients.size() > 0}"
                                     >
+                                    <f:selectItem itemLabel="*" itemValue="0" /> 
                                     <f:selectItems value="#{clientOrgBean.clients}" var="client" itemLabel="#{client.clientName}" itemValue="#{client.id}" />
                                     <p:ajax listener="#{clientOrgBean.ajax()}" update="org" />
                                 </h:selectOneMenu>
@@ -128,6 +129,7 @@
                                     required="true" label="#{lang['data.org']}"
                                     rendered="#{clientOrgBean.orgs.size() > 0}"
                                     >
+                                    <f:selectItem itemLabel="*" itemValue="0" /> 
                                     <f:selectItems value="#{clientOrgBean.orgs}" var="org" itemLabel="#{org.orgName}" itemValue="#{org.id}" />
                                 </h:selectOneMenu>
                                 <h:outputLabel value="#{lang['data.no-orgs']}" rendered="#{clientOrgBean.orgs.size() == 0}" />
@@ -181,6 +183,7 @@
                                     required="true" label="#{lang['data.client']}"
                                     rendered="#{clientOrgBean.clients.size() > 0}"
                                     >
+                                    <f:selectItem itemLabel="*" itemValue="0" /> 
                                     <f:selectItems value="#{clientOrgBean.clients}" var="client" itemLabel="#{client.clientName}" itemValue="#{client.id}" />
                                     <p:ajax listener="#{clientOrgBean.ajax()}" update="org" />
                                 </h:selectOneMenu>
@@ -199,6 +202,7 @@
                                     required="true" label="#{lang['data.org']}"
                                     rendered="#{clientOrgBean.orgs.size() > 0}"
                                     >
+                                    <f:selectItem itemLabel="*" itemValue="0" /> 
                                     <f:selectItems value="#{clientOrgBean.orgs}" var="org" itemLabel="#{org.orgName}" itemValue="#{org.id}" />
                                 </h:selectOneMenu>
                                 <h:outputLabel value="#{lang['data.no-orgs']}" rendered="#{clientOrgBean.orgs.size() == 0}" />

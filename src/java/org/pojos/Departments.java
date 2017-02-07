@@ -31,8 +31,6 @@ public class Departments implements java.io.Serializable {
     private Set payrollProcesseses = new HashSet(0);
     private Set employeeses = new HashSet(0);
 
-    private boolean canEdit = false;
-
     public Departments() {
     }
 
@@ -127,14 +125,6 @@ public class Departments implements java.io.Serializable {
 
     public void setEmployeeses(Set employeeses) {
         this.employeeses = employeeses;
-    }
-
-    public boolean isCanEdit() {
-        return canEdit;
-    }
-
-    public void setCanEdit(boolean canEdit) {
-        this.canEdit = canEdit;
     }
 
 }

@@ -9,6 +9,8 @@ import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.pojos.Orgs;
@@ -72,7 +74,21 @@ public class PositionsUtils {
                 // System User
                 if(org != null){
                     // Orgs Positions
-                    cr.add(Restrictions.eq("orgs", org));
+                    
+                    // ( orgs = null && clients = client) || orgs = org || client = null
+                    Criterion all_orgs_c = Restrictions.isNull("orgs");
+                    Criterion client_c = Restrictions.eq("clients", user.getClients());
+                    LogicalExpression andExp = Restrictions.and(all_orgs_c, client_c);
+                    
+                    // same Org
+                    Criterion org_c = Restrictions.eq("orgs", org);
+                    LogicalExpression orgExp = Restrictions.or(org_c, andExp);
+                    
+                    // all clients
+                    Criterion all_clients = Restrictions.isNull("clients");
+                    LogicalExpression orgExp2 = Restrictions.or(all_clients, orgExp);
+                    
+                    cr.add(orgExp2);
                 }
                 else{
                     // Client Positions

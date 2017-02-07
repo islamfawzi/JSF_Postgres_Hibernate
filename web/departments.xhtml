@@ -14,13 +14,77 @@
         <ui:define name="content">
 
             <p:panel header="#{lang['page.header.departments']}">
+                
+                <p:tabView activeIndex="#{departmentsView.activeIndex}">
 
-                <h:form>
-                    <!-- add New -->
-                    <p:commandButton id="newBtn" value="#{lang['btn.new']}" icon="ui-icon-plus" type="button" style="margin-bottom: 15px;" />
-                    <p:overlayPanel id="newPanel" for="newBtn" hideEffect="fade" style="width:600px">
+                    <!-- List Tab -->
+                    <p:tab title="#{lang['tab.list']}">
                         <h:form>
-                            <h:panelGrid columns="5" width="100%">
+                            <p:dataTable id="tbl" var="department" value="#{departmentsView.departments}"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginator="true" 
+                                         paginatorPosition="bottom" 
+                                         rowsPerPageTemplate="5,10,15"
+                                         rows="10" 
+                                         style="text-align: center">
+
+
+                                <p:column headerText="#{lang['data.id']}">
+                                    <h:outputText value="#{department.id}" />
+                                </p:column>
+
+                                <p:column headerText="#{lang['data.title']}">
+                                    <h:outputText 
+                                        value="#{department.deptTitle}" />
+                                </p:column>
+                                
+                                <p:column headerText="#{lang['data.client']}" >
+                                    <h:outputText
+                                        value="#{department.clients != null? department.clients.clientName : '*' }" />
+                                </p:column>
+                                
+                                <p:column headerText="#{lang['data.org']}" >
+                                    <h:outputText
+                                        value="#{department.orgs != null? department.orgs.orgName : '*'}" />
+                                </p:column>
+
+                                <p:column headerText="#{lang['data.status']}">
+
+                                    <p:selectBooleanButton  disabled="true" 
+                                                            id="status" 
+                                                            value="#{department.deptStatus}" 
+                                                            onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
+                                                            onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                                            style="width:auto; margin-left: 15px;">
+                                    </p:selectBooleanButton>
+
+                                </p:column>
+
+                                <p:column>
+                                    <h:commandButton 
+                                        styleClass="btn btn-success" 
+                                        value="#{lang['btn.edit']}"
+                                        action="#{departmentsView.edit(department)}" 
+                                        />
+
+                                    &nbsp;
+                                    <h:commandButton
+                                        styleClass="btn btn-danger" 
+                                        value="#{lang['btn.delete']}"
+                                        action="#{departmentsView.delete(department)}"
+                                        />
+                                </p:column>
+
+                            </p:dataTable>
+
+                        </h:form>
+                    </p:tab>
+                    <!-- End List -->
+
+                    <!-- add New Tab -->
+                    <p:tab title="#{lang['tab.new']}">
+                        <h:form>
+                            <h:panelGrid columns="1" width="40%">
                                 <h:outputLabel for="title" value="#{lang['data.title']} *" />
                                 <p:inputText 
                                     id="title"
@@ -28,91 +92,142 @@
                                     styleClass="form-control"
                                     required="true" 
                                     label="#{lang['data.title']}"/>
+                                <br/>
+                                
+                                <h:outputLabel 
+                                    for="client" 
+                                    value="#{lang['data.client']}"
+                                    rendered="#{clientOrgBean.clients.size() > 0}" 
+                                    />
+                                <h:selectOneMenu 
+                                    id="client"
+                                    disabled="#{userSession.user.id != 0}"
+                                    value="#{clientOrgBean.client_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.client']}"
+                                    rendered="#{clientOrgBean.clients.size() > 0}"
+                                    >
+                                    <f:selectItem itemLabel="*" itemValue="0" /> 
+                                    <f:selectItems value="#{clientOrgBean.clients}" var="client" itemLabel="#{client.clientName}" itemValue="#{client.id}" />
+                                    <p:ajax listener="#{clientOrgBean.ajax()}" update="org" />
+                                </h:selectOneMenu>
 
+                                <br />
+
+                                <h:outputLabel 
+                                    for="org" 
+                                    value="#{lang['data.org']}"
+                                    />
+                                <h:selectOneMenu 
+                                    id="org"
+                                    disabled="#{userSession.user.id != 0 and userSession.org != null}"
+                                    value="#{clientOrgBean.org_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.org']}"
+                                    rendered="#{clientOrgBean.orgs.size() > 0}"
+                                    >
+                                    <f:selectItem itemLabel="*" itemValue="0" /> 
+                                    <f:selectItems value="#{clientOrgBean.orgs}" var="org" itemLabel="#{org.orgName}" itemValue="#{org.id}" />
+                                </h:selectOneMenu>
+                                <h:outputLabel value="#{lang['data.no-orgs']}" rendered="#{clientOrgBean.orgs.size() == 0}" />
+
+                                <br />
+                                
                                 <p:selectBooleanButton 
                                     id="status" 
                                     value="#{departmentsView.department.deptStatus}" 
                                     onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
                                     onIcon="ui-icon-check" offIcon="ui-icon-close" 
-                                    style="width:auto; margin-left: 15px;">
+                                    style="width:auto;">
                                 </p:selectBooleanButton>
 
+                                <br/>
                                 <h:commandButton 
-                                    action="#{departmentsView.save}"
+                                    action="#{departmentsView.save(departmentsView.department)}"
                                     value="#{lang['btn.save']}" 
                                     styleClass="btn btn-success" />
                             </h:panelGrid>
                         </h:form>
-                    </p:overlayPanel>
-                    </h:form>
 
-                    <!-- end add New -->
-
+                    </p:tab>
+                    <!-- End add New Tab -->
                     
-                    <!-- List -->
-                    <h:form>
-                        
-                        <p:dataTable id="tbl" var="department" value="#{departmentsView.departments}"
-                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                     paginator="true" 
-                                     paginatorPosition="bottom" 
-                                     rowsPerPageTemplate="5,10,15"
-                                     rows="10" 
-                                     style="text-align: center">
-
-
-                            <p:column headerText="#{lang['data.id']}">
-                                <h:outputText value="#{department.id}" />
-                            </p:column>
-
-                            <p:column headerText="#{lang['data.title']}">
-                                <h:outputText 
-                                    value="#{department.deptTitle}" 
-                                    rendered="#{not department.canEdit}" />
-                                <h:inputText 
-                                    value="#{department.deptTitle}"
+                    
+                    <!-- Edit Tab -->
+                    <c:set var="editTabClass" value="#{departmentsView.activeIndex != 2 ? 'hide' : ''}" />
+                    
+                    <p:tab title="#{lang['tab.edit']} #{departmentsView.update_department.deptTitle}" titleStyleClass="#{editTabClass}" >
+                        <h:form>
+                            <h:panelGrid columns="1" width="40%">
+                                <h:outputLabel for="update-title" value="#{lang['data.title']} *" />
+                                <p:inputText 
+                                    id="update-title"
+                                    value="#{departmentsView.update_department.deptTitle}"
                                     styleClass="form-control"
-                                    rendered="#{department.canEdit}" />
-                            </p:column>
+                                    required="true" 
+                                    label="#{lang['data.title']}"/>
 
-                            <p:column headerText="#{lang['data.status']}">
+                                <br/>
                                 
-                                <p:selectBooleanButton  disabled="#{not department.canEdit}" 
-                                id="status" 
-                                value="#{department.deptStatus}" 
-                                onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
-                                onIcon="ui-icon-check" offIcon="ui-icon-close" 
-                                style="width:auto; margin-left: 15px;">
+                                <h:outputLabel 
+                                    for="client" 
+                                    value="#{lang['data.client']}"
+                                    rendered="#{clientOrgBean.clients.size() > 0}" 
+                                    />
+                                <h:selectOneMenu 
+                                    id="client"
+                                    disabled="#{userSession.user.id != 0}"
+                                    value="#{clientOrgBean.client_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.client']}"
+                                    rendered="#{clientOrgBean.clients.size() > 0}"
+                                    >
+                                    <f:selectItem itemLabel="*" itemValue="0" />
+                                    <f:selectItems value="#{clientOrgBean.clients}" var="client" itemLabel="#{client.clientName}" itemValue="#{client.id}" />
+                                    <p:ajax listener="#{clientOrgBean.ajax()}" update="org" />
+                                </h:selectOneMenu>
+
+                                <br />
+
+                                <h:outputLabel 
+                                    for="org" 
+                                    value="#{lang['data.org']}"
+                                    />
+                                <h:selectOneMenu 
+                                    id="org"
+                                    disabled="#{userSession.user.id != 0 and userSession.org != null}"
+                                    value="#{clientOrgBean.org_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.org']}"
+                                    rendered="#{clientOrgBean.orgs.size() > 0}"
+                                    >
+                                    <f:selectItem itemLabel="*" itemValue="0" />
+                                    <f:selectItems value="#{clientOrgBean.orgs}" var="org" itemLabel="#{org.orgName}" itemValue="#{org.id}" />
+                                </h:selectOneMenu>
+                                <h:outputLabel value="#{lang['data.no-orgs']}" rendered="#{clientOrgBean.orgs.size() == 0}" />
+
+                                <br />
+                                
+                                <p:selectBooleanButton 
+                                    id="update-status" 
+                                    value="#{departmentsView.update_department.deptStatus}" 
+                                    onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
+                                    onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                    style="width:auto;">
                                 </p:selectBooleanButton>
-                                
-                            </p:column>
 
-                            <p:column>
+                                <br/>
+                                <h:inputHidden value="#{departmentsView.update_department.id}" />
                                 <h:commandButton 
-                                    styleClass="btn btn-success" 
-                                    value="#{lang['btn.edit']}"
-                                    action="#{departmentsView.edit(department)}"
-                                    rendered="#{not department.canEdit}" />
+                                    action="#{departmentsView.save(departmentsView.update_department)}"
+                                    value="#{lang['btn.save']}" 
+                                    styleClass="btn btn-success" />
+                            </h:panelGrid>
+                        </h:form>
 
-                                &nbsp;
-                                <h:commandButton
-                                    styleClass="btn btn-danger" 
-                                    value="#{lang['btn.delete']}"
-                                    action="#{departmentsView.delete(department)}"
-                                    rendered="#{not department.canEdit}" />
-
-                                <h:commandButton 
-                                    styleClass="btn btn-success" 
-                                    value="#{lang['btn.save']}"
-                                    action="#{departmentsView.update(department)}"
-                                    rendered="#{department.canEdit}" />
-                            </p:column>
-
-                        </p:dataTable>
-
-                    </h:form>
-
-                    <!-- End List -->
+                    </p:tab>
+                    <!-- End Edit Tab -->
+                </p:tabView>
 
 
             </p:panel>

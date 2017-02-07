@@ -1,14 +1,19 @@
-
 package org.views;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import org.pojos.Clients;
 import org.pojos.Departments;
+import org.pojos.Orgs;
+import org.utils.ClientsUtils;
 import org.utils.DepartmentsUtils;
 import org.utils.Message;
+import org.utils.OrgsUtils;
+import org.utils.UserSession;
 
 /**
  *
@@ -19,35 +24,45 @@ import org.utils.Message;
 public class DepartmentsView {
 
     private Departments department;
+    private Departments update_department;
     private List<Departments> departments;
 
-    // set canEdit to true
+    private int activeIndex = 0;
+
+    @ManagedProperty(value = "#{userSession}")
+    private UserSession userSession;
+
+    @ManagedProperty(value = "#{clientOrgBean}")
+    private ClientOrgBean clientOrgBean;
+
     public void edit(Departments dept) {
-        dept.setCanEdit(true);
-    }
+
+        this.update_department = DepartmentsUtils.get(dept.getId());
     
-    // update Position
-    public void update(Departments dept) {
-
-        boolean updated = DepartmentsUtils.update(dept);
-
-        if (updated) {
-            Message.addMessage(dept.getDeptTitle() + " Department Updated Successfully", "INFO");
-        } else {
-            Message.addMessage("Oops! something wrong happened, please try again!.", "ERROR");
-        }
-
-        dept.setCanEdit(false);
-    }
-    
-    public void save() {
+        Clients client = update_department.getClients();
+        Orgs org = update_department.getOrgs();
         
-        if (this.department.getDeptTitle().trim().length() > 0) {
+        clientOrgBean.setClient_id(client != null? client.getId() : 0);
+        clientOrgBean.setOrg_id(org != null? org.getId() : 0);
 
-            boolean added = DepartmentsUtils.save(this.department);
+        activeIndex = 2;
+    }
+
+    
+    public void save(Departments department) {
+
+        if (department.getDeptTitle().trim().length() > 0) {
+
+            Clients client = (clientOrgBean.getClient_id() == 0 ? userSession.getUser().getClients() : ClientsUtils.get(clientOrgBean.getClient_id()));
+            Orgs org = (clientOrgBean.getOrg_id() == 0 ? userSession.getOrg() : OrgsUtils.get(clientOrgBean.getOrg_id()));
+
+            department.setClients(client);
+            department.setOrgs(org);
+
+            boolean added = DepartmentsUtils.save(department);
 
             if (added) {
-                Message.addMessage(this.department.getDeptTitle() + " Department Added Successfully", "INFO");
+                Message.addMessage(department.getDeptTitle() + " Department Saved Successfully", "INFO");
             } else {
                 Message.addMessage("Oops! something wrong happened, please try again!.", "ERROR");
             }
@@ -55,7 +70,7 @@ public class DepartmentsView {
             Message.addMessage("Department Title is Required", "WARN");
         }
     }
-    
+
     public void delete(Departments dept) {
 
         boolean deleted = DepartmentsUtils.delete(dept);
@@ -66,10 +81,11 @@ public class DepartmentsView {
             Message.addMessage("Oops! something wrong happened, please try again!.", "ERROR");
         }
     }
-    
+
     @PostConstruct
-    private void init(){
+    private void init() {
         this.department = new Departments();
+        this.update_department = new Departments();
     }
 
     public Departments getDepartment() {
@@ -80,16 +96,46 @@ public class DepartmentsView {
         this.department = department;
     }
 
+    public Departments getUpdate_department() {
+        return update_department;
+    }
+
+    public void setUpdate_department(Departments update_department) {
+        this.update_department = update_department;
+    }
+
     public List<Departments> getDepartments() {
         departments = new ArrayList<Departments>();
-        departments = DepartmentsUtils.list();
+        departments = DepartmentsUtils.list(userSession.getUser(), userSession.getOrg());
         return departments;
     }
 
     public void setDepartments(List<Departments> departments) {
         this.departments = departments;
     }
-    
-    
-    
+
+    public int getActiveIndex() {
+        return activeIndex;
+    }
+
+    public void setActiveIndex(int activeIndex) {
+        this.activeIndex = activeIndex;
+    }
+
+    public UserSession getUserSession() {
+        return userSession;
+    }
+
+    public void setUserSession(UserSession userSession) {
+        this.userSession = userSession;
+    }
+
+    public ClientOrgBean getClientOrgBean() {
+        return clientOrgBean;
+    }
+
+    public void setClientOrgBean(ClientOrgBean clientOrgBean) {
+        this.clientOrgBean = clientOrgBean;
+    }
+
 }

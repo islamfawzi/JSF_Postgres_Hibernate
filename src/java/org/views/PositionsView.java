@@ -42,8 +42,11 @@ public class PositionsView {
 
         this.update_position = PositionsUtils.get(pos.getId());
         
-        clientOrgBean.setClient_id(update_position.getClients().getId());
-        clientOrgBean.setOrg_id(update_position.getOrgs().getId());
+        Clients client = update_position.getClients();
+        Orgs org = update_position.getOrgs();
+        
+        clientOrgBean.setClient_id(client != null? client.getId() : 0);
+        clientOrgBean.setOrg_id(org != null? org.getId() : 0);
         
         activeIndex = 2;
     }
