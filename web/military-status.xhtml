@@ -15,12 +15,71 @@
 
             <p:panel header="#{lang['page.header.militarys']}">
 
-                <h:form>
-                    <!-- add New -->
-                    <p:commandButton id="newBtn" value="#{lang['btn.new']}" icon="ui-icon-plus" type="button" style="margin-bottom: 15px;" />
-                    <p:overlayPanel id="newPanel" for="newBtn" hideEffect="fade" style="width:600px">
+                <p:tabView activeIndex="#{militaryView.activeIndex}">
+                    <!-- List Tab -->
+                    <p:tab title="#{lang['tab.list']}">
                         <h:form>
-                            <h:panelGrid columns="5" width="100%">
+
+                            <p:dataTable id="tbl" var="military" value="#{militaryView.military_statuses}"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginator="true" 
+                                         paginatorPosition="bottom" 
+                                         rowsPerPageTemplate="5,10,15"
+                                         rows="10" 
+                                         style="text-align: center">
+
+
+                                <p:column headerText="#{lang['data.id']}">
+                                    <h:outputText value="#{military.id}" />
+                                </p:column>
+
+                                <p:column headerText="#{lang['data.title']}">
+                                    <h:outputText 
+                                        value="#{military.militaryTitle}" 
+                                        rendered="true" />
+                                </p:column>
+                                <p:column headerText="#{lang['data.client']}" >
+                                    <h:outputText
+                                        value="#{military.clients != null? military.clients.clientName : '*'}" />
+                                </p:column>
+
+                                <p:column headerText="#{lang['data.org']}" >
+                                    <h:outputText
+                                        value="#{military.orgs != null? military.orgs.orgName : '*'}" />
+                                </p:column>
+                                <p:column headerText="#{lang['data.status']}">
+                                    <p:selectBooleanButton  
+                                        disabled="true" 
+                                        value="#{military.militaryStatus}" 
+                                        onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
+                                        onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                        style="width:auto; margin-left: 15px;">
+                                    </p:selectBooleanButton>
+                                </p:column>
+
+                                <p:column>
+                                    <h:commandButton 
+                                        styleClass="btn btn-success" 
+                                        value="#{lang['btn.edit']}"
+                                        action="#{militaryView.edit(military)}"
+                                        />
+
+                                    &nbsp;
+                                    <h:commandButton
+                                        styleClass="btn btn-danger" 
+                                        value="#{lang['btn.delete']}"
+                                        action="#{militaryView.delete(military)}"
+                                        />
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:tab>
+                    <!-- End List -->
+
+                    <!-- Add New Tab -->
+                    <p:tab title="#{lang['tab.new']}">
+                        <h:form>
+                            <h:panelGrid columns="1" width="40%">
                                 <h:outputLabel for="title" value="#{lang['data.title']} *" />
                                 <p:inputText 
                                     id="title"
@@ -28,90 +87,135 @@
                                     styleClass="form-control"
                                     required="true" 
                                     label="#{lang['data.title']}"/>
+                                <br />
+                                
+                                <h:outputLabel 
+                                    for="client" 
+                                    value="#{lang['data.client']}"
+                                    rendered="#{clientOrgBean.clients.size() > 0}" 
+                                    />
+                                <h:selectOneMenu 
+                                    id="client"
+                                    disabled="#{userSession.user.id != 0}"
+                                    value="#{clientOrgBean.client_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.client']}"
+                                    rendered="#{clientOrgBean.clients.size() > 0}"
+                                    >
+                                    <f:selectItem itemLabel="*" itemValue="0" /> 
+                                    <f:selectItems value="#{clientOrgBean.clients}" var="client" itemLabel="#{client.clientName}" itemValue="#{client.id}" />
+                                    <p:ajax listener="#{clientOrgBean.ajax()}" update="org" />
+                                </h:selectOneMenu>
 
+                                <br />
+
+                                <h:outputLabel 
+                                    for="org" 
+                                    value="#{lang['data.org']}"
+                                    />
+                                <h:selectOneMenu 
+                                    id="org"
+                                    disabled="#{userSession.user.id != 0 and userSession.org != null}"
+                                    value="#{clientOrgBean.org_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.org']}"
+                                    rendered="#{clientOrgBean.orgs.size() > 0}"
+                                    >
+                                    <f:selectItem itemLabel="*" itemValue="0" /> 
+                                    <f:selectItems value="#{clientOrgBean.orgs}" var="org" itemLabel="#{org.orgName}" itemValue="#{org.id}" />
+                                </h:selectOneMenu>
+                                <h:outputLabel value="#{lang['data.no-orgs']}" rendered="#{clientOrgBean.orgs.size() == 0}" />
+
+                                <br />
                                 <p:selectBooleanButton 
                                     id="status" 
                                     value="#{militaryView.military_status.militaryStatus}" 
                                     onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
                                     onIcon="ui-icon-check" offIcon="ui-icon-close" 
-                                    style="width:auto; margin-left: 15px;">
+                                    style="width:auto;">
                                 </p:selectBooleanButton>
-
+                                <br />
                                 <h:commandButton 
-                                    action="#{militaryView.save}"
+                                    action="#{militaryView.save(militaryView.military_status)}"
                                     value="#{lang['btn.save']}" 
                                     styleClass="btn btn-success" />
                             </h:panelGrid>
                         </h:form>
-                    </p:overlayPanel>
-                </h:form>
+                    </p:tab>
+                    <!-- End Add New Tab -->
 
-                <!-- end add New -->
+                    <!-- Edit Tab -->
+                    <c:set var="editTabClass" value="#{militaryView.activeIndex != 2 ? 'hide' : ''}" />
+                    <p:tab title="#{lang['tab.edit']} #{militaryView.update_military_status.militaryTitle}" titleStyleClass="#{editTabClass}">
 
+                        <h:form>
+                            <h:panelGrid columns="1" width="40%">
+                                <h:outputLabel for="update-title" value="#{lang['data.title']} *" />
+                                <p:inputText 
+                                    id="update-title"
+                                    value="#{militaryView.update_military_status.militaryTitle}"
+                                    styleClass="form-control"
+                                    required="true" 
+                                    label="#{lang['data.title']}"/>
+                                <br />
+                                
+                                <h:outputLabel 
+                                    for="client" 
+                                    value="#{lang['data.client']}"
+                                    rendered="#{clientOrgBean.clients.size() > 0}" 
+                                    />
+                                <h:selectOneMenu 
+                                    id="client"
+                                    disabled="#{userSession.user.id != 0}"
+                                    value="#{clientOrgBean.client_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.client']}"
+                                    rendered="#{clientOrgBean.clients.size() > 0}"
+                                    >
+                                    <f:selectItem itemLabel="*" itemValue="0" /> 
+                                    <f:selectItems value="#{clientOrgBean.clients}" var="client" itemLabel="#{client.clientName}" itemValue="#{client.id}" />
+                                    <p:ajax listener="#{clientOrgBean.ajax()}" update="org" />
+                                </h:selectOneMenu>
 
-                <!-- List -->
-                <h:form>
+                                <br />
+                                <h:outputLabel 
+                                    for="org" 
+                                    value="#{lang['data.org']}"
+                                    />
+                                <h:selectOneMenu 
+                                    id="org"
+                                    disabled="#{userSession.user.id != 0 and userSession.org != null}"
+                                    value="#{clientOrgBean.org_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.org']}"
+                                    rendered="#{clientOrgBean.orgs.size() > 0}"
+                                    >
+                                    <f:selectItem itemLabel="*" itemValue="0" /> 
+                                    <f:selectItems value="#{clientOrgBean.orgs}" var="org" itemLabel="#{org.orgName}" itemValue="#{org.id}" />
+                                </h:selectOneMenu>
+                                <h:outputLabel value="#{lang['data.no-orgs']}" rendered="#{clientOrgBean.orgs.size() == 0}" />
 
-                    <p:dataTable id="tbl" var="military" value="#{militaryView.military_statuses}"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 paginator="true" 
-                                 paginatorPosition="bottom" 
-                                 rowsPerPageTemplate="5,10,15"
-                                 rows="10" 
-                                 style="text-align: center">
+                                <br />
+                                <p:selectBooleanButton 
+                                    id="update-status" 
+                                    value="#{militaryView.update_military_status.militaryStatus}" 
+                                    onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
+                                    onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                    style="width:auto;">
+                                </p:selectBooleanButton>
 
+                                <br />
+                                <h:inputHidden value="#{militaryView.update_military_status.id}" />
+                                <h:commandButton 
+                                    action="#{militaryView.save(militaryView.update_military_status)}"
+                                    value="#{lang['btn.save']}" 
+                                    styleClass="btn btn-success" />
+                            </h:panelGrid>
+                        </h:form>
 
-                        <p:column headerText="#{lang['data.id']}">
-                            <h:outputText value="#{military.id}" />
-                        </p:column>
+                    </p:tab>
 
-                        <p:column headerText="#{lang['data.title']}">
-                            <h:outputText 
-                                value="#{military.militaryTitle}" 
-                                rendered="#{not military.canEdit}" />
-                            <h:inputText 
-                                value="#{military.militaryTitle}"
-                                styleClass="form-control"
-                                rendered="#{military.canEdit}" />
-                        </p:column>
-
-                        <p:column headerText="#{lang['data.status']}">
-                            <p:selectBooleanButton  
-                                disabled="#{not military.canEdit}" 
-                                id="status" 
-                                value="#{military.militaryStatus}" 
-                                onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
-                                onIcon="ui-icon-check" offIcon="ui-icon-close" 
-                                style="width:auto; margin-left: 15px;">
-                            </p:selectBooleanButton>
-                        </p:column>
-
-                        <p:column>
-                            <h:commandButton 
-                                styleClass="btn btn-success" 
-                                value="#{lang['btn.edit']}"
-                                action="#{militaryView.edit(military)}"
-                                rendered="#{not military.canEdit}" />
-
-                            &nbsp;
-                            <h:commandButton
-                                styleClass="btn btn-danger" 
-                                value="#{lang['btn.delete']}"
-                                action="#{militaryView.delete(military)}"
-                                rendered="#{not military.canEdit}" />
-
-                            <h:commandButton 
-                                styleClass="btn btn-success" 
-                                value="#{lang['btn.save']}"
-                                action="#{militaryView.update(military)}"
-                                rendered="#{military.canEdit}" />
-                        </p:column>
-
-                    </p:dataTable>
-
-                </h:form>
-
-                <!-- End List -->
+                </p:tabView>
 
 
             </p:panel>

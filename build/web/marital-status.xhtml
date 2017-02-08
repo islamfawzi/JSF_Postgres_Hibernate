@@ -152,7 +152,7 @@
 
                     <!-- Edit Tab -->
                     <c:set var="editTabClass" value="#{maritalView.activeIndex != 2 ? 'hide' : ''}" />
-                    <p:tab title="#{lang['tab.edit']}" titleStyleClass="#{editTabClass}">
+                    <p:tab title="#{lang['tab.edit']} #{maritalView.update_marital_status.maritalTitle}" titleStyleClass="#{editTabClass}">
                         <h:form>
                             <h:panelGrid columns="1" width="40%">
                                 <h:outputLabel for="update-title" value="#{lang['data.title']} *" />

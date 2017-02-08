@@ -164,7 +164,7 @@
 
                     <!-- Edit Tab -->
                     <c:set var="editTabClass" value="#{citiesView.activeIndex != 2 ? 'hide' : ''}" />
-                    <p:tab title="#{lang['tab.edit']}" titleStyleClass="#{editTabClass}">
+                    <p:tab title="#{lang['tab.edit']} #{citiesView.update_city.cityTitle}" titleStyleClass="#{editTabClass}">
 
                         <h:form>
                             <h:panelGrid columns="1" width="40%">
