@@ -35,7 +35,6 @@ public class MilitaryView {
     @ManagedProperty(value = "#{clientOrgBean}")
     private ClientOrgBean clientOrgBean;
 
-    // set canEdit to true
     public void edit(MilitaryStatus military) {
         this.update_military_status = MilitaryUtils.get(military.getId());
 

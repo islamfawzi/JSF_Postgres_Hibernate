@@ -36,11 +36,7 @@
                                 <p:column headerText="#{lang['data.title']}">
                                     <h:outputText 
                                         value="#{city.cityTitle}" 
-                                        rendered="#{not city.canEdit}" />
-                                    <h:inputText 
-                                        value="#{city.cityTitle}"
-                                        styleClass="form-control"
-                                        rendered="#{city.canEdit}" />
+                                        />
                                 </p:column>
                                 <p:column headerText="#{lang['data.client']}" >
                                     <h:outputText
@@ -53,7 +49,7 @@
                                 </p:column>
                                 <p:column headerText="#{lang['data.status']}">
 
-                                    <p:selectBooleanButton  disabled="#{not city.canEdit}" 
+                                    <p:selectBooleanButton  disabled="true" 
                                                             id="status" 
                                                             value="#{city.cityStatus}" 
                                                             onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
@@ -69,20 +65,13 @@
                                         styleClass="btn btn-success" 
                                         value="#{lang['btn.edit']}"
                                         action="#{citiesView.edit(city)}"
-                                        rendered="#{not city.canEdit}" />
-
+                                        />
                                     &nbsp;
                                     <h:commandButton
                                         styleClass="btn btn-danger" 
                                         value="#{lang['btn.delete']}"
                                         action="#{citiesView.delete(city)}"
-                                        rendered="#{not city.canEdit}" />
-
-                                    <h:commandButton 
-                                        styleClass="btn btn-success" 
-                                        value="#{lang['btn.save']}"
-                                        action="#{citiesView.update(city)}"
-                                        rendered="#{city.canEdit}" />
+                                        />
                                 </p:column>
 
                             </p:dataTable>

@@ -29,8 +29,6 @@ public class Cities implements java.io.Serializable {
     private boolean cityStatus = true;
     private Set employeeses = new HashSet(0);
 
-    private boolean canEdit = false;
-
     public Cities() {
     }
 
@@ -105,14 +103,6 @@ public class Cities implements java.io.Serializable {
 
     public void setEmployeeses(Set employeeses) {
         this.employeeses = employeeses;
-    }
-
-    public boolean isCanEdit() {
-        return canEdit;
-    }
-
-    public void setCanEdit(boolean canEdit) {
-        this.canEdit = canEdit;
     }
 
 }

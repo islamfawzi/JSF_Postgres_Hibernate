@@ -35,7 +35,7 @@ public class CitiesView {
     @ManagedProperty(value = "#{clientOrgBean}")
     private ClientOrgBean clientOrgBean;
 
-    // set canEdit to true
+    
     public void edit(Cities city) {
 
         this.update_city = CitiesUtils.get(city.getId());
