@@ -29,8 +29,7 @@ public class MaritalStatus implements java.io.Serializable {
     private boolean maritalStatus = true;
     private Set employeeses = new HashSet(0);
 
-    private boolean canEdit = false;
-
+    
     public MaritalStatus() {
     }
 
@@ -105,14 +104,6 @@ public class MaritalStatus implements java.io.Serializable {
 
     public void setEmployeeses(Set employeeses) {
         this.employeeses = employeeses;
-    }
-
-    public boolean isCanEdit() {
-        return canEdit;
-    }
-
-    public void setCanEdit(boolean canEdit) {
-        this.canEdit = canEdit;
     }
 
 }

@@ -49,20 +49,6 @@ public class CitiesView {
         activeIndex = 2;
     }
 
-    // update City
-    public void update(Cities city) {
-
-        boolean updated = CitiesUtils.update(city);
-
-        if (updated) {
-            Message.addMessage(city.getCityTitle() + " city Updated Successfully", "INFO");
-        } else {
-            Message.addMessage("Oops! something wrong happened, please try again!.", "ERROR");
-        }
-
-        city.setCanEdit(false);
-    }
-
     // insert new city
     public void save(Cities city) {
 
