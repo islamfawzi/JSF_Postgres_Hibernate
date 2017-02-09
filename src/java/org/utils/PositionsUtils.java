@@ -28,52 +28,55 @@ public class PositionsUtils {
     private static Session session = HibernateUtil.getSessionFactory().openSession();
     private static Transaction tx = null;
 
-    public static List<Positions> list(Users user, Orgs org) {
+    public static List<Positions> list(Users user, Orgs org, boolean active) {
 
         List<Positions> positions = new ArrayList<>();
         try {
             Criteria cr = session.createCriteria(Positions.class);
-            
-            if(user.getId() != 0){
+
+            if (user.getId() != 0) {
+                LogicalExpression Exp = null;
                 // System User
-                if(org != null){
+                if (org != null) {
                     // Orgs Positions
-                    
+
                     // ( orgs = null && clients = client) || orgs = org || client = null
                     Criterion all_orgs_c = Restrictions.isNull("orgs");
                     Criterion client_c = Restrictions.eq("clients", user.getClients());
-                    LogicalExpression andExp = Restrictions.and(all_orgs_c, client_c);
-                    
+                    Exp = Restrictions.and(all_orgs_c, client_c);
+
                     // same Org
                     Criterion org_c = Restrictions.eq("orgs", org);
-                    LogicalExpression orgExp = Restrictions.or(org_c, andExp);
-                    
+                    Exp = Restrictions.or(org_c, Exp);
+
                     // all clients
                     Criterion all_clients = Restrictions.isNull("clients");
-                    LogicalExpression orgExp2 = Restrictions.or(all_clients, orgExp);
-                    
-                    cr.add(orgExp2);
-                }
-                else{
+                    Exp = Restrictions.or(all_clients, Exp);
+
+                } else {
                     // Client Positions
-                   Criterion client_c = Restrictions.eq("clients", user.getClients());
-                   Criterion all_clients = Restrictions.isNull("clients");
-                   LogicalExpression orgExp = Restrictions.or(client_c, all_clients);
-                   
-                   cr.add(orgExp);
+                    Criterion client_c = Restrictions.eq("clients", user.getClients());
+                    Criterion all_clients = Restrictions.isNull("clients");
+                    Exp = Restrictions.or(client_c, all_clients);
                 }
+
+                if (active) {
+                    Criterion active_c = Restrictions.eq("posStatus", "TRUE");
+                    Exp = Restrictions.and(Exp, active_c);
+                }
+
+                cr.add(Exp);
             }
-            
+
             cr.addOrder(Order.asc("id"));
             positions = cr.list();
 
-            
         } catch (Exception e) {
             e.printStackTrace();
         }
         return positions;
     }
-    
+
     public static List<Positions> list2() {
 
         String sql = "SELECT * FROM positions ORDER BY id ASC";
@@ -96,21 +99,19 @@ public class PositionsUtils {
         }
         return positions;
     }
-    
-    public static Positions get(int pos_id){
-        
+
+    public static Positions get(int pos_id) {
+
         try {
             Criteria cr = session.createCriteria(Positions.class);
             cr.add(Restrictions.eq("id", pos_id));
-            
+
             return (Positions) cr.uniqueResult();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-
-    
 
     public static boolean update(Positions position) {
 
@@ -135,7 +136,7 @@ public class PositionsUtils {
 
         try {
             session.clear();
-            
+
             tx = session.beginTransaction();
             session.saveOrUpdate(position);
             tx.commit();

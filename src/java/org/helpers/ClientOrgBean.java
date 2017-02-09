@@ -1,4 +1,4 @@
-package org.views;
+package org.helpers;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,7 +11,6 @@ import org.pojos.Clients;
 import org.pojos.Orgs;
 import org.utils.ClientsUtils;
 import org.utils.OrgsUtils;
-import org.utils.UserSession;
 
 /**
  *

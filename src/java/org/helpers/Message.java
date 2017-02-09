@@ -1,5 +1,5 @@
 
-package org.utils;
+package org.helpers;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;

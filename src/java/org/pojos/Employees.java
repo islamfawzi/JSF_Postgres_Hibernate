@@ -8,6 +8,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -40,7 +42,7 @@ public class Employees  implements java.io.Serializable {
      private String empFullname;
      private Date empHiringdate;
      private Date empBirthdate;
-     private short empStatus;
+     private short empStatus = 1;
      private String empId;
      private boolean isuser;
      private Set actionsTranses = new HashSet(0);
@@ -77,9 +79,8 @@ public class Employees  implements java.io.Serializable {
        this.payrollEmployeeItemses = payrollEmployeeItemses;
     }
    
-     @Id 
-
-    
+    @Id 
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name="id", unique=true, nullable=false)
     public int getId() {
         return this.id;

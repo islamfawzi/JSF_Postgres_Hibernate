@@ -162,3 +162,7 @@ button.btn-success{
 .hide{
     display: none;
 }
+
+.emp-grid1 td{
+    padding-top: 15px;
+}

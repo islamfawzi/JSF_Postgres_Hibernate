@@ -1,5 +1,6 @@
 package org.views;
 
+import org.helpers.ClientOrgBean;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -11,9 +12,9 @@ import org.pojos.Clients;
 import org.pojos.Orgs;
 import org.utils.CitiesUtils;
 import org.utils.ClientsUtils;
-import org.utils.Message;
+import org.helpers.Message;
 import org.utils.OrgsUtils;
-import org.utils.UserSession;
+import org.helpers.UserSession;
 
 /**
  *

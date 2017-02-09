@@ -38,28 +38,18 @@
                                 </p:column>
 
                                 <p:column headerText="#{lang['data.title']}">
-
-                                    <p:outputLabel 
-                                        value="#{client.clientName}" 
-                                        rendered="#{not client.canEdit}" />
-
-                                    <h:inputText 
-                                        value="#{client.clientName}"
-                                        styleClass="form-control"
-                                        rendered="#{client.canEdit}" />
-
+                                    <h:outputText 
+                                        value="#{client.clientName}" />
                                 </p:column>
-
 
                                 <p:column headerText="#{lang['data.status']}">
 
-                                    <p:selectBooleanButton  disabled="#{not client.canEdit}" 
-                                                            id="status" 
-                                                            value="#{client.clientStatus}" 
-                                                            onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
-                                                            onIcon="ui-icon-check" offIcon="ui-icon-close" 
-                                                            style="width:auto; margin-left: 15px;">
-
+                                    <p:selectBooleanButton  
+                                        disabled="true" 
+                                        value="#{client.clientStatus}" 
+                                        onLabel="#{lang['data.active']}" offLabel="#{lang['data.inactive']}" 
+                                        onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                        style="width:auto; margin-left: 15px;">
                                     </p:selectBooleanButton>
 
                                 </p:column>
@@ -69,20 +59,14 @@
                                         styleClass="btn btn-success" 
                                         value="#{lang['btn.edit']}"
                                         action="#{clientsView.edit(client)}"
-                                        rendered="#{not client.canEdit}" />
+                                        />
 
                                     &nbsp;
                                     <h:commandButton
                                         styleClass="btn btn-danger" 
                                         value="#{lang['btn.delete']}"
                                         action="#{clientsView.delete(client)}"
-                                        rendered="#{not client.canEdit}" />
-
-                                    <h:commandButton 
-                                        styleClass="btn btn-success" 
-                                        value="#{lang['btn.save']}"
-                                        action="#{clientsView.update(client)}"
-                                        rendered="#{client.canEdit}" />
+                                        />
                                 </p:column>
 
                             </p:dataTable>

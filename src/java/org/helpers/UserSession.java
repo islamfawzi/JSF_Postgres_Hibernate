@@ -1,5 +1,5 @@
 
-package org.utils;
+package org.helpers;
 
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;

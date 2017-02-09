@@ -7,7 +7,7 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpSession;
 import org.pojos.Users;
-import org.utils.UserSession;
+import org.helpers.UserSession;
 
 /**
  *

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.pojos.Orgs;
 import org.pojos.Users;
 import org.utils.OrgsUtils;
-import org.utils.UserSession;
+import org.helpers.UserSession;
 import org.utils.UsersUtils;
 
 /**

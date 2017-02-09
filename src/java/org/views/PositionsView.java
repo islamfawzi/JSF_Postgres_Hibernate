@@ -1,5 +1,6 @@
 package org.views;
 
+import org.helpers.ClientOrgBean;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,10 +13,10 @@ import org.pojos.Clients;
 import org.pojos.Orgs;
 import org.pojos.Positions;
 import org.utils.ClientsUtils;
-import org.utils.Message;
+import org.helpers.Message;
 import org.utils.OrgsUtils;
 import org.utils.PositionsUtils;
-import org.utils.UserSession;
+import org.helpers.UserSession;
 
 /**
  *
@@ -27,41 +28,40 @@ public class PositionsView {
 
     private Positions position;
     private Positions update_position;
-
     private List<Positions> positions;
-    
+    private List<Positions> active_positions;
+
     private int activeIndex = 0;
 
     @ManagedProperty(value = "#{userSession}")
     private UserSession userSession;
-    
+
     @ManagedProperty(value = "#{clientOrgBean}")
     private ClientOrgBean clientOrgBean;
 
     public void edit(Positions pos) {
 
         this.update_position = PositionsUtils.get(pos.getId());
-        
+
         Clients client = update_position.getClients();
         Orgs org = update_position.getOrgs();
-        
-        clientOrgBean.setClient_id(client != null? client.getId() : 0);
-        clientOrgBean.setOrg_id(org != null? org.getId() : 0);
-        
+
+        clientOrgBean.setClient_id(client != null ? client.getId() : 0);
+        clientOrgBean.setOrg_id(org != null ? org.getId() : 0);
+
         activeIndex = 2;
     }
 
-    
     public void save(Positions position) {
 
         if (position.getPosTitle().trim().length() > 0) {
 
-            Clients client = (clientOrgBean.getClient_id() == 0? userSession.getUser().getClients() : ClientsUtils.get(clientOrgBean.getClient_id()));
-            Orgs org = (clientOrgBean.getOrg_id() == 0? userSession.getOrg()  : OrgsUtils.get(clientOrgBean.getOrg_id()));
-            
+            Clients client = (clientOrgBean.getClient_id() == 0 ? userSession.getUser().getClients() : ClientsUtils.get(clientOrgBean.getClient_id()));
+            Orgs org = (clientOrgBean.getOrg_id() == 0 ? userSession.getOrg() : OrgsUtils.get(clientOrgBean.getOrg_id()));
+
             position.setClients(client);
             position.setOrgs(org);
-            
+
             boolean added = PositionsUtils.save(position);
 
             if (added) {
@@ -84,7 +84,7 @@ public class PositionsView {
             Message.addMessage("Oops! something wrong happened, please try again!.", "ERROR");
         }
     }
-    
+
     @PostConstruct
     private void init() {
         this.position = new Positions();
@@ -92,14 +92,22 @@ public class PositionsView {
     }
 
     public List<Positions> getPositions() {
-
         positions = new ArrayList<Positions>();
-        positions = PositionsUtils.list(userSession.getUser(), userSession.getOrg());
+        positions = PositionsUtils.list(userSession.getUser(), userSession.getOrg(), false);
         return positions;
     }
 
     public void setPositions(List<Positions> positions) {
         this.positions = positions;
+    }
+
+    public List<Positions> getActive_positions() {
+        positions = PositionsUtils.list(userSession.getUser(), userSession.getOrg(), false);
+        return active_positions;
+    }
+
+    public void setActive_positions(List<Positions> active_positions) {
+        this.active_positions = active_positions;
     }
 
     public Positions getPosition() {
@@ -133,7 +141,7 @@ public class PositionsView {
     public void setActiveIndex(int activeIndex) {
         this.activeIndex = activeIndex;
     }
-    
+
     public ClientOrgBean getClientOrgBean() {
         return clientOrgBean;
     }

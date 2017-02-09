@@ -12,6 +12,8 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Restrictions;
 import org.pojos.Employees;
 import org.pojos.Users;
@@ -27,10 +29,11 @@ public class UsersUtils {
     private static Session session = HibernateUtil.getSessionFactory().openSession();
     private static Transaction tx = null;
     
-    public static Users login(String username, String password){
+    public static Users login2(String username, String password){
     
         String sql = "SELECT * FROM users WHERE username = :username AND status = TRUE";
         try {
+            session.clear();
             tx = session.beginTransaction();
             SQLQuery query = session.createSQLQuery(sql);
             query.addEntity(Users.class);
@@ -47,6 +50,26 @@ public class UsersUtils {
         }
     
         return null;
+    }
+    
+    public static Users login(String username, String password){
+    
+        try {
+            Criteria cr = session.createCriteria(Users.class);
+            Criterion u = Restrictions.eq("username", username);
+            Criterion p = Restrictions.eq("password", password);
+            Criterion active = Restrictions.eq("status", true);
+            
+            LogicalExpression Exp = Restrictions.and(u, p);
+            Exp = Restrictions.and(Exp, active);
+            
+            cr.add(Exp);
+            
+            return (Users) cr.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
     
     public static List<Users> list(boolean active){

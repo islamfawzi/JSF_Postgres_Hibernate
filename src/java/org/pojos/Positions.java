@@ -104,4 +104,10 @@ public class Positions implements java.io.Serializable {
     public void setEmployeeses(Set employeeses) {
         this.employeeses = employeeses;
     }
+
+    @Override
+    public String toString() {
+        return "Positions{" + "id=" + id + ", posTitle=" + posTitle + '}';
+    }
+
 }

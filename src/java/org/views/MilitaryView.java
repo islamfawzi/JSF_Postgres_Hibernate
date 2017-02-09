@@ -1,5 +1,6 @@
 package org.views;
 
+import org.helpers.ClientOrgBean;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -10,10 +11,10 @@ import org.pojos.Clients;
 import org.pojos.MilitaryStatus;
 import org.pojos.Orgs;
 import org.utils.ClientsUtils;
-import org.utils.Message;
+import org.helpers.Message;
 import org.utils.MilitaryUtils;
 import org.utils.OrgsUtils;
-import org.utils.UserSession;
+import org.helpers.UserSession;
 
 /**
  *

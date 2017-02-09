@@ -8,7 +8,7 @@ import javax.faces.bean.RequestScoped;
 import org.pojos.Clients;
 import org.pojos.Orgs;
 import org.utils.ClientsUtils;
-import org.utils.Message;
+import org.helpers.Message;
 import org.utils.OrgsUtils;
 
 /**

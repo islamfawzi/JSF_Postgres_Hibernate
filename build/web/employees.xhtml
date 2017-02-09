@@ -1,0 +1,505 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <ui:composition template="/templates/template.xhtml">
+
+        <ui:param name="page_title" value="#{lang['page.header.employees']}" />
+
+
+        <ui:define name="css">
+            <style>
+                .emp-status ui-button-text{
+                    padding: .3em .5em .3em 1.9em !important;
+                }
+                .emp-status{
+                    padding: 4px 2px !important;
+                }
+            </style>
+        </ui:define>
+        <ui:define name="content">
+
+            <p:panel header="#{lang['page.header.employees']}">
+
+
+                <p:tabView activeIndex="#{employeesView.activeIndex}">
+
+                    <!-- List Tab -->
+                    <p:tab title="#{lang['tab.list']}">
+                        <h:form>
+
+                            <p:dataTable id="tbl" var="employee" value="#{employeesView.employees}"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginator="true" 
+                                         paginatorPosition="bottom" 
+                                         rowsPerPageTemplate="5,10,15"
+                                         rows="10" 
+                                         style="text-align: center">
+
+
+
+                                <p:column headerText="#{lang['data.id']}">
+                                    <h:outputText value="#{employee.id}" />
+                                </p:column>
+
+                                <p:column headerText="#{lang['data.fullname']}">
+                                    <h:outputText 
+                                        value="#{employee.empFullname}" 
+                                        />
+                                </p:column>
+
+                                <p:column headerText="#{lang['data.position']}">
+                                    <h:outputText 
+                                        value="#{employee.positions.posTitle}" 
+                                        />
+                                </p:column>
+
+                                <p:column headerText="#{lang['data.dept']}">
+                                    <h:outputText 
+                                        value="#{employee.departments.deptTitle}" 
+                                        />
+                                </p:column>
+                                <!--
+                                                                <p:column headerText="#{lang['data.hiringdate']}">
+                                                                    <h:outputText 
+                                                                        value="#{employee.empHiringdate}" >
+                                                                        <f:convertDateTime pattern="dd-MM-yyyy" />
+                                                                    </h:outputText>
+                                
+                                                                </p:column>
+                                -->
+
+                                <p:column headerText="#{lang['data.client']}" >
+                                    <h:outputText
+                                        value="#{employee.clients != null? employee.clients.clientName : '*'}" />
+                                </p:column>
+
+                                <p:column headerText="#{lang['data.org']}" >
+                                    <h:outputText
+                                        value="#{employee.orgs != null? employee.orgs.orgName : '*'}" />
+                                </p:column>
+
+                                <p:column headerText="#{lang['data.status']}" styleClass="emp-status" >
+
+                                    <p:selectBooleanButton  
+                                        disabled="true" 
+                                        value="#{employee.empStatus == 1}" 
+                                        onLabel="#{lang['data.empStatus.hired']}" offLabel="#{lang['data.empStatus.terminated']}" 
+                                        onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                        style="width:auto;">
+                                    </p:selectBooleanButton>
+
+                                </p:column>
+
+                                <p:column style="width: 15%">
+                                    <h:commandButton 
+                                        styleClass="btn btn-success" 
+                                        value="#{lang['btn.edit']}"
+                                        action="#{employeesView.edit(employee)}"
+                                        />
+
+                                    &nbsp;
+                                    <h:commandButton
+                                        styleClass="btn btn-danger" 
+                                        value="#{lang['btn.delete']}"
+                                        action="#{employeesView.delete(employee)}"
+                                        />
+                                </p:column>
+                            </p:dataTable>
+
+                        </h:form>
+
+                    </p:tab>
+                    <!-- End List Tab -->
+
+                    <!-- Add New Tab -->
+                    <p:tab title="#{lang['tab.new']}" >
+                        <h:form>
+                            <h:panelGrid id="grid" columns="2" width="50%" styleClass="emp-grid1" >
+
+                                <h:outputLabel for="fullname" value="#{lang['data.fullname']} *" />
+                                <p:inputText 
+                                    id="fullname"
+                                    value="#{employeesView.employee.empFullname}"
+                                    styleClass="form-control"
+                                    required="true" 
+                                    label="#{lang['data.fullname']}"/>
+
+
+                                <h:outputLabel for="emp-id" value="#{lang['data.id']}" />
+                                <p:inputText 
+                                    id="emp-id"
+                                    value="#{employeesView.employee.empId}"
+                                    styleClass="form-control"
+                                    required="true"
+                                    label="#{lang['data.id']}" />
+
+
+                                <h:outputLabel for="hiringdate" value="#{lang['data.hiringdate']}" />
+                                <p:calendar id="hiringdate" value="#{employeesView.employee.empHiringdate}" effect="fold" pattern="MM/dd/yyyy" showOn="button" />
+
+                                <h:outputLabel for="birthdate" value="#{lang['data.birthdate']}" />
+                                <p:calendar id="birthdate" value="#{employeesView.employee.empBirthdate}" effect="fold" pattern="MM/dd/yyyy" showOn="button" />
+
+
+                                <h:outputLabel for="position" value="#{lang['data.position']}" />
+                                <h:selectOneMenu 
+                                    id="position"
+                                    value="#{employeesView.employee.positions}"
+                                    styleClass="form-control"
+                                    converter="positionConverter" >
+
+                                    <f:selectItems 
+                                        value="#{positionsView.positions}" 
+                                        var="position" 
+                                        itemLabel="#{position.posTitle}" 
+                                        itemValue="#{position}" />
+                                </h:selectOneMenu>
+
+
+                                <h:outputLabel for="dept" value="#{lang['data.dept']}" />
+                                <h:selectOneMenu 
+                                    id="dept"
+                                    value="#{employeesView.employee.departments}"
+                                    styleClass="form-control" 
+                                    converter="deptConverter">
+
+                                    <f:selectItems 
+                                        value="#{departmentsView.departments}" 
+                                        var="dept" 
+                                        itemLabel="#{dept.deptTitle}" 
+                                        itemValue="#{dept}" />
+                                </h:selectOneMenu>
+
+
+                                <h:outputLabel for="city" value="#{lang['data.city']}" />
+                                <h:selectOneMenu 
+                                    id="city"
+                                    value="#{employeesView.employee.cities}"
+                                    styleClass="form-control" 
+                                    converter="cityConverter">
+
+                                    <f:selectItems 
+                                        value="#{citiesView.cities}" 
+                                        var="city" 
+                                        itemLabel="#{city.cityTitle}" 
+                                        itemValue="#{city}" />
+                                </h:selectOneMenu>
+
+                                <h:outputLabel for="degree" value="#{lang['data.degree']}" />
+                                <h:selectOneMenu 
+                                    id="degree"
+                                    value="#{employeesView.employee.degrees}"
+                                    styleClass="form-control" 
+                                    converter="degreeConverter">
+
+                                    <f:selectItems 
+                                        value="#{degreesView.degrees}" 
+                                        var="degree" 
+                                        itemLabel="#{degree.degreeTitle}" 
+                                        itemValue="#{degree}" />
+                                </h:selectOneMenu>
+
+                                <h:outputLabel for="marital" value="#{lang['data.marital']}" />
+                                <h:selectOneMenu 
+                                    id="marital"
+                                    value="#{employeesView.employee.maritalStatus}"
+                                    styleClass="form-control" 
+                                    converter="maritalConverter">
+
+                                    <f:selectItems 
+                                        value="#{maritalView.marital_statuses}" 
+                                        var="marital" 
+                                        itemLabel="#{marital.maritalTitle}" 
+                                        itemValue="#{marital}" />
+                                </h:selectOneMenu>
+
+                                <h:outputLabel for="military" value="#{lang['data.military']}" />
+                                <h:selectOneMenu 
+                                    id="military"
+                                    value="#{employeesView.employee.militaryStatus}"
+                                    styleClass="form-control" 
+                                    converter="militaryConverter">
+
+                                    <f:selectItems 
+                                        value="#{militaryView.military_statuses}" 
+                                        var="military" 
+                                        itemLabel="#{military.militaryTitle}" 
+                                        itemValue="#{military}" />
+                                </h:selectOneMenu>
+
+                                <h:outputLabel for="emp_status" value="#{lang['data.status']}" />
+                                <h:selectOneMenu 
+                                    id="emp_status"
+                                    value="#{employeesView.employee.empStatus}"
+                                    styleClass="form-control" >
+
+                                    <f:selectItem itemLabel="#{lang['data.empStatus.hired']}" itemValue="1" />
+                                    <f:selectItem itemLabel="#{lang['data.empStatus.terminated']}" itemValue="0" />
+                                </h:selectOneMenu>
+
+                                <h:outputLabel 
+                                    for="client" 
+                                    value="#{lang['data.client']}"
+                                    rendered="#{clientOrgBean.clients.size() > 0}" 
+                                    />
+                                <h:selectOneMenu 
+                                    id="client"
+                                    disabled="#{userSession.user.id != 0}"
+                                    value="#{clientOrgBean.client_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.client']}"
+                                    rendered="#{clientOrgBean.clients.size() > 0}"
+                                    >
+                                    <f:selectItem itemLabel="*" itemValue="0" /> 
+                                    <f:selectItems value="#{clientOrgBean.clients}" var="client" itemLabel="#{client.clientName}" itemValue="#{client.id}" />
+                                    <p:ajax listener="#{clientOrgBean.ajax()}" update="org" />
+                                </h:selectOneMenu>
+
+
+
+                                <h:outputLabel 
+                                    for="org" 
+                                    value="#{lang['data.org']}"
+                                    />
+                                <h:selectOneMenu 
+                                    id="org"
+                                    disabled="#{userSession.user.id != 0 and userSession.org != null}"
+                                    value="#{clientOrgBean.org_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.org']}"
+                                    rendered="#{clientOrgBean.orgs.size() > 0}"
+                                    >
+                                    <f:selectItem itemLabel="*" itemValue="0" /> 
+                                    <f:selectItems value="#{clientOrgBean.orgs}" var="org" itemLabel="#{org.orgName}" itemValue="#{org.id}" />
+                                </h:selectOneMenu>
+                                <h:outputLabel value="#{lang['data.no-orgs']}" rendered="#{clientOrgBean.orgs.size() == 0}" />
+
+
+
+                                <h:outputLabel />
+                                <h:panelGrid columns="2">
+                                    <p:commandButton 
+                                        value="#{lang['btn.save']}"
+                                        action="#{employeesView.save(employeesView.employee)}" 
+                                        styleClass="btn btn-success"
+                                        style="margin: 0 15px 0 15px" 
+                                        ajax="false"/>
+
+                                    <p:commandButton 
+                                        process="@none"
+                                        update="grid"
+                                        value="#{lang['btn.reset']}" 
+                                        styleClass="btn btn-default"
+                                        />
+                                </h:panelGrid>
+
+                            </h:panelGrid>
+                        </h:form>
+                    </p:tab>
+                    <!-- End Add New Tab -->
+
+                    <!-- Edit Tab -->
+                    <c:set var="editTabClass" value="#{employeesView.activeIndex != 2 ? 'hide' : ''}" />
+                    <p:tab title="#{lang['tab.edit']} #{employeesView.update_employee.empFullname}" titleStyleClass="#{editTabClass}">
+
+                        <h:form>
+                            <h:panelGrid id="grid" columns="2" width="50%" styleClass="emp-grid1" >
+
+                                <h:outputLabel for="fullname" value="#{lang['data.fullname']} *" />
+                                <p:inputText 
+                                    id="fullname"
+                                    value="#{employeesView.update_employee.empFullname}"
+                                    styleClass="form-control"
+                                    required="true" 
+                                    label="#{lang['data.fullname']}"/>
+
+
+                                <h:outputLabel for="emp-id" value="#{lang['data.id']}" />
+                                <p:inputText 
+                                    id="emp-id"
+                                    value="#{employeesView.update_employee.empId}"
+                                    styleClass="form-control"
+                                    required="true"
+                                    label="#{lang['data.id']}" />
+
+
+                                <h:outputLabel for="hiringdate" value="#{lang['data.hiringdate']}" />
+                                <p:calendar id="hiringdate" value="#{employeesView.update_employee.empHiringdate}" effect="fold" pattern="MM/dd/yyyy" showOn="button" />
+
+                                <h:outputLabel for="birthdate" value="#{lang['data.birthdate']}" />
+                                <p:calendar id="birthdate" value="#{employeesView.update_employee.empBirthdate}" effect="fold" pattern="MM/dd/yyyy" showOn="button" />
+
+
+                                <h:outputLabel for="position" value="#{lang['data.position']}" />
+                                <h:selectOneMenu 
+                                    id="position"
+                                    value="#{employeesView.update_employee.positions}"
+                                    styleClass="form-control"
+                                    converter="positionConverter" >
+
+                                    <f:selectItems 
+                                        value="#{positionsView.positions}" 
+                                        var="position" 
+                                        itemLabel="#{position.posTitle}" 
+                                        itemValue="#{position}" />
+                                </h:selectOneMenu>
+
+
+                                <h:outputLabel for="dept" value="#{lang['data.dept']}" />
+                                <h:selectOneMenu 
+                                    id="dept"
+                                    value="#{employeesView.update_employee.departments}"
+                                    styleClass="form-control" 
+                                    converter="deptConverter">
+
+                                    <f:selectItems 
+                                        value="#{departmentsView.departments}" 
+                                        var="dept" 
+                                        itemLabel="#{dept.deptTitle}" 
+                                        itemValue="#{dept}" />
+                                </h:selectOneMenu>
+
+
+                                <h:outputLabel for="city" value="#{lang['data.city']}" />
+                                <h:selectOneMenu 
+                                    id="city"
+                                    value="#{employeesView.update_employee.cities}"
+                                    styleClass="form-control" 
+                                    converter="cityConverter">
+
+                                    <f:selectItems 
+                                        value="#{citiesView.cities}" 
+                                        var="city" 
+                                        itemLabel="#{city.cityTitle}" 
+                                        itemValue="#{city}" />
+                                </h:selectOneMenu>
+
+                                <h:outputLabel for="degree" value="#{lang['data.degree']}" />
+                                <h:selectOneMenu 
+                                    id="degree"
+                                    value="#{employeesView.update_employee.degrees}"
+                                    styleClass="form-control" 
+                                    converter="degreeConverter">
+
+                                    <f:selectItems 
+                                        value="#{degreesView.degrees}" 
+                                        var="degree" 
+                                        itemLabel="#{degree.degreeTitle}" 
+                                        itemValue="#{degree}" />
+                                </h:selectOneMenu>
+
+                                <h:outputLabel for="marital" value="#{lang['data.marital']}" />
+                                <h:selectOneMenu 
+                                    id="marital"
+                                    value="#{employeesView.update_employee.maritalStatus}"
+                                    styleClass="form-control" 
+                                    converter="maritalConverter">
+
+                                    <f:selectItems 
+                                        value="#{maritalView.marital_statuses}" 
+                                        var="marital" 
+                                        itemLabel="#{marital.maritalTitle}" 
+                                        itemValue="#{marital}" />
+                                </h:selectOneMenu>
+
+                                <h:outputLabel for="military" value="#{lang['data.military']}" />
+                                <h:selectOneMenu 
+                                    id="military"
+                                    value="#{employeesView.update_employee.militaryStatus}"
+                                    styleClass="form-control" 
+                                    converter="militaryConverter">
+
+                                    <f:selectItems 
+                                        value="#{militaryView.military_statuses}" 
+                                        var="military" 
+                                        itemLabel="#{military.militaryTitle}" 
+                                        itemValue="#{military}" />
+                                </h:selectOneMenu>
+
+                                <h:outputLabel for="emp_status" value="#{lang['data.status']}" />
+                                <h:selectOneMenu 
+                                    id="emp_status"
+                                    value="#{employeesView.update_employee.empStatus}"
+                                    styleClass="form-control" >
+
+                                    <f:selectItem itemLabel="#{lang['data.empStatus.hired']}" itemValue="1" />
+                                    <f:selectItem itemLabel="#{lang['data.empStatus.terminated']}" itemValue="0" />
+                                </h:selectOneMenu>
+
+                                <h:outputLabel 
+                                    for="client" 
+                                    value="#{lang['data.client']}"
+                                    rendered="#{clientOrgBean.clients.size() > 0}" 
+                                    />
+                                <h:selectOneMenu 
+                                    id="client"
+                                    disabled="#{userSession.user.id != 0}"
+                                    value="#{clientOrgBean.client_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.client']}"
+                                    rendered="#{clientOrgBean.clients.size() > 0}"
+                                    >
+                                    <f:selectItem itemLabel="*" itemValue="0" /> 
+                                    <f:selectItems value="#{clientOrgBean.clients}" var="client" itemLabel="#{client.clientName}" itemValue="#{client.id}" />
+                                    <p:ajax listener="#{clientOrgBean.ajax()}" update="org" />
+                                </h:selectOneMenu>
+
+
+
+                                <h:outputLabel 
+                                    for="org" 
+                                    value="#{lang['data.org']}"
+                                    />
+                                <h:selectOneMenu 
+                                    id="org"
+                                    disabled="#{userSession.user.id != 0 and userSession.org != null}"
+                                    value="#{clientOrgBean.org_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.org']}"
+                                    rendered="#{clientOrgBean.orgs.size() > 0}"
+                                    >
+                                    <f:selectItem itemLabel="*" itemValue="0" /> 
+                                    <f:selectItems value="#{clientOrgBean.orgs}" var="org" itemLabel="#{org.orgName}" itemValue="#{org.id}" />
+                                </h:selectOneMenu>
+                                <h:outputLabel value="#{lang['data.no-orgs']}" rendered="#{clientOrgBean.orgs.size() == 0}" />
+
+
+
+                                <h:outputLabel />
+                                <h:panelGrid columns="2">
+                                    <p:commandButton 
+                                        value="#{lang['btn.save']}"
+                                        action="#{employeesView.save(employeesView.update_employee)}" 
+                                        styleClass="btn btn-success"
+                                        style="margin: 0 15px 0 15px" 
+                                        ajax="false"/>
+
+                                    <p:commandButton 
+                                        process="@none"
+                                        update="grid"
+                                        value="#{lang['btn.reset']}" 
+                                        styleClass="btn btn-default"
+                                        />
+                                </h:panelGrid>
+                            </h:panelGrid>
+                            <h:inputHidden value="#{employeesView.update_employee.id}" />
+                        </h:form>
+
+                    </p:tab>
+
+                </p:tabView>
+
+            </p:panel>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>
