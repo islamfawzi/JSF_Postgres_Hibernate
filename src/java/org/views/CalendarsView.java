@@ -1,11 +1,13 @@
 package org.views;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import org.helpers.ClientOrgBean;
 import org.helpers.Message;
 import org.helpers.UserSession;
@@ -21,7 +23,7 @@ import org.utils.OrgsUtils;
  * @author islam
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class CalendarsView {
 
     private Calender calendar;
@@ -29,6 +31,7 @@ public class CalendarsView {
 
     private List<Calender> calendars;
     private List<Integer> days;
+    private List<String> weekDays;
 
     private int activeIndex = 0;
 
@@ -51,10 +54,12 @@ public class CalendarsView {
         activeIndex = 2;
     }
 
-    public void save(Calender calendar) {
+    public String save(Calender calendar) {
 
         if (calendar.getCalenderTitle().trim().length() > 0) {
-
+            System.out.println(">>>>>>>>>>>>>>>>>>> ");
+            System.out.println(calendar);
+            
             Clients client = (clientOrgBean.getClient_id() == 0 ? userSession.getUser().getClients() : ClientsUtils.get(clientOrgBean.getClient_id()));
             Orgs org = (clientOrgBean.getOrg_id() == 0 ? userSession.getOrg() : OrgsUtils.get(clientOrgBean.getOrg_id()));
 
@@ -65,12 +70,15 @@ public class CalendarsView {
 
             if (added) {
                 Message.addMessage(calendar.getCalenderTitle() + " saved Successfully", "INFO");
+                
+                return "calendars?faces-redirect=true";
             } else {
                 Message.addMessage("Oops! something wrong happened, please try again!.", "ERROR");
             }
         } else {
             Message.addMessage("Calendar Title is Required", "WARN");
         }
+        return null;
     }
 
     public void delete(Calender calendar) {
@@ -150,4 +158,13 @@ public class CalendarsView {
         this.days = days;
     }
 
+    public List<String> getWeekDays() {
+        weekDays = Arrays.asList("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+        return weekDays;
+    }
+
+    public void setWeekDays(List<String> weekDays) {
+        this.weekDays = weekDays;
+    }
+    
 }

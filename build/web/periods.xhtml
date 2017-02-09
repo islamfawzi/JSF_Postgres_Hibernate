@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:composition template="/templates/template.xhtml">
+
+        <ui:param name="page_title" value="#{lang['page.header.calendars']}" />
+
+        <ui:define name="content">
+
+            <p:panel header="#{lang['page.header.calendars']}">
+
+                <p:tabView activeIndex="#{calendarsView.activeIndex}">
+
+                    <!-- List Tab -->
+                    <p:tab title="#{lang['tab.list']}">
+                        <h:form>
+                            <p:dataTable id="tbl" var="calendar" value="#{calendarsView.calendars}"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginator="true" 
+                                         paginatorPosition="bottom" 
+                                         rowsPerPageTemplate="5,10,15"
+                                         rows="10" 
+                                         style="text-align: center">
+
+
+                                <p:column headerText="#{lang['data.id']}">
+                                    <h:outputText value="#{calendar.id}" />
+                                </p:column>
+
+                                <p:column headerText="#{lang['data.title']}">
+                                    <h:outputText 
+                                        value="#{calendar.calenderTitle}" 
+                                        />
+                                </p:column>
+                                <p:column headerText="#{lang['data.client']}" >
+                                    <h:outputText
+                                        value="#{calendar.clients != null? calendar.clients.clientName : '*'}" />
+                                </p:column>
+
+                                <p:column headerText="#{lang['data.org']}" >
+                                    <h:outputText
+                                        value="#{calendar.orgs != null? calendar.orgs.orgName : '*'}" />
+                                </p:column>
+                                <p:column headerText="#{lang['data.startfrom']}">
+                                    <h:outputText value="#{calendar.startFrom}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="#{lang['data.type']}">
+                                    <h:outputText value="Monthly (12/year)" rendered="#{calendar.type eq 'M'.charAt(0)}" />
+                                    <h:outputText value="Weekly (52/year)" rendered="#{calendar.type eq 'W'.charAt(0)}" />
+                                    <h:outputText value="Bi-Weekly (26/year)" rendered="#{calendar.type eq 'B'.charAt(0)}" />
+                                </p:column>
+
+                                <p:column style="padding:5px;">
+                                    <h:commandButton 
+                                        styleClass="btn btn-success" 
+                                        value="#{lang['btn.edit']}"
+                                        action="#{calendarsView.edit(calendar)}"
+                                        />
+                                    &nbsp;
+                                    <h:commandButton
+                                        styleClass="btn btn-danger" 
+                                        value="#{lang['btn.delete']}"
+                                        action="#{calendarsView.delete(calendar)}"
+                                        />
+                                </p:column>
+
+                            </p:dataTable>
+
+                        </h:form>
+                    </p:tab>
+                    <!-- End List -->
+
+                </p:tabView>
+
+
+            </p:panel>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

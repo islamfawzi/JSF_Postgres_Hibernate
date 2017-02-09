@@ -166,3 +166,7 @@ button.btn-success{
 .form-grid td{
     padding-top: 15px;
 }
+
+.no-padding td{
+    padding: 0px;
+}

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import org.pojos.Clients;
 import org.pojos.Orgs;
 import org.utils.ClientsUtils;
@@ -17,7 +18,7 @@ import org.utils.OrgsUtils;
  * @author islam
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class ClientOrgBean implements Serializable{
 
     private List<Clients> clients;

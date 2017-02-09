@@ -33,7 +33,7 @@ public class Calender implements java.io.Serializable {
     private int startDay = 1;
     private int transDay = 1;
     private Date startFrom;
-    private Character type;
+    private Character type = 'M';
     private int weekTransDate;
     private int weekStartDay;
     private Set periodses = new HashSet(0);
@@ -166,4 +166,12 @@ public class Calender implements java.io.Serializable {
         this.periodses = periodses;
     }
 
+    @Override
+    public String toString() {
+        return "Calender{" + "\ncalenderTitle=" + calenderTitle + "\ntype=" + type + "\nstartDay=" + startDay + "\ntransDay=" + transDay + "\nweekTransDate=" + weekTransDate + "\nweekStartDay=" + weekStartDay + "\nstartFrom=" + startFrom  + "\n}";
+    }
+
+    
+
+    
 }

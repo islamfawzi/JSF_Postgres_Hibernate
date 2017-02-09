@@ -84,7 +84,7 @@
 
                         <h:form>
                             <h:panelGrid id="grid" columns="2" width="50%" styleClass="form-grid">
-                                
+
                                 <!-- Title -->
                                 <h:outputLabel for="title" value="#{lang['data.title']} *" />
                                 <p:inputText 
@@ -101,36 +101,92 @@
                                 <h:selectOneMenu
                                     id="type"
                                     value="#{calendarsView.calendar.type}"
-                                    styleClass="form-control">
+                                    styleClass="form-control" 
+                                    >
                                     <f:selectItem itemLabel="Monthly (12/year)" itemValue="M" />
                                     <f:selectItem itemLabel="Weekly (52/year)" itemValue="W" />
                                     <f:selectItem itemLabel="Bi-Weekly (26/year)" itemValue="B" />
+                                    <p:ajax listener="#{clientOrgBean.ajax()}" update="dates-grid" />
                                 </h:selectOneMenu>
+                            </h:panelGrid>
 
-                                <!-- Start Day -->
-                                <h:outputLabel 
+                            <h:panelGrid id="dates-grid" columns="2" width="50%" styleClass="form-grid" >
+
+                                <!-- Start Day (monthly) -->
+                                <h:outputLabel
                                     for="startday"
-                                    value="#{lang['data.startday']}" />
+                                    value="#{lang['data.startday']}"
+                                    rendered="#{calendarsView.calendar.type eq 'M'.charAt(0)}" 
+                                    />
                                 <h:selectOneMenu
                                     id="startday"
                                     value="#{calendarsView.calendar.startDay}"
-                                    styleClass="form-control">
-                                    <f:selectItems value="#{calendarsView.days}" var="day" itemLabel="#{day}" itemValue="#{day}" />
-                                    <f:selectItem itemLabel="#{lang['data.lastday']}" itemValue="0" />
-                                </h:selectOneMenu>
-                                
-                                <!-- Transaction Day -->
-                                <h:outputLabel 
-                                    for="transday"
-                                    value="#{lang['data.transactionday']}" />
-                                <h:selectOneMenu
-                                    id="transday"
-                                    value="#{calendarsView.calendar.transDay}"
-                                    styleClass="form-control">
+                                    styleClass="form-control"
+                                    rendered="#{calendarsView.calendar.type eq 'M'.charAt(0)}" 
+                                    >
                                     <f:selectItems value="#{calendarsView.days}" var="day" itemLabel="#{day}" itemValue="#{day}" />
                                     <f:selectItem itemLabel="#{lang['data.lastday']}" itemValue="0" />
                                 </h:selectOneMenu>
 
+                                <!-- Transaction Day (monthly) -->
+                                <h:outputLabel 
+                                    for="transday"
+                                    value="#{lang['data.transactionday']}" 
+                                    rendered="#{calendarsView.calendar.type eq 'M'.charAt(0)}" 
+                                    />
+
+                                <h:selectOneMenu
+                                    id="transday"
+                                    value="#{calendarsView.calendar.transDay}"
+                                    styleClass="form-control"
+                                    rendered="#{calendarsView.calendar.type eq 'M'.charAt(0)}"
+                                    >
+                                    <f:selectItems value="#{calendarsView.days}" var="day" itemLabel="#{day}" itemValue="#{day}" />
+                                    <f:selectItem itemLabel="#{lang['data.lastday']}" itemValue="0" />
+                                </h:selectOneMenu>
+
+                                <!-- Week Start Day (weekly & bi-weekly) -->
+                                <h:outputLabel 
+                                    for="week_start_day"
+                                    value="#{lang['data.week_periodStartOn']}"
+                                    rendered="#{calendarsView.calendar.type eq 'W'.charAt(0) or calendarsView.calendar.type eq 'B'.charAt(0)}" 
+                                    />
+                                <h:selectOneMenu
+                                    id="week_start_day"
+                                    value="#{calendarsView.calendar.weekStartDay}"
+                                    styleClass="form-control"
+                                    rendered="#{calendarsView.calendar.type eq 'W'.charAt(0) or calendarsView.calendar.type eq 'B'.charAt(0)}"
+                                    >
+                                    <f:selectItems value="#{calendarsView.weekDays}" var="day" itemLabel="#{day}" itemValue="#{calendarsView.weekDays.indexOf(day)}" />
+                                </h:selectOneMenu>
+
+                                <!-- Week Transaction Day (weekly & bi-weekly) -->
+                                <h:outputLabel 
+                                    for="week_trans_day"
+                                    value="#{lang['data.week_transdate']}"
+                                    rendered="#{calendarsView.calendar.type eq 'W'.charAt(0) or calendarsView.calendar.type eq 'B'.charAt(0)}" 
+                                    />
+
+                                <h:selectOneMenu
+                                    id="week_trans_day"
+                                    value="#{calendarsView.calendar.weekTransDate}"
+                                    styleClass="form-control"
+                                    rendered="#{calendarsView.calendar.type eq 'W'.charAt(0) or calendarsView.calendar.type eq 'B'.charAt(0)}"
+                                    >
+                                    <f:selectItems value="#{calendarsView.days}" var="day" itemLabel="#{day}" itemValue="#{day}" />
+                                </h:selectOneMenu>
+
+                                <h:outputText rendered="#{calendarsView.calendar.type eq 'W'.charAt(0) or calendarsView.calendar.type eq 'B'.charAt(0)}" />
+                                <h:outputText 
+                                    id="daysAfterEnd"
+                                    value="#{lang['data.daysAfterEnd']}"
+                                    rendered="#{calendarsView.calendar.type eq 'W'.charAt(0) or calendarsView.calendar.type eq 'B'.charAt(0)}"
+                                    />
+                                
+                            </h:panelGrid>
+                            
+                            <h:panelGrid columns="2" width="50%" styleClass="form-grid" >
+                                
                                 <!-- Start From -->    
                                 <h:outputLabel for="startfrom" value="#{lang['data.startfrom']}" />
                                 <p:calendar id="startfrom" value="#{calendarsView.calendar.startFrom}" effect="fold" pattern="dd/MM/yyyy" showOn="button" />
@@ -172,7 +228,7 @@
                                 </h:selectOneMenu>
                                 <h:outputLabel value="#{lang['data.no-orgs']}" rendered="#{clientOrgBean.orgs.size() == 0}" />
 
-                                
+
                                 <!-- Submit -->
                                 <h:outputText />
                                 <h:panelGrid columns="2" styleClass="pull-right">
@@ -191,7 +247,7 @@
                                         />
                                 </h:panelGrid>
                             </h:panelGrid>
-                            
+
                         </h:form>
 
                     </p:tab>
@@ -203,7 +259,7 @@
 
                         <h:form>
                             <h:panelGrid id="update-grid" columns="2" width="50%" styleClass="form-grid">
-                                
+
                                 <!-- Title -->
                                 <h:outputLabel for="update-title" value="#{lang['data.title']} *" />
                                 <p:inputText 
@@ -224,36 +280,87 @@
                                     <f:selectItem itemLabel="Monthly (12/year)" itemValue="M" />
                                     <f:selectItem itemLabel="Weekly (52/year)" itemValue="W" />
                                     <f:selectItem itemLabel="Bi-Weekly (26/year)" itemValue="B" />
+                                    <p:ajax listener="#{clientOrgBean.ajax()}" update="update-dates-grid" />
                                 </h:selectOneMenu>
 
-                                <!-- Start Day -->
+                            </h:panelGrid>
+                            <h:panelGrid id="update-dates-grid" columns="2" width="50%" styleClass="form-grid" >
+
+                                <!-- Start Day (monthly) -->
                                 <h:outputLabel 
                                     for="update-startday"
-                                    value="#{lang['data.startday']}" />
+                                    value="#{lang['data.startday']}" 
+                                    rendered="#{calendarsView.update_calendar.type eq 'M'.charAt(0)}"
+                                    />
                                 <h:selectOneMenu
                                     id="update-startday"
                                     value="#{calendarsView.update_calendar.startDay}"
-                                    styleClass="form-control">
-                                    <f:selectItems value="#{calendarsView.days}" var="day" itemLabel="#{day}" itemValue="#{day}" />
-                                    <f:selectItem itemLabel="#{lang['data.lastday']}" itemValue="0" />
-                                </h:selectOneMenu>
-                                
-                                <!-- Transaction Day -->
-                                <h:outputLabel 
-                                    for="update-transday"
-                                    value="#{lang['data.transactionday']}" />
-                                <h:selectOneMenu
-                                    id="update-transday"
-                                    value="#{calendarsView.update_calendar.transDay}"
-                                    styleClass="form-control">
+                                    styleClass="form-control"
+                                    rendered="#{calendarsView.update_calendar.type eq 'M'.charAt(0)}"
+                                    >
                                     <f:selectItems value="#{calendarsView.days}" var="day" itemLabel="#{day}" itemValue="#{day}" />
                                     <f:selectItem itemLabel="#{lang['data.lastday']}" itemValue="0" />
                                 </h:selectOneMenu>
 
+                                <!-- Transaction Day (monthly) -->
+                                <h:outputLabel 
+                                    for="update-transday"
+                                    value="#{lang['data.transactionday']}" 
+                                    rendered="#{calendarsView.update_calendar.type eq 'M'.charAt(0)}"
+                                    />
+                                <h:selectOneMenu
+                                    id="update-transday"
+                                    value="#{calendarsView.update_calendar.transDay}"
+                                    styleClass="form-control"
+                                    rendered="#{calendarsView.update_calendar.type eq 'M'.charAt(0)}"
+                                    >
+                                    <f:selectItems value="#{calendarsView.days}" var="day" itemLabel="#{day}" itemValue="#{day}" />
+                                    <f:selectItem itemLabel="#{lang['data.lastday']}" itemValue="0" />
+                                </h:selectOneMenu>
+
+                                <!-- Week Start Day (weekly & bi-weekly) -->
+                                <h:outputLabel 
+                                    for="update-week_start_day"
+                                    value="#{lang['data.week_periodStartOn']}"
+                                    rendered="#{calendarsView.update_calendar.type eq 'W'.charAt(0) or calendarsView.update_calendar.type eq 'B'.charAt(0)}" 
+                                    />
+                                <h:selectOneMenu
+                                    id="update-week_start_day"
+                                    value="#{calendarsView.update_calendar.weekStartDay}"
+                                    styleClass="form-control"
+                                    rendered="#{calendarsView.update_calendar.type eq 'W'.charAt(0) or calendarsView.update_calendar.type eq 'B'.charAt(0)}"
+                                    >
+                                    <f:selectItems value="#{calendarsView.weekDays}" var="day" itemLabel="#{day}" itemValue="#{calendarsView.weekDays.indexOf(day)}" />
+                                </h:selectOneMenu>
+
+                                <!-- Week Transaction Day (weekly & bi-weekly) -->
+                                <h:outputLabel 
+                                    for="update-week_trans_day"
+                                    value="#{lang['data.week_transdate']}"
+                                    rendered="#{calendarsView.update_calendar.type eq 'W'.charAt(0) or calendarsView.update_calendar.type eq 'B'.charAt(0)}" 
+                                    />
+
+                                <h:selectOneMenu
+                                    id="update-week_trans_day"
+                                    value="#{calendarsView.update_calendar.weekTransDate}"
+                                    styleClass="form-control"
+                                    rendered="#{calendarsView.update_calendar.type eq 'W'.charAt(0) or calendarsView.update_calendar.type eq 'B'.charAt(0)}"
+                                    >
+                                    <f:selectItems value="#{calendarsView.days}" var="day" itemLabel="#{day}" itemValue="#{day}" />
+                                </h:selectOneMenu>
+
+                                <h:outputText rendered="#{calendarsView.update_calendar.type eq 'W'.charAt(0) or calendarsView.update_calendar.type eq 'B'.charAt(0)}" />
+                                <h:outputText 
+                                    value="#{lang['data.daysAfterEnd']}" 
+                                    rendered="#{calendarsView.update_calendar.type eq 'W'.charAt(0) or calendarsView.update_calendar.type eq 'B'.charAt(0)}"          
+                                    />
+
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" width="50%" styleClass="form-grid">
                                 <!-- Start From -->    
                                 <h:outputLabel for="update-startfrom" value="#{lang['data.startfrom']}" />
                                 <p:calendar id="update-startfrom" value="#{calendarsView.update_calendar.startFrom}" effect="fold" pattern="dd/MM/yyyy" showOn="button" />
-                                
+
                                 <!-- Client -->
                                 <h:outputLabel 
                                     for="update-client" 
@@ -291,7 +398,7 @@
                                 </h:selectOneMenu>
                                 <h:outputLabel value="#{lang['data.no-orgs']}" rendered="#{clientOrgBean.orgs.size() == 0}" />
 
-                                
+
                                 <!-- Submit -->
                                 <h:outputText />
                                 <h:panelGrid columns="2" styleClass="pull-right">
