@@ -21,20 +21,13 @@
                     <p:menuitem value="#{lang['menu.master_data.degrees']}" url="/degrees.xhtml" />
                 </p:submenu>
 
-                
+
                 <p:menuitem value="#{lang['menu.employees']}" icon="ui-icon-document" url="/employees.xhtml" />
-                
+
 
                 <p:submenu label="#{lang['menu.calendar']}" icon="ui-icon-document">
-                    <p:submenu label="#{lang['menu.calendar.calendars']}" >
-                        <p:menuitem value="#{lang['menu.submenu.new']}" url="/calendars/add.xhtml" />
-                        <p:menuitem value="#{lang['menu.submenu.all']}" url="/calendars/all.xhtml" />
-                    </p:submenu>
-
-                    <p:submenu label="#{lang['menu.calendar.periods']}" >
-                        <p:menuitem value="#{lang['menu.submenu.new']}" url="/periods/add.xhtml" />
-                        <p:menuitem value="#{lang['menu.submenu.all']}" url="/periods/all.xhtml" />
-                    </p:submenu>
+                    <p:menuitem value="#{lang['menu.calendar.calendars']}" url="/calendars.xhtml" />
+                    <p:menuitem value="#{lang['menu.calendar.periods']}" url="/periods.xhtml" />
                 </p:submenu>
 
                 <p:submenu label="#{lang['menu.actions']}" icon="ui-icon-document">
@@ -47,13 +40,13 @@
                         <p:menuitem value="#{lang['menu.submenu.new']}" url="/actions/add.xhtml" />
                         <p:menuitem value="#{lang['menu.submenu.all']}" url="/actions/all.xhtml" />
                     </p:submenu>
-                    
+
                     <p:submenu label="#{lang['menu.actions.actions_transactions']}" >
                         <p:menuitem value="#{lang['menu.submenu.new']}" url="/actions-transactions/add.xhtml" />
                         <p:menuitem value="#{lang['menu.submenu.all']}" url="/actions-transactions/all.xhtml" />
                     </p:submenu>
                 </p:submenu>
-                
+
                 <p:submenu label="#{lang['menu.payroll']}" icon="ui-icon-document">
                     <p:submenu label="#{lang['menu.payroll.items']}" >
                         <p:menuitem value="#{lang['menu.submenu.new']}" url="/payroll-items/add.xhtml" />
@@ -64,17 +57,17 @@
                         <p:menuitem value="#{lang['menu.submenu.new']}" url="/payroll-categories/add.xhtml" />
                         <p:menuitem value="#{lang['menu.submenu.all']}" url="/payroll-categories/all.xhtml" />
                     </p:submenu>
-                    
+
                     <p:submenu label="#{lang['menu.payroll.entries']}" >
                         <p:menuitem value="#{lang['menu.submenu.new']}" url="/payroll-entries/add.xhtml" />
                         <p:menuitem value="#{lang['menu.submenu.all']}" url="/payroll-entries/all.xhtml" />
                     </p:submenu>
-                    
+
                     <p:submenu label="#{lang['menu.payroll.templates']}" >
                         <p:menuitem value="#{lang['menu.submenu.new']}" url="/payroll-templates/add.xhtml" />
                         <p:menuitem value="#{lang['menu.submenu.all']}" url="/payroll-templates/all.xhtml" />
                     </p:submenu>
-                    
+
                     <p:submenu label="#{lang['menu.payroll.processing']}" >
                         <p:menuitem value="#{lang['menu.submenu.new']}" url="/payroll-processing/add.xhtml" />
                         <p:menuitem value="#{lang['menu.submenu.all']}" url="/payroll-processing/all.xhtml" />
@@ -82,16 +75,16 @@
                 </p:submenu>
 
 
-                
+
                 <p:menuitem value="#{lang['menu.payslip']}" url="/payslip/all.xhtml" icon="ui-icon-document" />
-                
-                
+
+
                 <p:submenu label="#{lang['menu.system']}" rendered="#{userSession.user.id == 0}" >
                     <p:menuitem value="#{lang['menu.clients']}" url="/clients.xhtml" icon="ui-icon-document" />
                     <p:menuitem value="#{lang['menu.orgs']}" url="/orgs.xhtml" icon="ui-icon-document" />
                     <p:menuitem value="#{lang['menu.users']}" url="/users.xhtml" icon="ui-icon-document" />
                 </p:submenu>
-                
+
 
 
 

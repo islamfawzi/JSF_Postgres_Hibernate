@@ -30,25 +30,25 @@ public class Calender implements java.io.Serializable {
     private Clients clients;
     private Orgs orgs;
     private String calenderTitle;
-    private BigDecimal startDay;
-    private BigDecimal transDay;
+    private int startDay = 1;
+    private int transDay = 1;
     private Date startFrom;
     private Character type;
-    private BigDecimal weekTransDate;
-    private BigDecimal weekStartDay;
+    private int weekTransDate;
+    private int weekStartDay;
     private Set periodses = new HashSet(0);
 
     public Calender() {
     }
 
-    public Calender(int id, String calenderTitle, BigDecimal startDay, BigDecimal transDay) {
+    public Calender(int id, String calenderTitle, int startDay, int transDay) {
         this.id = id;
         this.calenderTitle = calenderTitle;
         this.startDay = startDay;
         this.transDay = transDay;
     }
 
-    public Calender(int id, Clients clients, Orgs orgs, String calenderTitle, BigDecimal startDay, BigDecimal transDay, Date startFrom, Character type, BigDecimal weekTransDate, BigDecimal weekStartDay, Set periodses) {
+    public Calender(int id, Clients clients, Orgs orgs, String calenderTitle, int startDay, int transDay, Date startFrom, Character type, int weekTransDate, int weekStartDay, Set periodses) {
         this.id = id;
         this.clients = clients;
         this.orgs = orgs;
@@ -103,20 +103,20 @@ public class Calender implements java.io.Serializable {
     }
 
     @Column(name = "start_day", nullable = false, precision = 131089, scale = 0)
-    public BigDecimal getStartDay() {
+    public int getStartDay() {
         return this.startDay;
     }
 
-    public void setStartDay(BigDecimal startDay) {
+    public void setStartDay(int startDay) {
         this.startDay = startDay;
     }
 
     @Column(name = "trans_day", nullable = false, precision = 131089, scale = 0)
-    public BigDecimal getTransDay() {
+    public int getTransDay() {
         return this.transDay;
     }
 
-    public void setTransDay(BigDecimal transDay) {
+    public void setTransDay(int transDay) {
         this.transDay = transDay;
     }
 
@@ -140,20 +140,20 @@ public class Calender implements java.io.Serializable {
     }
 
     @Column(name = "week_trans_date", precision = 131089, scale = 0)
-    public BigDecimal getWeekTransDate() {
+    public int getWeekTransDate() {
         return this.weekTransDate;
     }
 
-    public void setWeekTransDate(BigDecimal weekTransDate) {
+    public void setWeekTransDate(int weekTransDate) {
         this.weekTransDate = weekTransDate;
     }
 
     @Column(name = "week_start_day", precision = 131089, scale = 0)
-    public BigDecimal getWeekStartDay() {
+    public int getWeekStartDay() {
         return this.weekStartDay;
     }
 
-    public void setWeekStartDay(BigDecimal weekStartDay) {
+    public void setWeekStartDay(int weekStartDay) {
         this.weekStartDay = weekStartDay;
     }
 

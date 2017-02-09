@@ -1,0 +1,327 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:composition template="/templates/template.xhtml">
+
+        <ui:param name="page_title" value="#{lang['page.header.calendars']}" />
+
+        <ui:define name="content">
+
+            <p:panel header="#{lang['page.header.calendars']}">
+
+                <p:tabView activeIndex="#{calendarsView.activeIndex}">
+
+                    <!-- List Tab -->
+                    <p:tab title="#{lang['tab.list']}">
+                        <h:form>
+                            <p:dataTable id="tbl" var="calendar" value="#{calendarsView.calendars}"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginator="true" 
+                                         paginatorPosition="bottom" 
+                                         rowsPerPageTemplate="5,10,15"
+                                         rows="10" 
+                                         style="text-align: center">
+
+
+                                <p:column headerText="#{lang['data.id']}">
+                                    <h:outputText value="#{calendar.id}" />
+                                </p:column>
+
+                                <p:column headerText="#{lang['data.title']}">
+                                    <h:outputText 
+                                        value="#{calendar.calenderTitle}" 
+                                        />
+                                </p:column>
+                                <p:column headerText="#{lang['data.client']}" >
+                                    <h:outputText
+                                        value="#{calendar.clients != null? calendar.clients.clientName : '*'}" />
+                                </p:column>
+
+                                <p:column headerText="#{lang['data.org']}" >
+                                    <h:outputText
+                                        value="#{calendar.orgs != null? calendar.orgs.orgName : '*'}" />
+                                </p:column>
+                                <p:column headerText="#{lang['data.startfrom']}">
+                                    <h:outputText value="#{calendar.startFrom}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="#{lang['data.type']}">
+                                    <h:outputText value="Monthly (12/year)" rendered="#{calendar.type eq 'M'.charAt(0)}" />
+                                    <h:outputText value="Weekly (52/year)" rendered="#{calendar.type eq 'W'.charAt(0)}" />
+                                    <h:outputText value="Bi-Weekly (26/year)" rendered="#{calendar.type eq 'B'.charAt(0)}" />
+                                </p:column>
+
+                                <p:column style="padding:5px;">
+                                    <h:commandButton 
+                                        styleClass="btn btn-success" 
+                                        value="#{lang['btn.edit']}"
+                                        action="#{calendarsView.edit(calendar)}"
+                                        />
+                                    &nbsp;
+                                    <h:commandButton
+                                        styleClass="btn btn-danger" 
+                                        value="#{lang['btn.delete']}"
+                                        action="#{calendarsView.delete(calendar)}"
+                                        />
+                                </p:column>
+
+                            </p:dataTable>
+
+                        </h:form>
+                    </p:tab>
+                    <!-- End List -->
+
+                    <!-- Add New Tab -->
+                    <p:tab title="#{lang['tab.new']}">
+
+                        <h:form>
+                            <h:panelGrid id="grid" columns="2" width="50%" styleClass="form-grid">
+                                
+                                <!-- Title -->
+                                <h:outputLabel for="title" value="#{lang['data.title']} *" />
+                                <p:inputText 
+                                    id="title"
+                                    value="#{calendarsView.calendar.calenderTitle}"
+                                    styleClass="form-control"
+                                    required="true" 
+                                    label="#{lang['data.title']}"/>
+
+                                <!-- Type -->
+                                <h:outputLabel 
+                                    for="type"
+                                    value="#{lang['data.type']}" />
+                                <h:selectOneMenu
+                                    id="type"
+                                    value="#{calendarsView.calendar.type}"
+                                    styleClass="form-control">
+                                    <f:selectItem itemLabel="Monthly (12/year)" itemValue="M" />
+                                    <f:selectItem itemLabel="Weekly (52/year)" itemValue="W" />
+                                    <f:selectItem itemLabel="Bi-Weekly (26/year)" itemValue="B" />
+                                </h:selectOneMenu>
+
+                                <!-- Start Day -->
+                                <h:outputLabel 
+                                    for="startday"
+                                    value="#{lang['data.startday']}" />
+                                <h:selectOneMenu
+                                    id="startday"
+                                    value="#{calendarsView.calendar.startDay}"
+                                    styleClass="form-control">
+                                    <f:selectItems value="#{calendarsView.days}" var="day" itemLabel="#{day}" itemValue="#{day}" />
+                                    <f:selectItem itemLabel="#{lang['data.lastday']}" itemValue="0" />
+                                </h:selectOneMenu>
+                                
+                                <!-- Transaction Day -->
+                                <h:outputLabel 
+                                    for="transday"
+                                    value="#{lang['data.transactionday']}" />
+                                <h:selectOneMenu
+                                    id="transday"
+                                    value="#{calendarsView.calendar.transDay}"
+                                    styleClass="form-control">
+                                    <f:selectItems value="#{calendarsView.days}" var="day" itemLabel="#{day}" itemValue="#{day}" />
+                                    <f:selectItem itemLabel="#{lang['data.lastday']}" itemValue="0" />
+                                </h:selectOneMenu>
+
+                                <!-- Start From -->    
+                                <h:outputLabel for="startfrom" value="#{lang['data.startfrom']}" />
+                                <p:calendar id="startfrom" value="#{calendarsView.calendar.startFrom}" effect="fold" pattern="dd/MM/yyyy" showOn="button" />
+                                
+                                <!-- Client -->
+                                <h:outputLabel 
+                                    for="client" 
+                                    value="#{lang['data.client']}"
+                                    rendered="#{clientOrgBean.clients.size() > 0}" 
+                                    />
+                                <h:selectOneMenu 
+                                    id="client"
+                                    disabled="#{userSession.user.id != 0}"
+                                    value="#{clientOrgBean.client_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.client']}"
+                                    rendered="#{clientOrgBean.clients.size() > 0}"
+                                    >
+                                    <f:selectItem itemLabel="*" itemValue="0" /> 
+                                    <f:selectItems value="#{clientOrgBean.clients}" var="client" itemLabel="#{client.clientName}" itemValue="#{client.id}" />
+                                    <p:ajax listener="#{clientOrgBean.ajax()}" update="org" />
+                                </h:selectOneMenu>
+
+                                <!-- Organization -->
+                                <h:outputLabel 
+                                    for="org" 
+                                    value="#{lang['data.org']}"
+                                    />
+                                <h:selectOneMenu 
+                                    id="org"
+                                    disabled="#{userSession.user.id != 0 and userSession.org != null}"
+                                    value="#{clientOrgBean.org_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.org']}"
+                                    rendered="#{clientOrgBean.orgs.size() > 0}"
+                                    >
+                                    <f:selectItem itemLabel="*" itemValue="0" /> 
+                                    <f:selectItems value="#{clientOrgBean.orgs}" var="org" itemLabel="#{org.orgName}" itemValue="#{org.id}" />
+                                </h:selectOneMenu>
+                                <h:outputLabel value="#{lang['data.no-orgs']}" rendered="#{clientOrgBean.orgs.size() == 0}" />
+
+                                
+                                <!-- Submit -->
+                                <h:outputText />
+                                <h:panelGrid columns="2" styleClass="pull-right">
+                                    <p:commandButton 
+                                        value="#{lang['btn.save']}"
+                                        action="#{calendarsView.save(calendarsView.calendar)}" 
+                                        styleClass="btn btn-success"
+                                        style="margin: 0 15px 0 15px" 
+                                        ajax="false"/>
+
+                                    <p:commandButton 
+                                        process="@none"
+                                        update="grid"
+                                        value="#{lang['btn.reset']}" 
+                                        styleClass="btn btn-default"
+                                        />
+                                </h:panelGrid>
+                            </h:panelGrid>
+                            
+                        </h:form>
+
+                    </p:tab>
+                    <!-- End Add New Tab -->
+
+                    <!-- Edit Tab -->
+                    <c:set var="editTabClass" value="#{calendarsView.activeIndex != 2 ? 'hide' : ''}" />
+                    <p:tab title="#{lang['tab.edit']} #{calendarsView.update_calendar.calenderTitle}" titleStyleClass="#{editTabClass}">
+
+                        <h:form>
+                            <h:panelGrid id="update-grid" columns="2" width="50%" styleClass="form-grid">
+                                
+                                <!-- Title -->
+                                <h:outputLabel for="update-title" value="#{lang['data.title']} *" />
+                                <p:inputText 
+                                    id="update-title"
+                                    value="#{calendarsView.update_calendar.calenderTitle}"
+                                    styleClass="form-control"
+                                    required="true" 
+                                    label="#{lang['data.title']}"/>
+
+                                <!-- Type -->
+                                <h:outputLabel 
+                                    for="update-type"
+                                    value="#{lang['data.type']}" />
+                                <h:selectOneMenu
+                                    id="update-type"
+                                    value="#{calendarsView.update_calendar.type}"
+                                    styleClass="form-control">
+                                    <f:selectItem itemLabel="Monthly (12/year)" itemValue="M" />
+                                    <f:selectItem itemLabel="Weekly (52/year)" itemValue="W" />
+                                    <f:selectItem itemLabel="Bi-Weekly (26/year)" itemValue="B" />
+                                </h:selectOneMenu>
+
+                                <!-- Start Day -->
+                                <h:outputLabel 
+                                    for="update-startday"
+                                    value="#{lang['data.startday']}" />
+                                <h:selectOneMenu
+                                    id="update-startday"
+                                    value="#{calendarsView.update_calendar.startDay}"
+                                    styleClass="form-control">
+                                    <f:selectItems value="#{calendarsView.days}" var="day" itemLabel="#{day}" itemValue="#{day}" />
+                                    <f:selectItem itemLabel="#{lang['data.lastday']}" itemValue="0" />
+                                </h:selectOneMenu>
+                                
+                                <!-- Transaction Day -->
+                                <h:outputLabel 
+                                    for="update-transday"
+                                    value="#{lang['data.transactionday']}" />
+                                <h:selectOneMenu
+                                    id="update-transday"
+                                    value="#{calendarsView.update_calendar.transDay}"
+                                    styleClass="form-control">
+                                    <f:selectItems value="#{calendarsView.days}" var="day" itemLabel="#{day}" itemValue="#{day}" />
+                                    <f:selectItem itemLabel="#{lang['data.lastday']}" itemValue="0" />
+                                </h:selectOneMenu>
+
+                                <!-- Start From -->    
+                                <h:outputLabel for="update-startfrom" value="#{lang['data.startfrom']}" />
+                                <p:calendar id="update-startfrom" value="#{calendarsView.update_calendar.startFrom}" effect="fold" pattern="dd/MM/yyyy" showOn="button" />
+                                
+                                <!-- Client -->
+                                <h:outputLabel 
+                                    for="update-client" 
+                                    value="#{lang['data.client']}"
+                                    rendered="#{clientOrgBean.clients.size() > 0}" 
+                                    />
+                                <h:selectOneMenu 
+                                    id="update-client"
+                                    disabled="#{userSession.user.id != 0}"
+                                    value="#{clientOrgBean.client_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.client']}"
+                                    rendered="#{clientOrgBean.clients.size() > 0}"
+                                    >
+                                    <f:selectItem itemLabel="*" itemValue="0" /> 
+                                    <f:selectItems value="#{clientOrgBean.clients}" var="client" itemLabel="#{client.clientName}" itemValue="#{client.id}" />
+                                    <p:ajax listener="#{clientOrgBean.ajax()}" update="update-org" />
+                                </h:selectOneMenu>
+
+                                <!-- Organization -->
+                                <h:outputLabel 
+                                    for="update-org" 
+                                    value="#{lang['data.org']}"
+                                    />
+                                <h:selectOneMenu 
+                                    id="update-org"
+                                    disabled="#{userSession.user.id != 0 and userSession.org != null}"
+                                    value="#{clientOrgBean.org_id}"
+                                    styleClass="form-control"
+                                    required="true" label="#{lang['data.org']}"
+                                    rendered="#{clientOrgBean.orgs.size() > 0}"
+                                    >
+                                    <f:selectItem itemLabel="*" itemValue="0" /> 
+                                    <f:selectItems value="#{clientOrgBean.orgs}" var="org" itemLabel="#{org.orgName}" itemValue="#{org.id}" />
+                                </h:selectOneMenu>
+                                <h:outputLabel value="#{lang['data.no-orgs']}" rendered="#{clientOrgBean.orgs.size() == 0}" />
+
+                                
+                                <!-- Submit -->
+                                <h:outputText />
+                                <h:panelGrid columns="2" styleClass="pull-right">
+                                    <p:commandButton 
+                                        value="#{lang['btn.save']}"
+                                        action="#{calendarsView.save(calendarsView.update_calendar)}" 
+                                        styleClass="btn btn-success"
+                                        style="margin: 0 15px 0 15px" 
+                                        ajax="false"/>
+
+                                    <p:commandButton 
+                                        process="@none"
+                                        update="update-grid"
+                                        value="#{lang['btn.reset']}" 
+                                        styleClass="btn btn-default"
+                                        />
+                                </h:panelGrid>
+                            </h:panelGrid>
+                            <h:inputHidden value="#{calendarsView.update_calendar.id}" />
+                        </h:form>
+
+                    </p:tab>
+
+                </p:tabView>
+
+
+            </p:panel>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

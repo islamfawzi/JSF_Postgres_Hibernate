@@ -5,7 +5,7 @@
   <class name="org.pojos.Calender" optimistic-lock="version" schema="public" table="calender">
     <id name="id" type="int">
       <column name="id"/>
-      <generator class="assigned"/>
+      <generator class="identity"/>
     </id>
     <many-to-one class="org.pojos.Clients" fetch="select" name="clients">
       <column name="client_id"/>
@@ -16,10 +16,10 @@
     <property name="calenderTitle" type="string">
       <column name="calender_title" not-null="true"/>
     </property>
-    <property name="startDay" type="big_decimal">
+    <property name="startDay" type="int">
       <column name="start_day" not-null="true" precision="131089" scale="0"/>
     </property>
-    <property name="transDay" type="big_decimal">
+    <property name="transDay" type="int">
       <column name="trans_day" not-null="true" precision="131089" scale="0"/>
     </property>
     <property name="startFrom" type="timestamp">
@@ -28,10 +28,10 @@
     <property name="type" type="java.lang.Character">
       <column length="1" name="type"/>
     </property>
-    <property name="weekTransDate" type="big_decimal">
+    <property name="weekTransDate" type="int">
       <column name="week_trans_date" precision="131089" scale="0"/>
     </property>
-    <property name="weekStartDay" type="big_decimal">
+    <property name="weekStartDay" type="int">
       <column name="week_start_day" precision="131089" scale="0"/>
     </property>
     <set fetch="select" inverse="true" lazy="true" name="periodses" table="periods">

@@ -5,12 +5,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import org.pojos.Cities;
 import org.pojos.MaritalStatus;
-import org.pojos.Positions;
-import org.utils.CitiesUtils;
 import org.utils.MaritalUtils;
-import org.utils.PositionsUtils;
 
 /**
  *

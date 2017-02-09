@@ -121,7 +121,7 @@
                     <!-- Add New Tab -->
                     <p:tab title="#{lang['tab.new']}" >
                         <h:form>
-                            <h:panelGrid id="grid" columns="2" width="50%" styleClass="emp-grid1" >
+                            <h:panelGrid id="grid" columns="2" width="50%" styleClass="form-grid" >
 
                                 <h:outputLabel for="fullname" value="#{lang['data.fullname']} *" />
                                 <p:inputText 
@@ -142,10 +142,10 @@
 
 
                                 <h:outputLabel for="hiringdate" value="#{lang['data.hiringdate']}" />
-                                <p:calendar id="hiringdate" value="#{employeesView.employee.empHiringdate}" effect="fold" pattern="MM/dd/yyyy" showOn="button" />
+                                <p:calendar id="hiringdate" value="#{employeesView.employee.empHiringdate}" effect="fold" pattern="dd/MM/yyyy" showOn="button" />
 
                                 <h:outputLabel for="birthdate" value="#{lang['data.birthdate']}" />
-                                <p:calendar id="birthdate" value="#{employeesView.employee.empBirthdate}" effect="fold" pattern="MM/dd/yyyy" showOn="button" />
+                                <p:calendar id="birthdate" value="#{employeesView.employee.empBirthdate}" effect="fold" pattern="dd/MM/yyyy" showOn="button" />
 
 
                                 <h:outputLabel for="position" value="#{lang['data.position']}" />
@@ -284,7 +284,7 @@
 
 
                                 <h:outputLabel />
-                                <h:panelGrid columns="2">
+                                <h:panelGrid columns="2" styleClass="pull-right">
                                     <p:commandButton 
                                         value="#{lang['btn.save']}"
                                         action="#{employeesView.save(employeesView.employee)}" 
@@ -310,7 +310,7 @@
                     <p:tab title="#{lang['tab.edit']} #{employeesView.update_employee.empFullname}" titleStyleClass="#{editTabClass}">
 
                         <h:form>
-                            <h:panelGrid id="grid" columns="2" width="50%" styleClass="emp-grid1" >
+                            <h:panelGrid id="grid" columns="2" width="50%" styleClass="form-grid" >
 
                                 <h:outputLabel for="fullname" value="#{lang['data.fullname']} *" />
                                 <p:inputText 
@@ -331,10 +331,10 @@
 
 
                                 <h:outputLabel for="hiringdate" value="#{lang['data.hiringdate']}" />
-                                <p:calendar id="hiringdate" value="#{employeesView.update_employee.empHiringdate}" effect="fold" pattern="MM/dd/yyyy" showOn="button" />
+                                <p:calendar id="hiringdate" value="#{employeesView.update_employee.empHiringdate}" effect="fold" pattern="dd/MM/yyyy" showOn="button" />
 
                                 <h:outputLabel for="birthdate" value="#{lang['data.birthdate']}" />
-                                <p:calendar id="birthdate" value="#{employeesView.update_employee.empBirthdate}" effect="fold" pattern="MM/dd/yyyy" showOn="button" />
+                                <p:calendar id="birthdate" value="#{employeesView.update_employee.empBirthdate}" effect="fold" pattern="dd/MM/yyyy" showOn="button" />
 
 
                                 <h:outputLabel for="position" value="#{lang['data.position']}" />
@@ -473,7 +473,7 @@
 
 
                                 <h:outputLabel />
-                                <h:panelGrid columns="2">
+                                <h:panelGrid columns="2" styleClass="pull-right">
                                     <p:commandButton 
                                         value="#{lang['btn.save']}"
                                         action="#{employeesView.save(employeesView.update_employee)}" 

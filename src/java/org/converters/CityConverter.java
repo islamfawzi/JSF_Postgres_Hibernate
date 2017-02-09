@@ -6,9 +6,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import org.pojos.Cities;
-import org.pojos.Positions;
 import org.utils.CitiesUtils;
-import org.utils.PositionsUtils;
 
 /**
  *
